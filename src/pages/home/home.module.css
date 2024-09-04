@@ -1,0 +1,96 @@
+.home_header_wrapper {
+  padding-top: 11rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.home_name {
+  padding: 2rem 2rem;
+  position: fixed;
+  width: 100%;
+  backdrop-filter: blur(2px);
+}
+.home_slider_wrapper {
+  padding: 0rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1rem;
+  place-items: center;
+  padding-bottom: 2rem;
+}
+.home_slider_box {
+  width: 15rem;
+  padding: 1rem 1rem 1rem 1rem;
+  background: var(--light-primary-background);
+  border-radius: 20px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  height: 6rem;
+}
+.home_slider_span {
+  padding: 1rem;
+  border-radius: 50%;
+  background: var(--light-secondary);
+  color: var(--light-font-color);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home_slider_box h2 {
+  color: var(--light-heading);
+}
+.home_slider_box p {
+  font-size: 0.8rem;
+}
+.Month_growth {
+  display: flex;
+  gap: 0.1rem;
+  color: #9da8d2;
+  font-size: 0.8rem;
+  align-items: baseline;
+}
+.Month_growth p {
+  color: #1dbd83;
+  font-weight: 700;
+}
+.first_bars_row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.second_bars_row {
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1rem;
+  place-items: center;
+}
+@media screen and (max-width: 770px) {
+  .first_bars_row {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 530px) {
+  .home_slider_box {
+    width: 100%;
+    padding: 1rem 1rem 1rem 1rem;
+    background: var(--light-primary-background);
+    border-radius: 20px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+@media screen and (max-width: 340px) {
+  .second_bars_row {
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+    place-items: center;
+  }
+}

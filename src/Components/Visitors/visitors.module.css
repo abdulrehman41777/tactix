@@ -1,0 +1,37 @@
+.visitors_wrapper {
+  background-color: var(--light-primary-background);
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  height: 100%;
+}
+.visitors_head {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 3rem;
+}
+
+.visitors_head_left p:nth-child(1) {
+  font-size: 0.8rem;
+}
+.visitors_head_left p:nth-child(2) {
+  font-size: 0.8rem;
+}
+.visitors_rate {
+  font-size: 0.8rem;
+  color: #4aca9c;
+  font-weight: 700;
+}
+.visitors_head_left span {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+.visitors_head_left span h4 {
+  font-size: 2rem;
+  color: var(--light-heading);
+}
+.chart {
+  height: 9rem;
+  width: 100%;
+}

@@ -1,0 +1,220 @@
+.footer_wrapper {
+    background: #0A0A0A;
+  }
+  .footer_container {
+    padding: 7rem 1rem 1rem 1rem;
+  }
+  .footer_div {
+    display: flex;
+    gap: 9rem;
+  }
+  .footer_main {
+    display: flex;
+    justify-content: center;
+    gap: 9rem;
+    padding-bottom: 5rem;
+  }
+  .footer_logo {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .footer_main_logo {
+    width: 7rem;
+  }
+  .footer_creater_name {
+    color: white;
+    font-size: 1.5rem;
+    letter-spacing: 5px;
+  }
+  .footer_company_logo {
+    display: flex;
+    gap: 4rem;
+  }
+  .social_logo {
+    display: flex;
+    gap: 3rem;
+  }
+  .social_logo p {
+    color: #a5a5a5;
+  }
+  
+  /* our services */
+  .our_services,
+  .company {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .footer_middle_div {
+    display: flex;
+    gap: 4rem;
+  }
+  .our_services h3,
+  .company h3 {
+    color: white;
+    text-transform: capitalize;
+  }
+  .our_services ul,
+  .company ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .our_services li,
+  .company li {
+    color: white;
+    list-style: none;
+  }
+  .footer_newsletter {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* email area */
+  .footer_newsletter h3 {
+    text-transform: uppercase;
+  }
+  .footer_newsletter p {
+    width: 26rem;
+  }
+  .footer_input_area {
+    border-bottom: 1px solid grey;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer_input_area input {
+    background: transparent;
+    border: none;
+    padding-bottom: 1rem;
+    outline: none;
+    width: 80%;
+  }
+  .footer_send_icon {
+    color: #fff;
+    font-size: 1.8rem;
+    transform: rotate(319deg);
+    position: relative;
+    bottom: 0.5rem;
+    cursor: pointer;
+  }
+  .footer_privacy {
+    display: flex;
+    gap: 1rem;
+    color: #a5a5a5;
+  }
+  .copyright {
+    text-align: center;
+    padding: 2rem 0rem 1rem;
+    border-top: 0.5px solid grey;
+  }
+  .copyright p {
+    color: #a5a5a5;
+    letter-spacing: 1px;
+  }
+  @media screen and (max-width: 1480px) {
+    .footer_main,
+    .footer_div {
+      gap: 4rem;
+    }
+  }
+  @media screen and (max-width: 1400px) {
+    .footer_main,
+    .footer_div {
+      gap: 2rem;
+    }
+  }
+  @media screen and (max-width: 1280px) {
+    .footer_main {
+      flex-direction: column;
+      padding-left: 1rem;
+    }
+    .footer_div {
+      gap: 9rem;
+      justify-content: center;
+    }
+    .footer_newsletter {
+      align-items: center;
+    }
+    .footer_newsletter p {
+      width: auto;
+    }
+    .footer_input_area {
+      width: 25rem;
+    }
+  }
+  
+  @media screen and (max-width: 921px) {
+    .footer_div {
+      gap: 4rem;
+    }
+  }
+  @media screen and (max-width: 850px) {
+    .footer_main,
+    .footer_div {
+      gap: 4rem;
+    }
+    .footer_div {
+      gap: 4rem;
+      flex-direction: column;
+      align-items: center;
+    }
+    .footer_input_area {
+      width: 25rem;
+    }
+    .footer_newsletter {
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 440px) {
+    .footer_newsletter p,
+    .footer_input_area {
+      width: 95%;
+    }
+    .footer_creater_name {
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+    .footer_container {
+      padding: 2rem 1rem 1rem 1rem;
+    }
+  }
+  @media screen and (max-width: 380px) {
+    .footer_main_logo {
+      width: 6rem;
+    }
+    .footer_creater_name {
+      font-size: 1rem;
+      letter-spacing: 1.5px;
+    }
+    .footer_div {
+      gap: 3rem;
+      align-items: self-start;
+    }
+  
+    .footer_newsletter {
+      align-items: flex-start;
+    }
+    .footer_newsletter p {
+      text-align: start;
+    }
+    .footer_company_logo,
+    .social_logo {
+      gap: 1rem;
+    }
+    .footer_company_logo img {
+      width: 4rem;
+      height: 2rem;
+    }
+    .footer_middle_div,
+    .footer_main {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+  

@@ -1,0 +1,28 @@
+.working_box {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.working_box img {
+  width: 200px;
+}
+.working_box h2 {
+  font-size: 25px;
+}
+
+
+/* Responsiveness */
+
+@media screen and (max-width: 1200px) {
+  .working_box img {
+    width: 170px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .working_box img {
+    width: 150px;
+  }
+}

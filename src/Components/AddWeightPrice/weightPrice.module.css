@@ -1,0 +1,55 @@
+.table_wrapper {
+  width: 100%;
+  background-color: var(--light-primary-background);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.admin_head {
+  padding: 0rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.table_container {
+  padding: 10px !important;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+.task_head_dots {
+  padding: 0.5rem;
+  background: var(--light-secondary);
+  border-radius: 6px;
+  display: flex;
+  width: fit-content;
+}
+.table_header {
+  height: 50px;
+}
+.table_header tr th {
+  padding: 10px;
+  color: #a3b1c2;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.table_body tr {
+  border-radius: 5px;
+  border: 0.5px solid rgb(173, 157, 157);
+}
+
+.table_body tr td {
+  padding: 5px 5px;
+  font-weight: 600;
+}
+.status_btn_paid {
+  padding: 5px;
+  background-color: var(--btn-bg);
+  border-radius: 5px;
+  color: var(--btn-p);
+  font-size: 15px;
+  outline: none;
+  border: none;
+  font-weight: 600;
+}

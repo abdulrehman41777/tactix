@@ -1,0 +1,18 @@
+.available_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+  gap: 1rem;
+}
+.available_wrapper h1 {
+  color: var(--light-heading);
+}
+.available_wrapper button {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--light-font-color);
+  color: white;
+}

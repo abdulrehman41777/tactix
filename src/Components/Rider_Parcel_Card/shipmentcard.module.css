@@ -1,0 +1,83 @@
+.shipment_card {
+  background: var(--light-secondary);
+  padding: 20px;
+  color: var(--card-para);
+
+  border-radius: 10px;
+}
+.shipment_card_head {
+  position: relative;
+}
+.shipment_card_head h4 {
+  font-weight: 600;
+  color: #232f4e;
+}
+
+.status_btn {
+  padding: 5px 20px;
+  background-color: #593bfb;
+  border-radius: 20px;
+  color: #ebebeb;
+  font-size: 13px;
+  outline: none;
+  border: none;
+}
+
+.status_btn_progress {
+  padding: 3px;
+  background-color: #f8f8f8;
+  border-radius: 7px;
+  color: #483b33;
+  font-size: 14px;
+  outline: none;
+  border: none;
+  min-width: 90px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  cursor: default !important;
+}
+.pending_btn_circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #593bfb;
+}
+.order_name {
+  position: absolute;
+  bottom: -10px;
+  color: var(--card-para);
+  font-weight: 600;
+}
+.id h4 {
+  color: var(--light-heading);
+}
+
+@media screen and (max-width: 350px) {
+  .id {
+    font-size: 0.8rem;
+  }
+  .id h4 {
+    font-size: 1rem;
+  }
+  .status_btn_progress {
+    border-radius: 7px;
+    min-width: 67px;
+    font-weight: 600;
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+  }
+  .from,
+  .to {
+    margin-left: 0rem !important;
+  }
+  .from span,
+  .to span {
+    font-size: 0.8rem;
+  }
+  .status_btn {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,127 @@
+.add_tax_wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.add_tax_wrapper input {
+  padding: 0.2rem;
+  border-radius: 5px;
+  border: 1px solid grey;
+  outline: none;
+}
+.status_btn_paid {
+  padding: 5px;
+  background-color: #593bfb;
+  border-radius: 5px;
+  color: white;
+  font-size: 15px;
+  outline: none;
+  border: none;
+  font-weight: 600;
+}
+.table_wrapper {
+  width: 100%;
+  background-color: var(--light-primary-background);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.admin_head {
+  padding: 0rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.addTax_input {
+  display: flex;
+  align-items: center;
+  background: var(--light-primary-background);
+  padding: 0.5rem;
+  border-radius: 50px;
+  gap: 0.5rem;
+  color: var(--light-heading);
+}
+.addTax_input input {
+  border: none;
+  background: var(--light-primary-background);
+
+  outline: none;
+  width: 100%;
+}
+.admin_head h4,
+.icon {
+  color: var(--light-heading);
+}
+.table_container {
+  padding: 10px !important;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+.task_head_dots {
+  padding: 0.5rem;
+  background: var(--light-secondary);
+  border-radius: 6px;
+  display: flex;
+  width: fit-content;
+}
+.table_header {
+  height: 50px;
+}
+.table_header tr th {
+  padding: 10px;
+  color: #a3b1c2;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.table_body tr {
+  border-radius: 5px;
+  border: 0.5px solid rgb(173, 157, 157);
+}
+
+.table_body tr td {
+  padding: 5px 5px;
+  font-weight: 600;
+  color: var(--light-heading);
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.status_check,
+.status_cancel {
+  padding: 0.3rem;
+  border-radius: 50%;
+  background: #01b574;
+  width: fit-content;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+.status_cancel {
+  background: #ee5d50 !important;
+}
+.add_admin_wrapper {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+@media screen and (max-width: 450px) {
+  .add_tax_wrapper {
+    flex-direction: column;
+  }
+  .add_tax_wrapper select,
+  .add_tax_wrapper button {
+    width: 12rem;
+  }
+}
+@media screen and (max-width: 300px) {
+  .tax_container {
+    padding-top: 13rem !important;
+  }
+}

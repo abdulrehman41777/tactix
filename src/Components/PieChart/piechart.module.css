@@ -1,0 +1,56 @@
+.piecharts_wrapper {
+  background: var(--light-primary-background);
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  height: 100%;
+}
+.piecharts_head {
+  display: flex;
+  justify-content: space-between;
+}
+.piecharts_select {
+  border: none;
+  outline: none;
+}
+.chart {
+  width: 100%;
+  height: 9rem;
+}
+.peichart_detail_wrapper {
+  box-shadow: rgb(112 144 176 / 28%) 0px 18px 40px;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+.piecharts_head h3 {
+  color: var(--light-heading);
+}
+.peichart_detail h5 {
+  padding-top: 0.5rem;
+  color: var(--light-heading);
+}
+.peichart_detail_line {
+  width: 1px;
+  background: #c5c1c1;
+}
+.peichart_detail_name {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.peichart_detail_first_span {
+  width: 10px;
+  display: flex;
+  height: 10px;
+  border-radius: 50%;
+  background: #422afb;
+}
+.peichart_detail_second_span {
+  width: 10px;
+  display: flex;
+  height: 10px;
+  border-radius: 50%;
+  background: #6ad2ff;
+}
