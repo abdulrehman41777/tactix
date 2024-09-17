@@ -26,7 +26,7 @@
   --card-para: #483b33;
 
   /* placeholder */
-  --placeholder: #2d3748
+  --placeholder: #2d3748;
 
   /* modal bg */
   --modal-bg: #ffffff96;
@@ -53,7 +53,7 @@
   --card-para: #cad0e3;
 
   /* placeholder */
-  --placeholder: #2d3748
+  --placeholder: #2d3748;
   /* modal bg */
   --modal-bg: #000;
   --modal-box: #0b1437;
@@ -252,7 +252,7 @@ input::-webkit-inner-spin-button {
 
 /* Navbar styles */
 .navbar {
-  background: #fff!important;
+  background: #fff !important;
 }
 .nav-link {
   font-weight: 650 !important;
@@ -367,7 +367,6 @@ select {
   border: 1px solid grey;
   border-radius: 5px;
   color: var(--btn-p) !important;
-
 }
 /* select option {
   border-bottom: 5px solid var(--medium-green);
@@ -381,4 +380,19 @@ select option:active {
 }
 button {
   color: var(--light-heading);
+}
+
+/* scroll style */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00000063;
 }
