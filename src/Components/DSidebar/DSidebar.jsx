@@ -67,11 +67,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <BiGitBranch />,
     },
     {
-      path: "/dashboard/add-tax",
-      name: "Add Tax",
-      icon: <MdAttachMoney />,
-    },
-    {
       path: "/dashboard/profile",
       name: "Profile",
       icon: <CgProfile />,
@@ -113,11 +108,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       path: "/dashboard/create-manager",
       name: "Create Manager",
       icon: <BsPersonAdd />,
-    },
-    {
-      path: "/dashboard/add-tax",
-      name: "Add Tax",
-      icon: <MdAttachMoney />,
     },
     {
       path: "/dashboard/profile",
