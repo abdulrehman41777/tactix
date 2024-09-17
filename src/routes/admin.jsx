@@ -42,6 +42,10 @@ const admin = [
     element: <AllRiders />,
   },
   {
+    path: "/dashboard/branch",
+    element: <Branches />,
+  },
+  {
     path: "/dashboard/customer",
     element: <Manager />,
   },

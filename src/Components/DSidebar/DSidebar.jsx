@@ -95,9 +95,9 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <IoIosPeople />,
     },
     {
-      path: "/dashboard/all-riders",
-      name: "All Rider",
-      icon: <MdDirectionsBike />,
+      path: "/dashboard/branch",
+      name: "Branch",
+      icon: <BiGitBranch />,
     },
     {
       path: "/dashboard/parcel",

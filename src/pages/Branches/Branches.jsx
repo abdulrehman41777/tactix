@@ -45,7 +45,7 @@ const Branches = () => {
     <div>
       <Dlayout pageName="Branches" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          {role === "SuperAdmin" && (
+          {role === "Admin" && (
             <div className={style.add_admin_wrapper}>
               <h4 className={`f-bold ${style.add_btn_heading} `}>
                 <span
