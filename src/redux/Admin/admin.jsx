@@ -7,10 +7,9 @@ const admin = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     Create_Admin: builder.mutation({
-      query: ({ id, branch_id, token, data }) => {
+      query: ({ superAdminID, data }) => {
         return {
-          url: `/api/admin/${id}/admin-signup/${branch_id}`,
-          headers: { Authorization: `Bearer ${token}` },
+          url: `/Auth/admin/${superAdminID}`,
           method: "POST",
           body: data,
         };
@@ -20,7 +19,7 @@ const admin = createApi({
     All_Admins: builder.query({
       query: (id) => {
         return {
-          url: `/api/admin/get-admins`,
+          url: `/Auth/get-all-admins/${id}`,
           method: "GET",
         };
       },

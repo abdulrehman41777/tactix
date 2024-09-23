@@ -7,13 +7,18 @@ import ReactPaginate from "react-paginate";
 import { useAll_AdminsQuery } from "../../redux/Admin/admin";
 import alluser from "../../redux/User/User";
 import Available from "../../Components/cards/Available";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SuperAdmin = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
 
-  const All_Admins_API = useAll_AdminsQuery();
-  const All_Admins = All_Admins_API?.data?.admin;
+  const selector = useSelector((state) => state?.userData);
+  const userID = selector?.data?.user?._id;
+
+  const All_Admins_API = useAll_AdminsQuery(userID, { skip: !userID });
+  const All_Admins = All_Admins_API?.data?.createdRoles;
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(All_Admins?.length / 6);
@@ -23,6 +28,9 @@ const SuperAdmin = () => {
     setItemOffset(newOffset);
   };
 
+  const navigate = useNavigate();
+
+
   return (
     <div>
       <Dlayout pageName="Admin" search={search} setSearch={setSearch}>
@@ -31,7 +39,12 @@ const SuperAdmin = () => {
             <div className={style.admin_head}>
               <h4>Admin's</h4>
               <div className={style.task_head_dots}>
-                <BsThreeDots className={style.icon} title="All Admin" />
+                {/* <BsThreeDots className={style.icon} title="All Admin" /> */}
+
+                <button className="btn text-white" onClick={() => navigate("/dashboard/create-admin")} >
+                  Add Admin
+                </button>
+
               </div>
             </div>
             {alluser.length === 0 ? (
@@ -94,7 +107,7 @@ const SuperAdmin = () => {
           )}
         </Container>
       </Dlayout>
-    </div>
+    </div >
   );
 };
 

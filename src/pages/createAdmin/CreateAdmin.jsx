@@ -19,10 +19,9 @@ const CreateAdmin = () => {
     confirmpass: "",
   });
 
+
   const selector = useSelector((state) => state?.userData);
   const userID = selector?.data?.user?._id;
-  const token = selector?.data?.token;
-  const { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -46,9 +45,7 @@ const CreateAdmin = () => {
         if (validateEmail) {
           try {
             const res = await createAdmin({
-              id: userID,
-              branch_id: id,
-              token,
+              superAdminID: userID,
               data: {
                 email: email,
                 name: name,
@@ -63,7 +60,7 @@ const CreateAdmin = () => {
                 password: "",
                 confirmpass: "",
               });
-              navigate(-1);
+              navigate('/dashboard/admin');
             } else if (
               res.error.data.errors.find((err) => err.path === "name")
             ) {

@@ -31,7 +31,7 @@ const superAdmin = [
   },
 
   {
-    path: "/dashboard/create-admin/:id",
+    path: "/dashboard/create-admin",
     element: <CreateAdmin />,
   },
   {

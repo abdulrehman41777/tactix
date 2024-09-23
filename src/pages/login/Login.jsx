@@ -38,7 +38,7 @@ const Login = () => {
         if (!res.error) {
           NotificationAlert("Login successfully", "success");
           dispatch(authUser(res?.data));
-          navigate("/dashboard/");
+          navigate("/dashboard");
           setLoginFields({
             email: "",
             password: "",
@@ -46,7 +46,11 @@ const Login = () => {
         } else {
           NotificationAlert("Invalid Credentials");
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+        NotificationAlert("Internal Server Error");
+
+      }
     } else {
       NotificationAlert("Invalid email");
     }
