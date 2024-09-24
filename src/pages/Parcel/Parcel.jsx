@@ -117,7 +117,7 @@ const Parcel = () => {
               <select
                 className="text-light me-3"
                 style={{
-                  background: "#593bfb",
+                  background: "#D8788C",
                 }}
                 onChange={(e) => setCheckAssign(e.target.value)}
               >

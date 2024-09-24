@@ -63,7 +63,7 @@ const Visitors = () => {
       <div className={style.chart}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart width={150} height={40} data={data}>
-            <Bar dataKey="uv" fill="#7655FF" />
+            <Bar dataKey="uv" fill="#D8788C" />
           </BarChart>
         </ResponsiveContainer>
       </div>

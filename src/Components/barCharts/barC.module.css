@@ -20,7 +20,8 @@
   justify-content: space-between;
 }
 .bar_icon {
-  color: #7655ff;
+  color: #D8788C;
+  /* color: #7655ff; */
   padding: 0.5rem 1rem;
   background: var(--light-secondary);
   border-radius: 10px;

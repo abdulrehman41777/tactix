@@ -86,7 +86,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #593bfb;
+  background-color: #D8788C;
   color: white;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
@@ -98,12 +98,12 @@
 }
 .add_btn:hover {
   background-color: white;
-  color: #593bfb;
+  color: #D8788C;
   transform: scale(1.1);
 }
 .add_btn:active {
   background-color: white;
-  color: #593bfb;
+  color: #D8788C;
   transform: scale(1);
 }
 .plus_sambol {
@@ -118,7 +118,7 @@
 }
 .status_btn_paid {
   padding: 5px;
-  background-color: #593bfb;
+  background-color: #D8788C;
   border-radius: 5px;
   color: white;
   font-size: 15px;
