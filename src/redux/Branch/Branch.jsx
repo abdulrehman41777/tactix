@@ -7,10 +7,9 @@ const branch = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     Add_branch: builder.mutation({
-      query: ({ id, token, data }) => {
+      query: ({ superAdminID, data }) => {
         return {
-          url: `/branch/${id}/create-branch`,
-          headers: { Authorization: `Bearer ${token}` },
+          url: `/branch/create_branch/${superAdminID}`,
           method: "POST",
           body: data,
         };
@@ -18,15 +17,28 @@ const branch = createApi({
       invalidatesTags: ["branch"],
     }),
     All_branches: builder.query({
-      query: (token) => {
+      query: (superAdminID) => {
         return {
-          url: `/branch/all-branch`,
-          headers: { Authorization: `Bearer ${token}` },
+          url: `/branch/get_all_branches_for_Superadmin/${superAdminID}`,
           method: "GET",
         };
       },
       providesTags: ["branch"],
     }),
+
+    assignBranchToAdmin: builder.mutation({
+      query: ({ superAdminId, branchId, data }) => {
+
+
+        return {
+          url: `/branch/asign_branches_to_admin/${superAdminId}/${branchId}`,
+          method: "PATCH",
+          body: data
+        };
+      },
+      providesTags: ["branch"],
+    }),
+
     Branch_With_id: builder.query({
       query: (cityID) => {
         return {
@@ -54,6 +66,7 @@ export const {
   useAll_branchesQuery,
   useBranch_With_idQuery,
   useUpdate_BranchMutation,
+  useAssignBranchToAdminMutation
 } = branch;
 
 export default branch;

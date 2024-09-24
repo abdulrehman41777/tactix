@@ -10,21 +10,26 @@ import { useSelector } from "react-redux";
 import { useAll_branchesQuery } from "../../redux/Branch/Branch";
 import { useNavigate } from "react-router-dom";
 import UpdateBranch from "../../Components/UpdateBranch/UpdateBranch";
+import AssignBranch from "../../Components/AssignBranch/AssignBranch";
 
 const Branches = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
   const [addAdmin, setAddAdmin] = useState(false);
   const [isUpdateBranch, setIsUpdateBranch] = useState(false);
+  const [assignBranch, setAssignBranch] = useState(false);
   const [branchDetail, setBranchDetail] = useState(false);
 
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
-  const token = selector?.data?.token;
+  const userID = selector?.data?.user?._id;
+
 
   //All Branch API
-  const all_Branches_API = useAll_branchesQuery(token);
-  const All_branches = all_Branches_API?.data;
+  const all_Branches_API = useAll_branchesQuery(userID, { skip: !userID });
+  const All_branches = all_Branches_API?.data?.allbranches;
+
+  console.log(All_branches)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(All_branches?.length / 6);
@@ -38,6 +43,10 @@ const Branches = () => {
     setIsUpdateBranch(true);
     setBranchDetail(item);
   };
+  const handleAssignBranchDetail = (item) => {
+    setAssignBranch(true);
+    setBranchDetail(item);
+  };
 
   const navigate = useNavigate();
 
@@ -45,7 +54,7 @@ const Branches = () => {
     <div>
       <Dlayout pageName="Branches" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          {role === "Admin" && (
+          {role === "SuperAdmin" && (
             <div className={style.add_admin_wrapper}>
               <h4 className={`f-bold ${style.add_btn_heading} `}>
                 <span
@@ -105,9 +114,7 @@ const Branches = () => {
                         <td>
                           <button
                             className={style.status_btn_paid}
-                            onClick={() =>
-                              navigate(`/dashboard/create-admin/${user?._id}`)
-                            }
+                            onClick={() => handleAssignBranchDetail(user)}
                           >
                             Invite
                           </button>
@@ -140,6 +147,12 @@ const Branches = () => {
       {isUpdateBranch && (
         <UpdateBranch
           setIsUpdateBranch={setIsUpdateBranch}
+          branchDetail={branchDetail}
+        />
+      )}
+      {assignBranch && (
+        <AssignBranch
+          setAssignBranch={setAssignBranch}
           branchDetail={branchDetail}
         />
       )}

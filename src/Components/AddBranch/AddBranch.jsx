@@ -7,6 +7,7 @@ import {
   useAll_StateQuery,
   useAll_countryQuery,
 } from "../../redux/Country/country";
+import { useAll_AdminsQuery } from "../../redux/Admin/admin";
 
 const AddBranch = ({ setAddAdmin }) => {
   const [branch_fields, setBranch_fields] = useState({
@@ -16,7 +17,9 @@ const AddBranch = ({ setAddAdmin }) => {
   });
   const [countryID, setCountryID] = useState("");
   const [stateID, setStateID] = useState("");
-  const [cityID, setCityID] = useState("");
+
+
+  // const [adminID, setAdminID] = useState([]);
 
   const { branch_name, branch_address, branch_contact_number } = branch_fields;
 
@@ -24,47 +27,40 @@ const AddBranch = ({ setAddAdmin }) => {
     setBranch_fields({ ...branch_fields, [e.target.name]: e.target.value });
   };
 
+  const handleChange = (e) => {
+    setAdminID((prev) => {
+      const value = e.target.value;
+      if (!prev.includes(value)) {
+        return [...prev, value];
+      }
+      return prev;
+    });
+  };
+
   const [addBranch, { isLoading }] = useAdd_branchMutation();
 
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
-  const token = selector?.data?.token;
 
-  //All Country API
-  const All_Country_API = useAll_countryQuery();
-  const All_Country = All_Country_API?.data?.countries;
-
-  //All State API
-  const All_State_API = useAll_StateQuery(countryID, { skip: !countryID });
-  const All_State = All_State_API?.data?.states;
-  //All State API
-  const All_City_API = useAll_CityQuery(stateID, { skip: !stateID });
-  const All_City = All_City_API?.data?.cities;
+  const All_Admins_API = useAll_AdminsQuery(id, { skip: !id });
+  const All_Admins = All_Admins_API?.data?.createdRoles;
 
   const handleAddBranch = async (e) => {
     e.preventDefault();
     if (
       branch_name &&
       branch_address &&
-      branch_contact_number &&
-      countryID &&
-      countryID !== "default" &&
-      stateID &&
-      stateID !== "default" &&
-      cityID &&
-      cityID !== "default"
+      branch_contact_number
+
     ) {
       try {
         const res = await addBranch({
-          id,
-          token,
+          superAdminID: id,
           data: {
             branch_name: branch_name,
             branch_address: branch_address,
             branch_contact_number: branch_contact_number,
-            countryID,
-            stateID,
-            cityID,
+            
           },
         });
         if (!res.error) {
@@ -92,6 +88,7 @@ const AddBranch = ({ setAddAdmin }) => {
       NotificationAlert("All Fields Required");
     }
   };
+
 
   return (
     <div className="modal_wrapper">
@@ -132,48 +129,23 @@ const AddBranch = ({ setAddAdmin }) => {
             }}
             maxLength="11"
           />
-          <select
-            value={countryID}
-            onChange={(e) => setCountryID(e.target.value)}
-            className="text-dark bg-light"
-          >
-            <option value="default" className="text-dark">
-              Select a country
-            </option>
-            {All_Country?.map((item) => (
-              <option value={item._id} className="text-dark" key={item._id}>
-                {item.country}
-              </option>
-            ))}
-          </select>
-          <select
-            value={stateID}
-            onChange={(e) => setStateID(e.target.value)}
-            className="text-dark bg-light ms-2 "
-          >
-            <option value="default" className="text-dark">
-              Select a State
-            </option>
-            {All_State?.map((item) => (
-              <option value={item._id} className="text-dark" key={item._id}>
-                {item.state}
-              </option>
-            ))}
-          </select>
-          <select
-            value={cityID}
-            onChange={(e) => setCityID(e.target.value)}
+
+          {/* <select
+            value={adminID.length === 0 ? "" : adminID[adminID.length - 1]}
+            onChange={handleChange}
             className="text-dark bg-light ms-2"
           >
-            <option value="default" className="text-dark">
-              Select a City
+            <option value="" disabled className="text-dark">
+              Assign To Admins
             </option>
-            {All_City?.map((item) => (
-              <option value={item._id} className="text-dark" key={item._id}>
-                {item.city}
+            {All_Admins?.map((item) => (
+              <option value={item?._id} className="text-dark" key={item?._id}>
+                {item?.name}
               </option>
             ))}
-          </select>
+          </select> */}
+
+
           {isLoading ? (
             <button className="modal_sumbit_btn mt-3 text-dark" disabled>
               Creating Branch...

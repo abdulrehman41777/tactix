@@ -60,9 +60,10 @@ const SuperAdmin = () => {
                   <thead className={`${style.table_header}`}>
                     <tr>
                       <th>NAME</th>
-                      <th>BRANCH</th>
+                      <th>EMAIL</th>
+                      <th>STATUS</th>
                       <th>ROLE</th>
-                      <th>PROGRESS</th>
+                      <th>ACTION</th>
                     </tr>
                   </thead>
                   <tbody className={`${style.table_body}`}>
@@ -75,7 +76,8 @@ const SuperAdmin = () => {
                           <td className="d-flex align-items-center">
                             {user?.name}
                           </td>
-                          <td>{user?.branchID?.branch_name}</td>
+                          <td>{user?.email} </td>
+                          <td>{user?.status}</td>
                           <td>{user?.role[0]}</td>
                           <td>
                             <button className={style.status_btn_paid}>

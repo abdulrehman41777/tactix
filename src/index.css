@@ -376,7 +376,6 @@ select option:focus,
 select option:active {
   background: linear-gradient(#000000, #000000);
   background-color: #000000 !important; /* for IE */
-  color: #ffed00 !important;
 }
 button {
   color: var(--light-heading);

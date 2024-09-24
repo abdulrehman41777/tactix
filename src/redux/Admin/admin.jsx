@@ -9,7 +9,7 @@ const admin = createApi({
     Create_Admin: builder.mutation({
       query: ({ superAdminID, data }) => {
         return {
-          url: `/Auth/admin/${superAdminID}`,
+          url: `/Auth/create_admin/${superAdminID}`,
           method: "POST",
           body: data,
         };
