@@ -71,7 +71,7 @@
   padding-left: 1rem;
 }
 .active_icon {
-  fill: #422afb; /* Change the color of the SVG icon when active */
+  fill: #D8788C; /* Change the color of the SVG icon when active */
 }
 .close_sidebar {
   display: none;
