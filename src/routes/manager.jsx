@@ -60,6 +60,10 @@ const manager = [
     element: <CreateRider />,
   },
   {
+    path: "/dashboard/group-rider/:id",
+    element: <CreateRider />,
+  },
+  {
     path: "/dashboard/create-group",
     element: <CreateGroups />,
   },
