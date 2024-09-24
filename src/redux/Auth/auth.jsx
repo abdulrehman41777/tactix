@@ -45,6 +45,15 @@ const auth = createApi({
       },
       invalidatesTags: ["update"],
     }),
+    createUser: builder.mutation({
+      query: (BranchId) => {
+        return {
+          url: `/auth/create_user/${BranchId}`,
+          method: "POST",
+        };
+      },
+      // providesTags: ["alluser"],
+    }),
   }),
 });
 export const {
