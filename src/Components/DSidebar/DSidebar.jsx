@@ -50,10 +50,23 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "All Users",
       icon: <BsPeopleFill />,
     },
+
     {
       path: "/dashboard/parcel",
       name: "All Parcel",
       icon: <BsBox2Fill />,
+    },
+
+    {
+      path: "/dashboard/create-rider",
+      name: "Create Rider",
+      icon: <IoIosAddCircle />,
+    },
+
+    {
+      path: "/dashboard/all-riders",
+      name: "All Rider",
+      icon: <MdDirectionsBike />,
     },
 
     {

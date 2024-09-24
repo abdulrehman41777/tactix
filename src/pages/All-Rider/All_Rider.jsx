@@ -34,7 +34,7 @@ const AllRiders = () => {
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
-              <h4>All Rider's</h4>
+              <h4>All Rider Group</h4>
               <div className={style.task_head_dots} title="All Rider's">
                 <BsThreeDots className={style.icon} />
               </div>
