@@ -16,6 +16,7 @@ const CreateUser = () => {
     name: "",
     password: "",
     confirmpass: "",
+    group: "",
   });
 
   const selector = useSelector((state) => state?.userData);
@@ -25,7 +26,7 @@ const CreateUser = () => {
 
   const navigate = useNavigate();
 
-  const { email, name, password, confirmpass } = createAdminFields;
+  const { email, name, password, confirmpass, group } = createAdminFields;
 
   const validateEmail = EmailValidator.validate(email);
 
@@ -109,6 +110,15 @@ const CreateUser = () => {
                     value={name}
                     onChange={handleFields}
                   />
+                </label>
+                <label className={style.label}>
+                  <h6>Group*</h6>
+                  <select>
+                    <option disabled>Select Group</option>
+                    <option>Group 1</option>
+                    <option>Group 2</option>
+                    <option>Group 3</option>
+                  </select>
                 </label>
                 <label className={style.label}>
                   <h6>Email*</h6>

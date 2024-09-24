@@ -11,6 +11,8 @@ import AllUsers from "../pages/AllUsers/AllUsers";
 import AddCountries from "../pages/AddCountries/AddCountries";
 import Parcel from "../pages/Parcel/Parcel";
 import AddTax from "../pages/AddTax/AddTax";
+import AllRiders from "../pages/All-Rider/All_Rider";
+import CreateRider from "../pages/CreateRider/CreateRider";
 
 const superAdmin = [
   {
@@ -49,6 +51,14 @@ const superAdmin = [
   {
     path: "/dashboard/customer",
     element: <Manager />,
+  },
+  {
+    path: "/dashboard/all-riders",
+    element: <AllRiders />,
+  },
+  {
+    path: "/dashboard/create-rider",
+    element: <CreateRider />,
   },
   {
     path: "/dashboard/branch",

@@ -49,7 +49,6 @@ const Login = () => {
       } catch (error) {
         console.log(error);
         NotificationAlert("Internal Server Error");
-
       }
     } else {
       NotificationAlert("Invalid email");
