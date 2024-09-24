@@ -16,11 +16,11 @@ const manager = createApi({
       },
       invalidatesTags: ["managers"],
     }),
-    
+
     Managers: builder.query({
-      query: ({ adminID, branchID }) => {
+      query: ({ adminID }) => {
         return {
-          url: `/branch/get_branch_managers/${adminID}/${branchID}`,
+          url: `/branch/get_branch_managers/${adminID}`,
           method: "GET",
         };
       },

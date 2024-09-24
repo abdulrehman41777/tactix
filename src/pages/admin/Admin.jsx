@@ -17,15 +17,18 @@ const Admin = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
   const role = selector?.data?.user?.role[0];
-  const branchID = selector?.data?.user?.branchID;
 
   const navigate = useNavigate();
 
+
   // All Managers for Admin branch
   const Manager_Branch_API = useManagersQuery(
-    { userID: id, branchID },
-    { skip: !id || !branchID }
+    { adminID: id },
+    { skip: !id }
   );
+
+  // console.log(Manager_Branch_API?.data?.managers, "Manager_Branch_API.data")
+
   const Manager_Branch = Manager_Branch_API?.data?.user?.filter(
     (item) => item.role[0] === "Manager"
   );
@@ -53,7 +56,7 @@ const Admin = () => {
               <h4>Manager's</h4>
               <div className={style.task_head_dots}>
                 <button className="btn text-white"
-                onClick={() => navigate("/dashboard/create-manager")}
+                  onClick={() => navigate("/dashboard/create-manager")}
                 >
                   Add Manager
                 </button>
@@ -75,7 +78,7 @@ const Admin = () => {
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {All_User?.filter((item) =>
+                      {Manager_Branch_API?.data?.managers?.filter((item) =>
                         item?.name
                           ?.toLowerCase()
                           ?.includes(search?.toLowerCase())
@@ -115,7 +118,7 @@ const Admin = () => {
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {Manager_Branch?.filter((item) =>
+                      {Manager_Branch_API?.data?.managers?.filter((item) =>
                         item?.name
                           ?.toLowerCase()
                           ?.includes(search?.toLowerCase())
