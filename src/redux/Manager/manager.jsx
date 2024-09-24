@@ -7,20 +7,20 @@ const manager = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     Create_Manager: builder.mutation({
-      query: ({ id, branch_id, token, data }) => {
+      query: ({ adminID, data }) => {
         return {
-          url: `/api/manager/${id}/manager-signup/${branch_id}`,
-          headers: { Authorization: `Bearer ${token}` },
+          url: `/Auth/create_manager_by_admin/${adminID}`,
           method: "POST",
           body: data,
         };
       },
       invalidatesTags: ["managers"],
     }),
+
     Managers: builder.query({
-      query: ({ userID, branchID }) => {
+      query: ({ adminID }) => {
         return {
-          url: `/api/user/${userID}/branch-managers/${branchID}`,
+          url: `/branch/get_branch_managers/${adminID}`,
           method: "GET",
         };
       },

@@ -48,6 +48,17 @@ const branch = createApi({
       },
       providesTags: ["branch"],
     }),
+
+    branchesByAdmin: builder.query({
+      query: (AdminId) => {
+        return {
+          url: `branch/get_admin_branches/${AdminId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["branch"],
+    }),
+
     Update_Branch: builder.mutation({
       query: ({ id, token, data }) => {
         return {
@@ -66,7 +77,8 @@ export const {
   useAll_branchesQuery,
   useBranch_With_idQuery,
   useUpdate_BranchMutation,
-  useAssignBranchToAdminMutation
+  useAssignBranchToAdminMutation,
+  useBranchesByAdminQuery
 } = branch;
 
 export default branch;

@@ -7,7 +7,7 @@ import ReactPaginate from "react-paginate";
 import { BiPlus } from "react-icons/bi";
 import AddBranch from "../../Components/AddBranch/AddBranch";
 import { useSelector } from "react-redux";
-import { useAll_branchesQuery } from "../../redux/Branch/Branch";
+import { useAll_branchesQuery, useBranchesByAdminQuery } from "../../redux/Branch/Branch";
 import { useNavigate } from "react-router-dom";
 import UpdateBranch from "../../Components/UpdateBranch/UpdateBranch";
 import AssignBranch from "../../Components/AssignBranch/AssignBranch";
@@ -28,6 +28,10 @@ const Branches = () => {
   //All Branch API
   const all_Branches_API = useAll_branchesQuery(userID, { skip: !userID });
   const All_branches = all_Branches_API?.data?.allbranches;
+
+
+  const branchesByAdminQuery = useBranchesByAdminQuery(userID, { skip: !userID });
+  const branchesByAdminData = branchesByAdminQuery?.data?.findAdminBranches;
 
   console.log(All_branches)
 
@@ -67,6 +71,10 @@ const Branches = () => {
               </h4>
             </div>
           )}
+
+
+
+
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
               <h4>Branches</h4>
@@ -75,54 +83,116 @@ const Branches = () => {
               </div>
             </div>
             <div className={style.table_div}>
-              <table className={`${style.table_container}`}>
-                <thead className={`${style.table_header}`}>
-                  <tr>
-                    <th>NAME</th>
-                    <th>NUMBER</th>
-                    <th>ADDRESS</th>
-                    <th>EDIT</th>
-                    <th>INVITE ADMIN</th>
-                  </tr>
-                </thead>
-                <tbody className={`${style.table_body}`}>
-                  {All_branches?.filter((item) =>
-                    item?.branch_name
-                      ?.toLowerCase()
-                      ?.includes(search?.toLowerCase())
-                  )
-                    ?.slice(itemOffset, endOffset)
-                    ?.map((user, index) => (
-                      <tr key={index}>
-                        <td className="d-flex align-items-center">
-                          {user?.branch_name}
-                        </td>
-                        <td>
-                          <div className={style.status}>
-                            {user?.branch_contact_number}
-                          </div>
-                        </td>
-                        <td>{user?.branch_address}</td>
-                        <td>
-                          <button
-                            className={style.status_btn_paid}
-                            onClick={() => handleBranchDetail(user)}
-                          >
-                            Update
-                          </button>
-                        </td>
-                        <td>
-                          <button
-                            className={style.status_btn_paid}
-                            onClick={() => handleAssignBranchDetail(user)}
-                          >
-                            Invite
-                          </button>
-                        </td>
+              {
+                role === "SuperAdmin" ? <table className={`${style.table_container}`}>
+                  <thead className={`${style.table_header}`}>
+                    <tr>
+                      <th>NAME</th>
+                      <th>NUMBER</th>
+                      <th>ADDRESS</th>
+                      <th>EDIT</th>
+                      <th>INVITE ADMIN</th>
+                    </tr>
+                  </thead>
+                  <tbody className={`${style.table_body}`}>
+                    {
+
+                      All_branches?.filter((item) =>
+                        item?.branch_name
+                          ?.toLowerCase()
+                          ?.includes(search?.toLowerCase())
+                      )
+                        ?.slice(itemOffset, endOffset)
+                        ?.map((user, index) => (
+                          <tr key={index}>
+                            <td className="d-flex align-items-center">
+                              {user?.branch_name}
+                            </td>
+                            <td>
+                              <div className={style.status}>
+                                {user?.branch_contact_number}
+                              </div>
+                            </td>
+                            <td>{user?.branch_address}</td>
+                            <td>
+                              <button
+                                className={style.status_btn_paid}
+                                onClick={() => handleBranchDetail(user)}
+                              >
+                                Update
+                              </button>
+                            </td>
+                            <td>
+                              <button
+                                className={style.status_btn_paid}
+                                onClick={() => handleAssignBranchDetail(user)}
+                              >
+                                Invite
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+
+
+                    }
+                  </tbody>
+                </table>
+                  :
+                  <table className={`${style.table_container}`}>
+                    <thead className={`${style.table_header}`}>
+                      <tr>
+                        <th>NAME</th>
+                        <th>NUMBER</th>
+                        <th>ADDRESS</th>
+                        {/* <th>EDIT</th>
+                        <th>INVITE ADMIN</th> */}
                       </tr>
-                    ))}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody className={`${style.table_body}`}>
+                      {
+
+                        branchesByAdminData?.filter((item) =>
+                          item?.branch_name
+                            ?.toLowerCase()
+                            ?.includes(search?.toLowerCase())
+                        )
+                          ?.slice(itemOffset, endOffset)
+                          ?.map((user, index) => (
+                            <tr key={index}>
+                              <td className="d-flex align-items-center">
+                                {user?.branch_name}
+                              </td>
+                              <td>
+                                <div className={style.status}>
+                                  {user?.branch_contact_number}
+                                </div>
+                              </td>
+                              <td>{user?.branch_address}</td>
+                              {/* <td>
+                                <button
+                                  className={style.status_btn_paid}
+                                  onClick={() => handleBranchDetail(user)}
+                                >
+                                  Update
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className={style.status_btn_paid}
+                                  onClick={() => handleAssignBranchDetail(user)}
+                                >
+                                  Invite
+                                </button>
+                              </td> */}
+                            </tr>
+                          ))
+
+
+                      }
+                    </tbody>
+                  </table>
+              }
+
             </div>
           </div>
           {All_branches?.length >= 6 && (

@@ -8,6 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import * as EmailValidator from "email-validator";
 import { useCreate_ManagerMutation } from "../../redux/Manager/manager";
+import { useAll_branchesQuery, useBranchesByAdminQuery } from "../../redux/Branch/Branch";
 
 const CreateManager = () => {
   const [showPass, setShowPass] = useState(true);
@@ -20,8 +21,10 @@ const CreateManager = () => {
 
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
-  const token = selector?.data?.token;
-  const branchID = selector?.data?.user?.branchID;
+
+
+  const [branchID, setBranchID] = useState('');
+
   const navigate = useNavigate();
 
   const { email, name, password, confirmpass } = createAdminFields;
@@ -35,6 +38,19 @@ const CreateManager = () => {
     });
   };
 
+
+  const role = selector?.data?.user?.role[0];
+  const userID = selector?.data?.user?._id;
+
+
+  const all_Branches_API = useBranchesByAdminQuery(userID, { skip: !userID });
+  const All_branches = all_Branches_API?.data?.findAdminBranches;
+
+
+  const handleChange = (e) => {
+    setBranchID(e.target.value)
+  };
+
   const [createManager, { isLoading }] = useCreate_ManagerMutation();
 
   const handleCreateAdmin = async (e) => {
@@ -44,15 +60,16 @@ const CreateManager = () => {
         if (validateEmail) {
           try {
             const res = await createManager({
-              id,
-              branch_id: branchID,
-              token,
+              adminID: id,
               data: {
+                branchID: branchID,
                 email: email,
                 name: name,
                 password: password,
               },
             });
+
+            console.log(res.data)
             if (!res.error) {
               NotificationAlert("Manager Created successfully", "success");
               setCreateAdminFields({
@@ -61,6 +78,7 @@ const CreateManager = () => {
                 password: "",
                 confirmpass: "",
               });
+              navigate("/dashboard/manager")
             } else if (
               res.error.data.errors.find((err) => err.path === "name")
             ) {
@@ -83,6 +101,7 @@ const CreateManager = () => {
       NotificationAlert("All Fields Required");
     }
   };
+
 
   return (
     <div className={style.create_wrapper}>
@@ -118,6 +137,26 @@ const CreateManager = () => {
                     onChange={handleFields}
                   />
                 </label>
+
+
+                <label className={style.label}>
+                  <h6>Select Branch*</h6>
+                  <select
+                    value={branchID}
+                    onChange={handleChange}
+                    className="text-dark bg-light w-100"
+                  >
+                    <option value="" disabled className="text-dark">
+                      Select Branch
+                    </option>
+                    {All_branches?.map((item) => (
+                      <option value={item?._id} className="text-dark" key={item?._id}>
+                        {item?.branch_name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
 
                 <label className={style.label}>
                   <h6>Password*</h6>

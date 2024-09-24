@@ -30,17 +30,6 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
   const All_Admins_API = useAll_AdminsQuery(id, { skip: !id });
   const All_Admins = All_Admins_API?.data?.createdRoles;
 
-
-  // const handleChange = (e) => {
-  //   setAdminID((prev) => {
-  //     const value = e.target.value;
-  //     if (!prev.includes(value)) {
-  //       return [...prev, value];
-  //     }
-  //     return prev;
-  //   });
-  // };
-
   const handleChange = (e) => {
     const selectedAdmin = e.target.value;
     // Check if admin is already selected to avoid duplicates
@@ -81,9 +70,6 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
       NotificationAlert("All Fields Required");
     }
   };
-
-  console.log(adminID)
-
 
   return (
     <div className="modal_wrapper">
