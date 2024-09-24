@@ -11,6 +11,8 @@ import Parcel from "../pages/Parcel/Parcel";
 import AddTax from "../pages/AddTax/AddTax";
 import Parcel_Status from "../pages/Rider_Parcel/Rider_Parcel";
 import CreateParcel from "../pages/CreateParcel/CreateParcel";
+import CreateGroups from "../pages/CreateGroups/CreateGroups";
+import AllGroups from "../pages/AllGroups/AllGroups";
 
 const manager = [
   {
@@ -28,6 +30,10 @@ const manager = [
   {
     path: "/dashboard/customer",
     element: <Manager />,
+  },
+  {
+    path: "/dashboard/groups",
+    element: <AllGroups />,
   },
   {
     path: "/dashboard/all-riders",
@@ -52,6 +58,10 @@ const manager = [
   {
     path: "/dashboard/create-rider",
     element: <CreateRider />,
+  },
+  {
+    path: "/dashboard/create-group",
+    element: <CreateGroups />,
   },
   {
     path: "/dashboard/all-user",

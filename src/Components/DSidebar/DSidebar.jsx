@@ -57,11 +57,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <BsBox2Fill />,
     },
 
-    {
-      path: "/dashboard/create-rider",
-      name: "Create Rider",
-      icon: <IoIosAddCircle />,
-    },
 
     {
       path: "/dashboard/all-riders",
@@ -84,6 +79,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "Profile",
       icon: <CgProfile />,
     },
+
   ];
   const admin = [
     {
@@ -143,6 +139,21 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       path: "/dashboard/all-user",
       name: "All Users",
       icon: <BsPeopleFill />,
+    },
+    {
+      path: "/dashboard/groups",
+      name: "All Groups",
+      icon: <BsPeopleFill />,
+    },
+    {
+      path: "/dashboard/create-rider",
+      name: "Create Rider",
+      icon: <IoIosAddCircle />,
+    },
+    {
+      path: "/dashboard/create-group",
+      name: "Create Group",
+      icon: <CgProfile />,
     },
     {
       path: "/dashboard/parcel",

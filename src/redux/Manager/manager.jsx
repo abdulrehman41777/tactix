@@ -3,7 +3,7 @@ import API_BASE_URL from "../../../config";
 
 const manager = createApi({
   reducerPath: "manager",
-  tagTypes: ["managers"],
+  tagTypes: ["managers", "groups"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     Create_Manager: builder.mutation({
@@ -26,8 +26,32 @@ const manager = createApi({
       },
       providesTags: ["managers"],
     }),
+
+    CreateGroup: builder.mutation({
+      query: ({ BranchManagerID, BranchID, data }) => {
+        return {
+          url: `/riders_group/create_riders_group/${BranchManagerID}/${BranchID}`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["groups"],
+    }),
+
+    GetGroup: builder.query({
+      query: (BranchManagerID) => {
+        console.log(BranchManagerID, "BranchManagerID")
+        return {
+          url: `/riders_group/get_riders_group/${BranchManagerID}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["groups"],
+
+    }),
+
   }),
 });
-export const { useCreate_ManagerMutation, useManagersQuery } = manager;
+export const { useCreate_ManagerMutation, useManagersQuery, useCreateGroupMutation, useGetGroupQuery } = manager;
 
 export default manager;
