@@ -8,7 +8,9 @@ import { useAll_UserQuery } from "../../redux/User/User";
 import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useManagersQuery } from "../../redux/Manager/manager";
+import { useNavigate } from "react-router-dom";
 const Admin = () => {
+
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
 
@@ -16,6 +18,8 @@ const Admin = () => {
   const id = selector?.data?.user?._id;
   const role = selector?.data?.user?.role[0];
   const branchID = selector?.data?.user?.branchID;
+
+  const navigate = useNavigate();
 
   // All Managers for Admin branch
   const Manager_Branch_API = useManagersQuery(
@@ -48,7 +52,11 @@ const Admin = () => {
             <div className={style.admin_head}>
               <h4>Manager's</h4>
               <div className={style.task_head_dots}>
-                <BsThreeDots className={style.icon} title="All Managers" />
+                <button className="btn text-white"
+                onClick={() => navigate("/dashboard/create-manager")}
+                >
+                  Add Manager
+                </button>
               </div>
             </div>
             <div className={style.table_div}>
