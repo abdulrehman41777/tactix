@@ -11,16 +11,24 @@ import { useUsersQuery } from "../../redux/Auth/auth";
 import Available from "../../Components/cards/Available";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetGroupQuery, useManagersQuery } from "../../redux/Manager/manager";
+import { useCreateGroupMutation, useGetGroupQuery, useManagersQuery } from "../../redux/Manager/manager";
+import { FaCheck } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
 
 const AllGroups = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
+  const [createGroup, setCreateGroup] = useState({
+    isOpen: false,
+    groupname: null
+  })
+
 
   // User Data
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const userID = selector?.data?.user?._id
+  const branchID = selector?.data?.user?.branchID
 
   const navigate = useNavigate();
 
@@ -28,6 +36,29 @@ const AllGroups = () => {
   const Get_Groups = Get_Group_by_manager?.data?.RidersGroup;
   const isLoading = Get_Group_by_manager?.isLoading;
 
+  // Create Group API
+  const [createGroupAPI, { isLoading: createGroupLoad }] = useCreateGroupMutation()
+
+  const handleCreateGroup = async () => {
+    try {
+      if (createGroupLoad) {
+        return;
+      }
+      const res = await createGroupAPI({
+        BranchManagerID: userID,
+        BranchID: branchID,
+        data: {
+          groupname: createGroup.groupname,
+        },
+      })
+
+      if (!res.error) {
+        setCreateGroup((prev) => ({ ...prev, isOpen: false, groupname: "" }))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Get_Groups?.length / 6);
@@ -44,11 +75,24 @@ const AllGroups = () => {
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
               <h4>Group's</h4>
-              <button
-                className={style.status_btn_paid}
-              >
-                Create Group
-              </button>
+              <div className="d-flex gap-4 align-items-center">
+                {createGroup.isOpen &&
+                  <input type="text" className="border-0 rounded-3 px-3 py-2" style={{ background: "var(--light-secondary)" }} placeholder="Group Name" onChange={(e) => setCreateGroup((prev) => ({ ...prev, groupname: e.target.value }))} />
+                }
+                {!createGroup.isOpen ?
+                  <button
+                    className={style.status_btn_paid}
+                    onClick={() => setCreateGroup((prev) => ({ ...prev, isOpen: true }))}
+                  >
+                    Create Group
+                  </button>
+                  :
+                  <div className="d-flex gap-3">
+                    <FaCheck color="white" size={20} style={{ cursor: "pointer" }} onClick={handleCreateGroup} />
+                    <MdCancel color="white" size={20} onClick={() => setCreateGroup((prev) => ({ ...prev, isOpen: false }))} style={{ cursor: "pointer" }} />
+                  </div>
+                }
+              </div>
             </div>
             {Get_Groups?.length === 0 ? (
               <Available message={"No Group Available"} />
@@ -84,20 +128,13 @@ const AllGroups = () => {
                               <td>
                                 <span className="d-flex gap-4">
 
-                                  <button
-                                    className={style.status_btn_paid}
-                                    onClick={() =>
-                                      navigate(`/dashboard/create-orders`, {
-                                        state: { email: user?.email },
-                                      })
-                                    }
-                                  >
+                                  <button className={style.status_btn_paid}>
                                     View
                                   </button>
                                   <button
                                     className={style.status_btn_paid}
                                     onClick={() =>
-                                      navigate(`/dashboard/create-orders`, {
+                                      navigate(`/dashboard/create-rider/${user?._id}`, {
                                         state: { email: user?.email },
                                       })
                                     }

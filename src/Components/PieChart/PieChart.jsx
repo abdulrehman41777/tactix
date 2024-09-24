@@ -9,7 +9,7 @@ const PieC = () => {
     { name: "Group C", value: 100 },
   ];
 
-  const COLORS = ["#4318FF", "#6AD2FF", "#EEF3FA"];
+  const COLORS = ["#D8788C", "#6AD2FF", "#EEF3FA"];
   return (
     <div className={style.piecharts_wrapper}>
       <div className={style.piecharts_head}>

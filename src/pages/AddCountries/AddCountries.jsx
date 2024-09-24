@@ -106,7 +106,7 @@ const AddCountries = () => {
                               onChange={(e) => setStateName(e.target.value)}
                               className="text-light me-3"
                               style={{
-                                background: "#593bfb",
+                                background: "#D8788C",
                               }}
                             >
                               <option value="default" className="text-light">
@@ -127,7 +127,7 @@ const AddCountries = () => {
                             <select
                               className="text-light me-3"
                               style={{
-                                background: "#593bfb",
+                                background: "#D8788C",
                               }}
                               key={index}
                             >

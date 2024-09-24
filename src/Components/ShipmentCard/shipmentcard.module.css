@@ -15,7 +15,7 @@
 
 .status_btn {
   padding: 5px 20px;
-  background-color: #593bfb;
+  background-color: #D8788C;
   border-radius: 20px;
   color: #ebebeb;
   font-size: 13px;
@@ -42,7 +42,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #593bfb;
+  background-color: #D8788C;
 }
 .order_name {
   position: absolute;

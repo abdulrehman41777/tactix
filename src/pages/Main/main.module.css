@@ -53,7 +53,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  background-color: #422afb;
+  background-color: #D8788C;
   background-blend-mode: luminosity;
   display: flex;
   align-items: center;
@@ -79,7 +79,7 @@
   text-align: center;
 }
 .tracking_feild_div{
-  border: 5px solid #422afb;
+  border: 5px solid #D8788C;
   display: flex;
   width: 50%;
   margin: 20px auto;
@@ -109,7 +109,7 @@
   border-bottom-right-radius: 50px;
   outline: none;
   color: #fff;
-  background-color: #422afb;
+  background-color: #D8788C;
   font-size: 22px;
   font-weight: bold;
   transition: all 0.3s ease;
@@ -123,7 +123,7 @@
 /* Order detail */
 
 .order_detail_header{
-  background-color: #422afb;
+  background-color: #D8788C;
   margin: 10px auto;
   color: #fff;
   padding: 10px;
@@ -132,12 +132,12 @@
   justify-content: space-between;
 }
 .order_detail table{
-  border: 1px solid #422afb;
+  border: 1px solid #D8788C;
   width: 100%;
 }
 
 .order_detail table thead{
-  background-color: #422afb;
+  background-color: #D8788C;
   color: #fff;
 }
 .order_detail table thead th{
@@ -146,7 +146,7 @@
 
 .order_detail table tbody td{
   padding: 10px;
-  border: 1px solid #422afb;
+  border: 1px solid #D8788C;
 }
 /* Testimonials */
 
@@ -166,7 +166,7 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  color: #422afb;
+  color: #D8788C;
 }
 .section_six_icon {
   width: 1.5rem;
@@ -209,7 +209,7 @@
 .client_name {
   text-align: center;
   font-size: 1vmax;
-  color: #422afb;
+  color: #D8788C;
 }
 
 /*  btn */

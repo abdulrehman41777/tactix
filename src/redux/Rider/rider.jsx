@@ -6,15 +6,16 @@ const rider = createApi({
   tagTypes: ["rides"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
+
     Create_Rider: builder.mutation({
-      query: ({ id, branch_id, token, data }) => ({
-        url: `/api/rider/${id}/rider-signup/${branch_id}`,
-        headers: { Authorization: `Bearer ${token}` },
+      query: ({ managerID, data }) => ({
+        url: `/auth/create_rider_by_manager/${managerID}`,
         method: "POST",
         body: data,
       }),
       invalidatesTags: ["rides"],
     }),
+
     All_Riders: builder.query({
       query: (id) => {
         return {

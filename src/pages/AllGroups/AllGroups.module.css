@@ -113,7 +113,7 @@
 }
 .status_btn_paid {
   padding: 5px;
-  background-color: #593bfb;
+  background-color: var(--btn-bg);
   border-radius: 5px;
   color: white;
   font-size: 15px;

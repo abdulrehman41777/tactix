@@ -10,7 +10,8 @@
   --light-heading: #000;
   --light-secondary: #f4f7fe;
   --light-primary-background: #fff;
-  --light-font-color: #422afb;
+  --light-font-color: #D8788C;
+  /* --light-font-color: #422afb; */
 
   /* for sidebar */
   --light-side-p: #2d3748;
@@ -19,7 +20,8 @@
   --dp-name-color: #fff;
 
   /* for btn */
-  --btn-bg: #422afb;
+  --btn-bg: #D8788C;
+  /* --btn-bg: #422afb; */
   --btn-p: #fff;
 
   /* for card para */
@@ -46,7 +48,8 @@
   --dp-name-color: #000;
 
   /* for btn */
-  --btn-bg: #422afb;
+  /* --btn-bg: #422afb; */
+  --btn-bg: #D8788C;
   --btn-p: #fff;
 
   /* for card para */
@@ -93,7 +96,8 @@ textarea {
   display: block !important;
   color: #fff;
   text-decoration: none;
-  background-color: #593bfb;
+  background-color: #D8788C;
+  /* background-color: #D8788C; */
   border-radius: 5px;
   font-weight: bold;
   padding: 5px 10px;
@@ -109,7 +113,8 @@ textarea {
 }
 
 .pagination__link--active {
-  color: #593bfb;
+  color: #D8788C;
+  /* color: #D8788C; */
   width: 30px;
   padding: 5px 0px;
   text-align: center;
@@ -267,11 +272,13 @@ input::-webkit-inner-spin-button {
   left: 10px;
   width: 0%;
   height: 4px;
-  background-color: #422afb;
+  background-color: #D8788C;
+  /* background-color: #422afb; */
   transition: all 0.3s ease;
 }
 .nav-link:hover {
-  color: #422afb !important;
+  color: #D8788C !important;
+  /* color: #422afb !important; */
 }
 .nav-link:hover::before {
   width: 40%;
@@ -324,7 +331,8 @@ input::-webkit-inner-spin-button {
   margin: auto;
   width: 0;
   height: 0;
-  background-color: #422afb;
+  background-color: #D8788C;
+  /* background-color: #422afb; */
   transition: all 0.3s ease;
   width: 100%;
   height: 100%;

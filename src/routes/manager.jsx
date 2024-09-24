@@ -56,7 +56,7 @@ const manager = [
     element: <CreateParcel />,
   },
   {
-    path: "/dashboard/create-rider",
+    path: "/dashboard/create-rider/:id",
     element: <CreateRider />,
   },
   {

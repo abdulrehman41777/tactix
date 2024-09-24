@@ -45,7 +45,8 @@
   display: flex;
   height: 10px;
   border-radius: 50%;
-  background: #422afb;
+  background: #D8788C;
+  /* background: #D8788C; */
 }
 .peichart_detail_second_span {
   width: 10px;
