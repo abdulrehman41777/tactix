@@ -40,6 +40,15 @@ const AllUsers = () => {
               <option value="Rider">Rider</option>
               <option value="User">User</option>
             </select>
+            
+            <div className={style.task_head_dots}>
+                <button className="btn text-white border-2 border-black"
+                  onClick={() => navigate("/dashboard/create-manager")}
+                >
+                  Add User
+                </button>
+              </div>
+
           </div>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
