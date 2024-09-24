@@ -2,7 +2,6 @@ import SuperAdmin from "../pages/super-admin/SuperAdmin";
 import Home from "../pages/home/Home";
 import Profile from "../pages/profile/Profile";
 import Admin from "../pages/admin/Admin";
-import Manager from "../pages/manager/Manager";
 import { Navigate } from "react-router-dom";
 import CreateAdmin from "../pages/createAdmin/CreateAdmin";
 import Branches from "../pages/Branches/Branches";
@@ -47,10 +46,7 @@ const superAdmin = [
     path: "/dashboard/all-user",
     element: <AllUsers />,
   },
-  {
-    path: "/dashboard/customer",
-    element: <Manager />,
-  },
+
   {
     path: "/dashboard/all-riders",
     element: <AllRiders />,

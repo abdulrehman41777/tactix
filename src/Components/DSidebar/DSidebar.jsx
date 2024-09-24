@@ -130,11 +130,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },
-    {
-      path: "/dashboard/customer",
-      name: "Customer",
-      icon: <IoIosPeople />,
-    },
+
     {
       path: "/dashboard/all-user",
       name: "All Users",
@@ -145,16 +141,8 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "All Groups",
       icon: <BsPeopleFill />,
     },
-    {
-      path: "/dashboard/create-rider",
-      name: "Create Rider",
-      icon: <IoIosAddCircle />,
-    },
-    {
-      path: "/dashboard/create-group",
-      name: "Create Group",
-      icon: <CgProfile />,
-    },
+
+
     {
       path: "/dashboard/parcel",
       name: "All Parcel",

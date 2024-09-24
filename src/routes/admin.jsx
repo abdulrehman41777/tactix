@@ -1,7 +1,6 @@
 import Home from "../pages/home/Home";
 import Profile from "../pages/profile/Profile";
 import Admin from "../pages/admin/Admin";
-import Manager from "../pages/manager/Manager";
 import { Navigate } from "react-router-dom";
 import CreateManager from "../pages/CreateManager/CreateManager";
 import Branches from "../pages/Branches/Branches";
@@ -45,10 +44,7 @@ const admin = [
     path: "/dashboard/branch",
     element: <Branches />,
   },
-  {
-    path: "/dashboard/customer",
-    element: <Manager />,
-  },
+
   {
     path: "/dashboard/parcel",
     element: <Parcel />,
