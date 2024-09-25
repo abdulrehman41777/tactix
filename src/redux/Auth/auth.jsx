@@ -46,10 +46,12 @@ const auth = createApi({
       invalidatesTags: ["update"],
     }),
     createUser: builder.mutation({
-      query: (BranchId) => {
+      query: ({ BranchId, data }) => {
+        console.log(data)
         return {
           url: `/auth/create_user/${BranchId}`,
           method: "POST",
+          body: data,
         };
       },
       // providesTags: ["alluser"],
@@ -61,6 +63,7 @@ export const {
   useSignupMutation,
   useUsersQuery,
   useUpdate_ProfileMutation,
+  useCreateUserMutation
 } = auth;
 
 export default auth;
