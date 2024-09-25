@@ -9,17 +9,22 @@ import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 import { useAll_UserQuery } from "../../redux/User/User";
 import ListLoader from "../../Components/Loader/ListLoader";
+import { useNavigate } from "react-router-dom";
 const AllUsers = () => {
   const [filter, setFilter] = useState("all");
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
 
+  const navigate = useNavigate();
+
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
 
   const allUsersApi = useAll_UserQuery(id);
-  const isLoading = allUsersApi?.isLoading;
+  const isLoading = false;
   const all_User = allUsersApi?.data?.user;
+
+  console.log(isLoading)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
@@ -30,29 +35,30 @@ const AllUsers = () => {
 
   return (
     <div>
-      <Dlayout pageName="All Users" search={search} setSearch={setSearch}>
+      <Dlayout pageName="All Customers" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          <div className={style.select_allUser}>
-            <select onChange={(e) => setFilter(e.target.value)} value={filter}>
+          <div className={style.select_allUser} 
+          // style={{display: "flex", justifyContent: "space-between"}}
+          >
+            {/* <select onChange={(e) => setFilter(e.target.value)} value={filter}>
               <option value="all">All</option>
               <option value="Admin">Admin</option>
               <option value="Manager">Manager</option>
               <option value="Rider">Rider</option>
               <option value="User">User</option>
-            </select>
-            
-            <div className={style.task_head_dots}>
-                <button className="btn text-white border-2 border-black"
-                  onClick={() => navigate("/dashboard/create-manager")}
-                >
-                  Add User
-                </button>
-              </div>
+            </select> */}
 
+            <button
+              className={`btn`}
+              onClick={() => navigate("/dashboard/create-customer")}
+              style={{background: '#D8788C', color: '#fff'}}
+            >
+              Add Customer
+            </button>
           </div>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
-              <h4>All User's</h4>
+              <h4>All Customer's</h4>
               <div className={style.task_head_dots}>
                 <BsThreeDots className={style.icon} title="All User's" />
               </div>

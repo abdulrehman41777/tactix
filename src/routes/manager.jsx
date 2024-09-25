@@ -12,6 +12,8 @@ import Parcel_Status from "../pages/Rider_Parcel/Rider_Parcel";
 import CreateParcel from "../pages/CreateParcel/CreateParcel";
 import CreateGroups from "../pages/CreateGroups/CreateGroups";
 import AllGroups from "../pages/AllGroups/AllGroups";
+// import CreateUser from "../pages/CreateCustomer/CreateCustomer";
+import CreateCustomer from "../pages/CreateCustomer/CreateCustomer";
 
 const manager = [
   {
@@ -66,6 +68,10 @@ const manager = [
   {
     path: "/dashboard/all-user",
     element: <AllUsers />,
+  },
+  {
+    path: "/dashboard/create-customer",
+    element: <CreateCustomer />,
   },
   {
     path: "*",
