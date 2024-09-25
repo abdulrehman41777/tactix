@@ -11,7 +11,7 @@ import { useUsersQuery } from "../../redux/Auth/auth";
 import Available from "../../Components/cards/Available";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateGroupMutation, useGetGroupByAdminQuery, useGetGroupQuery, useManagersQuery } from "../../redux/Manager/manager";
+import { useCreateGroupMutation, useGetGroupByAdminQuery, useGetGroupBySuperAdminQuery, useGetGroupQuery, useManagersQuery } from "../../redux/Manager/manager";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 
@@ -33,22 +33,29 @@ const AllGroups = () => {
   const navigate = useNavigate();
 
   // Get Group By Manager
-  const Get_Group_by_manager = useGetGroupQuery(userID, { skip: !userID });
+  const Get_Group_by_manager = useGetGroupQuery(userID, { skip: !userID || role !== "Manager" });
   const Get_Groups = Get_Group_by_manager?.data?.RidersGroup;
   const isLoading = Get_Group_by_manager?.isLoading;
 
   // Get Group By Admin
-  const Get_Group_by_Admin = useGetGroupByAdminQuery({ AdminId: userID, BranchID: branchID }, { skip: !userID });
+  const Get_Group_by_Admin = useGetGroupByAdminQuery({ AdminId: userID }, { skip: !userID || role !== 'Admin' });
   const Get_Groups_Admin = Get_Group_by_Admin?.data?.findRiderGroups;
   const AdminLoading = Get_Group_by_Admin?.isLoading;
+
+  // Get Group By Super Admin
+  const Get_Group_by_SuperAdmin = useGetGroupBySuperAdminQuery({ superAdminID: userID }, { skip: !userID });
+  const Get_Groups_SuperAdmin = Get_Group_by_SuperAdmin?.data?.findRiderGroups;
+  const SuperAdminLoading = Get_Group_by_SuperAdmin?.isLoading;
 
   useEffect(() => {
     if (role === "Manager") {
       setGroupData(Get_Groups)
     } else if (role === "Admin") {
       setGroupData(Get_Groups_Admin)
+    } else if (role === "SuperAdmin") {
+      setGroupData(Get_Groups_SuperAdmin)
     }
-  }, [role, Get_Group_by_Admin, Get_Group_by_manager])
+  }, [role, Get_Group_by_Admin, Get_Group_by_manager, Get_Group_by_SuperAdmin])
 
   // Create Group API
   const [createGroupAPI, { isLoading: createGroupLoad }] = useCreateGroupMutation()
@@ -114,7 +121,7 @@ const AllGroups = () => {
               <Available message={"No Group Available"} />
             ) : (
               <div className={style.table_div}>
-                {(isLoading || AdminLoading) ? (
+                {(isLoading || AdminLoading || SuperAdminLoading) ? (
                   <ListLoader />
                 ) : (
                   <table className={`${style.table_container}`}>

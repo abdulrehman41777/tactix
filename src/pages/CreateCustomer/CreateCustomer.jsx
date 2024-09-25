@@ -326,7 +326,7 @@ const CreateCustomer = () => {
                     className="btn btn-success p-3 rounded"
                     onClick={handleSubmit}
                   >
-                    Create Product
+                    Create Customer
                   </button>
                 </div>
               </div>
@@ -339,104 +339,3 @@ const CreateCustomer = () => {
 };
 
 export default CreateCustomer;
-
-// <form className={style.form} onSubmit={handleCreateAdmin}>
-//   <label className={style.label}>
-//     <h6>Name*</h6>
-//     <input
-//       type="text"
-//       placeholder="Name"
-//       name="name"
-//       value={name}
-//       onChange={handleFields}
-//     />
-//   </label>
-//   <label className={style.label}>
-//     <h6>Email*</h6>
-//     <input
-//       type="text"
-//       placeholder="Email"
-//       name="email"
-//       value={email}
-//       onChange={handleFields}
-//     />
-//   </label>
-
-//   {/* <label className={style.label}>
-//     <h6>Select Branch*</h6>
-//     <select
-//       value={branchID}
-//       onChange={handleChange}
-//       className="text-dark bg-light w-100"
-//     >
-//       <option value="" disabled className="text-dark">
-//         Select Branch
-//       </option>
-//       {All_branches?.map((item) => (
-//         <option value={item?._id} className="text-dark" key={item?._id}>
-//           {item?.branch_name}
-//         </option>
-//       ))}
-//     </select>
-//   </label> */}
-
-//   <label className={style.label}>
-//     <h6>Password*</h6>
-//     <div className={style.password_fields}>
-//       <input
-//         type={showPass ? "password" : "text"}
-//         placeholder="Min. 8 Characters"
-//         name="password"
-//         value={password}
-//         onChange={handleFields}
-//         className={style.password_input}
-//       />
-//       {showPass ? (
-//         <AiFillEyeInvisible
-//           style={{ cursor: "pointer" }}
-//           onClick={() => setShowPass(false)}
-//           className={style.icon}
-//         />
-//       ) : (
-//         <AiFillEye
-//           style={{ cursor: "pointer" }}
-//           onClick={() => setShowPass(true)}
-//           className={style.icon}
-//         />
-//       )}
-//     </div>
-//   </label>
-//   {/* <label className={style.label}>
-//     <h6>Confirm Password*</h6>
-//     <div className={style.password_fields}>
-//       <input
-//         type={showPass ? "password" : "text"}
-//         placeholder="Min. 8 Characters"
-//         name="confirmpass"
-//         value={confirmpass}
-//         onChange={handleFields}
-//         className={style.password_input}
-//       />
-//       {showPass ? (
-//         <AiFillEyeInvisible
-//           style={{ cursor: "pointer" }}
-//           onClick={() => setShowPass(false)}
-//           className={style.icon}
-//         />
-//       ) : (
-//         <AiFillEye
-//           style={{ cursor: "pointer" }}
-//           onClick={() => setShowPass(true)}
-//           className={style.icon}
-//         />
-//       )}
-//     </div>
-//   </label> */}
-//   {isLoading ? (
-//     <button className={style.signin_btn} disabled>
-//       Creating
-//     </button>
-//   ) : (
-//     <button className={style.signin_btn}>Create User</button>
-//   )}
-// </form>
