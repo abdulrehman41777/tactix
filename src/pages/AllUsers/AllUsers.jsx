@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useAll_UserQuery } from "../../redux/User/User";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useNavigate } from "react-router-dom";
+import { useGetAllUserByBranchQuery } from "../../redux/Auth/auth";
 const AllUsers = () => {
   const [filter, setFilter] = useState("all");
   const [itemOffset, setItemOffset] = useState(0);
@@ -18,13 +19,13 @@ const AllUsers = () => {
   const navigate = useNavigate();
 
   const selector = useSelector((state) => state?.userData);
-  const id = selector?.data?.user?._id;
+  const id = selector?.data?.user?.branchID;
 
-  const allUsersApi = useAll_UserQuery(id);
-  const isLoading = false;
-  const all_User = allUsersApi?.data?.user;
+  const allUsersApi = useGetAllUserByBranchQuery(id);
+  const isLoading = allUsersApi?.isLoading;
+  const all_User = allUsersApi?.currentData?.BranchUsers;
 
-  console.log(isLoading)
+  console.log(allUsersApi?.currentData?.BranchUsers?.name)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
@@ -71,9 +72,9 @@ const AllUsers = () => {
                   <thead className={`${style.table_header}`}>
                     <tr>
                       <th>NAME</th>
-                      <th>BRANCH</th>
-                      <th>ROLE</th>
-                      <th>ACTION</th>
+                      <th>Email</th>
+                      <th>Password</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody className={`${style.table_body}`}>
@@ -92,12 +93,10 @@ const AllUsers = () => {
                           <td className="d-flex align-items-center">
                             {user?.name}
                           </td>
-                          <td>{user?.branchID?.branch_name}</td>
-                          <td>{user?.role[0]}</td>
+                          <td>{user?.email}</td>
+                          <td>{user?.password}</td>
                           <td>
-                            <button className={style.status_btn_paid}>
-                              Delete
-                            </button>
+                            {user?.status[0]}
                           </td>
                         </tr>
                       ))}
