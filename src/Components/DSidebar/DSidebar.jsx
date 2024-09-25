@@ -93,16 +93,13 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "Manager",
       icon: <RiAdminFill />,
     },
+
     {
-      path: "/dashboard/customer",
-      name: "Customer",
-      icon: <IoIosPeople />,
+      path: "/dashboard/groups",
+      name: "All Groups",
+      icon: <BsPeopleFill />,
     },
-    {
-      path: "/dashboard/branch",
-      name: "Branch",
-      icon: <BiGitBranch />,
-    },
+
     {
       path: "/dashboard/parcel",
       name: "All Parcel",
@@ -112,11 +109,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       path: "/dashboard/all-user",
       name: "All Users",
       icon: <BsPeopleFill />,
-    },
-    {
-      path: "/dashboard/create-manager",
-      name: "Create Manager",
-      icon: <BsPersonAdd />,
     },
     {
       path: "/dashboard/profile",
@@ -138,7 +130,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
     {
       path: "/dashboard/groups",
-      name: "All Groups",
+      name: "Rider Group",
       icon: <BsPeopleFill />,
     },
 

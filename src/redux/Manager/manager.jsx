@@ -46,11 +46,20 @@ const manager = createApi({
         };
       },
       providesTags: ["groups"],
+    }),
 
+    GetGroupByAdmin: builder.query({
+      query: ({ AdminId }) => {
+        return {
+          url: `/riders_group/GetRidersGroupForAdmin/${AdminId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["groups"],
     }),
 
   }),
 });
-export const { useCreate_ManagerMutation, useManagersQuery, useCreateGroupMutation, useGetGroupQuery } = manager;
+export const { useCreate_ManagerMutation, useManagersQuery, useCreateGroupMutation, useGetGroupQuery, useGetGroupByAdminQuery } = manager;
 
 export default manager;

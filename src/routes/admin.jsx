@@ -9,6 +9,7 @@ import AllUsers from "../pages/AllUsers/AllUsers";
 import AllRiders from "../pages/All-Rider/All_Rider";
 import Parcel from "../pages/Parcel/Parcel";
 import AddTax from "../pages/AddTax/AddTax";
+import AllGroups from "../pages/AllGroups/AllGroups";
 
 const admin = [
   {
@@ -20,11 +21,6 @@ const admin = [
     element: <Home />,
   },
   {
-    path: "/dashboard/profile",
-    element: <Profile />,
-  },
-
-  {
     path: "/dashboard/manager",
     element: <Admin />,
   },
@@ -32,26 +28,28 @@ const admin = [
     path: "/dashboard/create-manager",
     element: <CreateManager />,
   },
+
   {
-    path: "/dashboard/all-user",
-    element: <AllUsers />,
+    path: "/dashboard/groups",
+    element: <AllGroups />,
   },
   {
-    path: "/dashboard/all-riders",
+    path: "/dashboard/all-riders/:id",
     element: <AllRiders />,
   },
   {
-    path: "/dashboard/branch",
-    element: <Branches />,
+    path: "/dashboard/all-user",
+    element: <AllUsers />,
   },
 
   {
     path: "/dashboard/parcel",
     element: <Parcel />,
   },
+
   {
-    path: "/dashboard/add-tax",
-    element: <AddTax />,
+    path: "/dashboard/profile",
+    element: <Profile />,
   },
   {
     path: "*",

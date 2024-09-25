@@ -32,7 +32,7 @@ const manager = [
     element: <AllGroups />,
   },
   {
-    path: "/dashboard/all-riders",
+    path: "/dashboard/all-riders/:id",
     element: <AllRiders />,
   },
   {
