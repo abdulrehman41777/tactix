@@ -56,6 +56,16 @@ const auth = createApi({
       },
       // providesTags: ["alluser"],
     }),
+    getAllUserByBranch: builder.query({
+      query: (branchId) => {
+        console.log(branchId)
+        return {
+          url: `/auth/get_branch_user/${branchId}`,
+          method: "GET",
+        };
+      },
+      // providesTags: ["alluser"],
+    }),
   }),
 });
 export const {
@@ -63,7 +73,8 @@ export const {
   useSignupMutation,
   useUsersQuery,
   useUpdate_ProfileMutation,
-  useCreateUserMutation
+  useCreateUserMutation,
+  useGetAllUserByBranchQuery
 } = auth;
 
 export default auth;
