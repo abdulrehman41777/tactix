@@ -41,11 +41,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <RiAdminFill />,
     },
     {
-      path: "/dashboard/customer",
-      name: "Customer",
-      icon: <IoIosPeople />,
-    },
-    {
       path: "/dashboard/all-user",
       name: "All Users",
       icon: <BsPeopleFill />,
@@ -59,8 +54,8 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
 
 
     {
-      path: "/dashboard/all-riders",
-      name: "All Rider",
+      path: "/dashboard/groups",
+      name: "All Groups",
       icon: <MdDirectionsBike />,
     },
 

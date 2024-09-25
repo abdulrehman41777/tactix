@@ -11,6 +11,7 @@ import AddCountries from "../pages/AddCountries/AddCountries";
 import Parcel from "../pages/Parcel/Parcel";
 import AddTax from "../pages/AddTax/AddTax";
 import AllRiders from "../pages/All-Rider/All_Rider";
+import AllGroups from "../pages/AllGroups/AllGroups";
 
 const superAdmin = [
   {
@@ -48,8 +49,13 @@ const superAdmin = [
   },
 
   {
-    path: "/dashboard/all-riders",
+    path: "/dashboard/all-riders/:id",
     element: <AllRiders />,
+  },
+
+  {
+    path: "/dashboard/groups",
+    element: <AllGroups />,
   },
 
   {
