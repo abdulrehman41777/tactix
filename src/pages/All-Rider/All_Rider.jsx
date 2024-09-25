@@ -8,23 +8,24 @@ import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
 import Available from "../../Components/cards/Available";
+import { useParams } from "react-router-dom";
 const AllRiders = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
 
   const selector = useSelector((state) => state?.userData);
-  const id = selector?.data?.user?._id;
-  const branchID = selector?.data?.user?.branchID;
   const role = selector?.data?.user?.role[0];
-  const allUsersApi = useAll_RidersQuery(branchID);
 
+  const { id: riderGroupID } = useParams()
+
+  const allUsersApi = useAll_RidersQuery(riderGroupID);
   const isLoading = allUsersApi?.isLoading;
-  const all_User = allUsersApi?.data?.riders;
+  const all_riders = allUsersApi?.data?.findGroupRiders;
 
   const endOffset = itemOffset + 6;
-  const pageCount = Math.ceil(all_User?.length / 6);
+  const pageCount = Math.ceil(all_riders?.length / 6);
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * 6) % all_User?.length;
+    const newOffset = (event.selected * 6) % all_riders?.length;
     setItemOffset(newOffset);
   };
 
@@ -34,12 +35,12 @@ const AllRiders = () => {
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
-              <h4>All Rider Group</h4>
+              <h4>All Riders</h4>
               <div className={style.task_head_dots} title="All Rider's">
                 <BsThreeDots className={style.icon} />
               </div>
             </div>
-            {all_User?.length === 0 ? (
+            {all_riders?.length === 0 ? (
               role === "Manager" ? (
                 <Available
                   message={"No Rider Available"}
@@ -60,12 +61,12 @@ const AllRiders = () => {
                       <tr>
                         <th>NAME</th>
                         <th>EMAIL</th>
-                        <th>ROLE</th>
+                        <th>Join Date</th>
                         <th>ACTION</th>
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {all_User
+                      {all_riders
                         ?.filter((item) =>
                           item?.name
                             ?.toLowerCase()
@@ -78,7 +79,7 @@ const AllRiders = () => {
                               {user?.name}
                             </td>
                             <td>{user?.email}</td>
-                            <td>{user?.role[0]}</td>
+                            <td>{user?.createdAt?.split("T")?.[0]}</td>
                             <td>
                               <button className={style.status_btn_paid}>
                                 Delete
@@ -92,7 +93,7 @@ const AllRiders = () => {
               </div>
             )}
           </div>
-          {all_User?.length >= 6 && (
+          {all_riders?.length >= 6 && (
             <ReactPaginate
               breakLabel="..."
               onPageChange={handlePageClick}

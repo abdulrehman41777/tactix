@@ -29,6 +29,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  blacklist: ["branch", "alluser", "country", "admin", "manager", "rider", "parcel", "taxes", "ParcelPrice", "Tracking"]
 };
 
 const rootReducer = combineReducers({

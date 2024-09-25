@@ -37,8 +37,6 @@ const CreateUser = () => {
     }))
   }, [selector])
 
-  console.log(createRiderFields)
-
   const validateEmail = EmailValidator.validate(email);
 
   const handleFields = (e) => {

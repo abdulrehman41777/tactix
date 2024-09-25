@@ -17,9 +17,9 @@ const rider = createApi({
     }),
 
     All_Riders: builder.query({
-      query: (id) => {
+      query: (GroupID) => {
         return {
-          url: `/branch/branch-riders/${id}`,
+          url: `/auth/get_all_riders_from_group/${GroupID}`,
           method: "GET",
         };
       },
