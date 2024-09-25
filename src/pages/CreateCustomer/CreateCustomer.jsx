@@ -8,98 +8,201 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import * as EmailValidator from "email-validator";
 import { useCreate_ManagerMutation } from "../../redux/Manager/manager";
-import { useAll_branchesQuery, useBranchesByAdminQuery } from "../../redux/Branch/Branch";
+import {
+  useAll_branchesQuery,
+  useBranchesByAdminQuery,
+} from "../../redux/Branch/Branch";
 import { useCreateUserMutation } from "../../redux/Auth/auth";
+import { MdCancel } from "react-icons/md";
+
+// const CreateCustomer = () => {
+//   return (
+//     <div className="d-flex justify-content-center flex-row position-relative">
+//       <div className="d-flex flex-column justify-content-center align-items-center gap-3">
+//         <div className="d-flex flex-column w-100 gap-3">
+//           <div className="row g-3">
+//             <div className="col-sm-4">
+//               <label>Name</label>
+//               <input
+//                 type="text"
+//                 className="border border-secondary p-3 rounded w-100"
+//                 placeholder="Name"
+//               />
+//             </div>
+//             <div className="col-sm-4">
+//               <label>Email</label>
+//               <input
+//                 type="text"
+//                 className="border border-secondary p-3 rounded w-100"
+//                 placeholder="Email"
+//               />
+//             </div>
+//             <div className="col-sm-4">
+//               <label>Password</label>
+//               <input
+//                 type="text"
+//                 className="border border-secondary p-3 rounded w-100"
+//                 placeholder="Password"
+//               />
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="d-flex w-100 gap-3">
+//           <input
+//             type="text"
+//             className="border border-secondary p-3 rounded w-100"
+//             placeholder="From"
+//           />
+//           <input
+//             type="text"
+//             className="border border-secondary p-3 rounded w-100"
+//             placeholder="To"
+//           />
+//           <input
+//             type="number"
+//             className="border border-secondary p-3 rounded w-100"
+//             placeholder="Price"
+//           />
+//           <button
+//             name="Add"
+//             className="btn btn-primary p-2"
+//             style={{ Maxwidth: "100%" }}
+//           >
+//             Add
+//           </button>
+//         </div>
+
+//         <div className="d-flex justify-content-center">
+//           <button name="Create Product" className="btn btn-success p-3 rounded">
+//             Create Product
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 const CreateCustomer = () => {
-  const [showPass, setShowPass] = useState(true);
-  const [createAdminFields, setCreateAdminFields] = useState({
-    email: "",
-    name: "",
-    password: "",
-    // confirmpass: "",
-  });
+  // const [showPass, setShowPass] = useState(true);
+  // const [createAdminFields, setCreateAdminFields] = useState({
+  //   email: "",
+  //   name: "",
+  //   password: "",
+  //   // confirmpass: "",
+  // });
 
   const selector = useSelector((state) => state?.userData);
-  const id = selector?.data?.user?.branchID
-  ;
-
-  console.log(id)
-
-
-  const [branchID, setBranchID] = useState('');
+  const id = selector?.data?.user?.branchID;
+  const manager_id = selector?.data?.user?._id;
+  console.log(selector);
 
   const navigate = useNavigate();
 
-  const { email, name, password } = createAdminFields;
+  // State to hold input values for From, To, and Price
+  const [locations, setLocations] = useState([{ from: "", to: "", price: "" }]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const validateEmail = EmailValidator.validate(email);
-
-  const handleFields = (e) => {
-    setCreateAdminFields({
-      ...createAdminFields,
-      [e.target.name]: e.target.value,
-    });
+  // Handle input change for locations
+  const handleLocationChange = (index, e) => {
+    const newLocations = [...locations];
+    newLocations[index][e.target.name] = e.target.value;
+    setLocations(newLocations);
   };
 
-  // const role = selector?.data?.user?.role[0];
-  // const userID = selector?.data?.user?._id;
+  // Add a new set of location fields
+  const handleAdd = () => {
+    setLocations([...locations, { from: "", to: "", price: "" }]);
+  };
 
+  // Remove a set of location fields
+  const handleRemove = (index) => {
+    const newLocations = locations.filter((_, i) => i !== index);
+    setLocations(newLocations);
+  };
 
-  // const all_Branches_API = useBranchesByAdminQuery(userID, { skip: !userID });
-  // const All_branches = all_Branches_API?.data?.findAdminBranches;
+  // Validation function
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = {};
 
-  // console.log(All_branches)
+    // Validate static fields
+    if (!name.trim()) {
+      newErrors.name = "Name is required.";
+      valid = false;
+    }
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+      valid = false;
+    }
+    if (!password.trim()) {
+      newErrors.password = "Password is required.";
+      valid = false;
+    }
 
+    // Validate all but the last location set
+    locations.slice(0, -1).forEach((location, index) => {
+      if (!location.from || !location.to || !location.price) {
+        newErrors[`location${index}`] =
+          "All location fields (From, To, Price) are required.";
+        valid = false;
+      }
+    });
 
-  // const handleChange = (e) => {
-  //   setBranchID(e.target.value)
-  // };
+    setErrors(newErrors);
+    return valid;
+  };
 
   const [createUser, { isLoading }] = useCreateUserMutation();
 
-  const handleCreateAdmin = async (e) => {
-    e.preventDefault();
-    if (email && name && password) {
-        if (validateEmail) {
-          try {
-            const res = await createUser({
-              BranchId: id,
-              data: {
-                email: email,
-                name: name,
-                password: password,
-              },
-            });
+  // Handle form submission
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      // If validation fails, return early
+      return;
+    }
 
-            console.log(res.data)
-            if (!res.error) {
-              NotificationAlert("User Created successfully", "success");
-              setCreateAdminFields({
-                email: "",
-                name: "",
-                password: "",
-              });
-            } else if (
-              res.error.data.errors.find((err) => err.path === "name")
-            ) {
-              NotificationAlert("Name must be at least 5 characters");
-            } else if (
-              res.error.data.errors.find((err) => err.path === "password")
-            ) {
-              NotificationAlert("Password Must Contain Atleast 8 Chars");
-            }
-          } catch (error) {
-            NotificationAlert("User Already Exists With This Email");
-          }
-        } else {
-          NotificationAlert("Invalid Email");
-        }
-    } else {
-      NotificationAlert("All Fields Required");
+    // Filter out empty location fields (those with empty from, to, and price)
+    const filteredLocations = locations.filter(
+      (location) =>
+        location.from.trim() || location.to.trim() || location.price.trim()
+    );
+
+    // Prepare data to send
+    const formData = {
+      name,
+      email,
+      password,
+      rateList: filteredLocations,
+    };
+
+    // Here, you can use the formData to send to an API, e.g.,
+    // fetch('/api/endpoint', { method: 'POST', body: JSON.stringify(formData) })
+
+    console.log("Form Data to Submit:", formData);
+
+    try {
+      const res = await createUser({
+        BranchId: id,
+        managerID: manager_id,
+        data: formData,
+      });
+
+      if (!res.error) {
+        setLocations([{ from: "", to: "", price: "" }]);
+        setName("");
+        setEmail("");
+        setPassword("");
+        navigate(-1)
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
   };
-
 
   return (
     <div className={style.create_wrapper}>
@@ -108,114 +211,125 @@ const CreateCustomer = () => {
           <IoIosArrowBack /> Back To Main
         </p>
         <div className={style.login_box_wrapper}>
-          <div className={style.login_box_inner_wrapper}>
+          <div
+          // className={style.login_box_inner_wrapper}
+          >
             <div className={style.login_box_head}>
               <h1>Create Customer</h1>
               <p>Create A New Customer</p>
             </div>
             <div className={style.form_wrapper}>
-              <form className={style.form} onSubmit={handleCreateAdmin}>
-                <label className={style.label}>
-                  <h6>Name*</h6>
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    name="name"
-                    value={name}
-                    onChange={handleFields}
-                  />
-                </label>
-                <label className={style.label}>
-                  <h6>Email*</h6>
-                  <input
-                    type="text"
-                    placeholder="Email"
-                    name="email"
-                    value={email}
-                    onChange={handleFields}
-                  />
-                </label>
+              <div className="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div className="d-flex flex-column w-100 gap-3">
+                  <div className="row g-3">
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      {errors.name && (
+                        <small className="text-danger">{errors.name}</small>
+                      )}
+                    </div>
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label>Email</label>
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      {errors.email && (
+                        <small className="text-danger">{errors.email}</small>
+                      )}
+                    </div>
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label>Password</label>
+                      <input
+                        type="text"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      {errors.password && (
+                        <small className="text-danger">{errors.password}</small>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
+                {/* Render the input fields for From, To, and Price dynamically */}
+                {locations.map((location, index) => (
+                  <div className="d-flex flex-column w-100 gap-3">
+                    <div className="row g-3">
+                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                        <input
+                          type="text"
+                          name="from"
+                          value={location.from}
+                          onChange={(e) => handleLocationChange(index, e)}
+                          placeholder="From"
+                        />
+                      </div>
+                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                        <input
+                          type="text"
+                          name="to"
+                          value={location.to}
+                          onChange={(e) => handleLocationChange(index, e)}
+                          placeholder="To"
+                        />
+                      </div>
+                      <div className={`col-sm-2 gap-0 ${style.label}`}>
+                        <input
+                          type="number"
+                          name="price"
+                          value={location.price}
+                          onChange={(e) => handleLocationChange(index, e)}
+                          placeholder="Price"
+                        />
+                      </div>
 
-                {/* <label className={style.label}>
-                  <h6>Select Branch*</h6>
-                  <select
-                    value={branchID}
-                    onChange={handleChange}
-                    className="text-dark bg-light w-100"
+                      {index === locations.length - 1 ? (
+                        <div className={`col-sm-2 gap-0 ${style.label}`}>
+                          <button
+                            className={`btn`}
+                            onClick={handleAdd}
+                            style={{ background: "#D8788C", color: "#fff" }}
+                          >
+                            Add
+                          </button>
+                        </div>
+                      ) : (
+                        <div className={`col-sm-2 gap-0 ${style.label}`}>
+                          <button
+                            className={`btn`}
+                            onClick={() => handleRemove(index)}
+                            style={{ background: "#ff4d4d", color: "#fff" }}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    {errors[`location${index}`] && (
+                      <small className="text-danger">
+                        {errors[`location${index}`]}
+                      </small>
+                    )}
+                  </div>
+                ))}
+
+                <div className="d-flex justify-content-center">
+                  <button
+                    name="Create Product"
+                    className="btn btn-success p-3 rounded"
+                    onClick={handleSubmit}
                   >
-                    <option value="" disabled className="text-dark">
-                      Select Branch
-                    </option>
-                    {All_branches?.map((item) => (
-                      <option value={item?._id} className="text-dark" key={item?._id}>
-                        {item?.branch_name}
-                      </option>
-                    ))}
-                  </select>
-                </label> */}
-
-
-                <label className={style.label}>
-                  <h6>Password*</h6>
-                  <div className={style.password_fields}>
-                    <input
-                      type={showPass ? "password" : "text"}
-                      placeholder="Min. 8 Characters"
-                      name="password"
-                      value={password}
-                      onChange={handleFields}
-                      className={style.password_input}
-                    />
-                    {showPass ? (
-                      <AiFillEyeInvisible
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setShowPass(false)}
-                        className={style.icon}
-                      />
-                    ) : (
-                      <AiFillEye
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setShowPass(true)}
-                        className={style.icon}
-                      />
-                    )}
-                  </div>
-                </label>
-                {/* <label className={style.label}>
-                  <h6>Confirm Password*</h6>
-                  <div className={style.password_fields}>
-                    <input
-                      type={showPass ? "password" : "text"}
-                      placeholder="Min. 8 Characters"
-                      name="confirmpass"
-                      value={confirmpass}
-                      onChange={handleFields}
-                      className={style.password_input}
-                    />
-                    {showPass ? (
-                      <AiFillEyeInvisible
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setShowPass(false)}
-                        className={style.icon}
-                      />
-                    ) : (
-                      <AiFillEye
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setShowPass(true)}
-                        className={style.icon}
-                      />
-                    )}
-                  </div>
-                </label> */}
-                {isLoading ? (
-                  <button className={style.signin_btn} disabled>
-                    Creating
+                    Create Customer
                   </button>
-                ) : (
-                  <button className={style.signin_btn}>Create User</button>
-                )}
-              </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>

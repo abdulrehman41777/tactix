@@ -3,7 +3,7 @@ import API_BASE_URL from "../../../config";
 
 const auth = createApi({
   reducerPath: "auth",
-  tagTypes: ["auth", "update"],
+  tagTypes: ["auth", "update","createUser"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -46,15 +46,15 @@ const auth = createApi({
       invalidatesTags: ["update"],
     }),
     createUser: builder.mutation({
-      query: ({ BranchId, data }) => {
+      query: ({ BranchId, managerID, data }) => {
         console.log(data)
         return {
-          url: `/auth/create_user/${BranchId}`,
+          url: `/auth/create_user/${BranchId}/${managerID}`,
           method: "POST",
           body: data,
         };
       },
-      // providesTags: ["alluser"],
+      invalidatesTags: ["createUser"],
     }),
     getAllUserByBranch: builder.query({
       query: (branchId) => {
@@ -64,7 +64,7 @@ const auth = createApi({
           method: "GET",
         };
       },
-      // providesTags: ["alluser"],
+      providesTags: ["createUser"],
     }),
   }),
 });
