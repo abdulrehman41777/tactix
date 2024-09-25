@@ -323,7 +323,7 @@ const CreateCustomer = () => {
                 <div className="d-flex justify-content-center">
                   <button
                     name="Create Product"
-                    className="btn btn-success p-3 rounded"
+                    className="btn p-3 rounded"
                     onClick={handleSubmit}
                     style={{background: '#D8788C'}}
                   >
