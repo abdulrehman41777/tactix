@@ -23,9 +23,9 @@ const AllUsers = () => {
 
   const allUsersApi = useGetAllUserByBranchQuery(id);
   const isLoading = allUsersApi?.isLoading;
-  const all_User = allUsersApi?.currentData?.BranchUsers;
+  const all_User = allUsersApi?.data?.data;
 
-  console.log(allUsersApi?.currentData?.BranchUsers?.name)
+  console.log(all_User)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
@@ -38,21 +38,15 @@ const AllUsers = () => {
     <div>
       <Dlayout pageName="All Customers" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          <div className={style.select_allUser} 
+          <div className={style.select_allUser}
           // style={{display: "flex", justifyContent: "space-between"}}
           >
-            {/* <select onChange={(e) => setFilter(e.target.value)} value={filter}>
-              <option value="all">All</option>
-              <option value="Admin">Admin</option>
-              <option value="Manager">Manager</option>
-              <option value="Rider">Rider</option>
-              <option value="User">User</option>
-            </select> */}
+
 
             <button
               className={`btn`}
               onClick={() => navigate("/dashboard/create-customer")}
-              style={{background: '#D8788C', color: '#fff'}}
+              style={{ background: '#D8788C', color: '#fff' }}
             >
               Add Customer
             </button>
@@ -74,7 +68,7 @@ const AllUsers = () => {
                       <th>NAME</th>
                       <th>Email</th>
                       <th>Password</th>
-                      <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody className={`${style.table_body}`}>
@@ -96,7 +90,11 @@ const AllUsers = () => {
                           <td>{user?.email}</td>
                           <td>{user?.password}</td>
                           <td>
-                            {user?.status[0]}
+                            <button
+                              className={style.status_btn_paid}
+                            >
+                              View
+                            </button>
                           </td>
                         </tr>
                       ))}
