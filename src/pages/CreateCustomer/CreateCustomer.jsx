@@ -325,6 +325,7 @@ const CreateCustomer = () => {
                     name="Create Product"
                     className="btn btn-success p-3 rounded"
                     onClick={handleSubmit}
+                    style={{background: '#D8788C'}}
                   >
                     Create Customer
                   </button>
