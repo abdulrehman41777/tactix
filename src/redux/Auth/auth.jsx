@@ -66,6 +66,16 @@ const auth = createApi({
       },
       providesTags: ["createUser"],
     }),
+    getSingleUserByID: builder.query({
+      query: (userId) => {
+        console.log(userId)
+        return {
+          url: `/auth/get-single-user/${userId}`,
+          method: "GET",
+        };
+      },
+      // providesTags: ["createUser"],
+    }),
   }),
 });
 export const {
@@ -74,7 +84,8 @@ export const {
   useUsersQuery,
   useUpdate_ProfileMutation,
   useCreateUserMutation,
-  useGetAllUserByBranchQuery
+  useGetAllUserByBranchQuery,
+  useGetSingleUserByIDQuery
 } = auth;
 
 export default auth;

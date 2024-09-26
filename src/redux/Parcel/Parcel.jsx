@@ -82,6 +82,25 @@ const percel = createApi({
       },
       providesTags: ["parcel"],
     }),
+    get_User_Parcel: builder.query({
+      query: (userId) => {
+        return {
+          url: `parcel/get-user-parcel/${userId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["parcel"],
+    }),
+    create_User_Parcel: builder.mutation({
+      query: (userId, BranchId, rateListID, data) => {
+        return {
+          url: `parcel/create_parcel/${userId}/${BranchId}/${rateListID}`,
+          method: "POST",
+          body: data
+        };
+      },
+      // providesTags: ["parcel"],
+    }),
   }),
 });
 
@@ -94,6 +113,8 @@ export const {
   useParcel_AssignedQuery,
   useParcel_StatusMutation,
   useRider_ParcelQuery,
+  useGet_User_ParcelQuery,
+  useCreate_User_ParcelMutation
 } = percel;
 
 export default percel;

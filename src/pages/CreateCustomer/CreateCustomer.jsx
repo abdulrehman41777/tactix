@@ -19,7 +19,7 @@ const CreateCustomer = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
   const manager_id = selector?.data?.user?._id;
-  console.log(selector);
+  // console.log(selector);
 
   const navigate = useNavigate();
 
@@ -106,7 +106,7 @@ const CreateCustomer = () => {
     // Here, you can use the formData to send to an API, e.g.,
     // fetch('/api/endpoint', { method: 'POST', body: JSON.stringify(formData) })
 
-    console.log("Form Data to Submit:", formData);
+    // console.log("Form Data to Submit:", formData);
 
     try {
       const res = await createUser({
