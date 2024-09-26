@@ -15,6 +15,9 @@ const AllUsers = () => {
   const [filter, setFilter] = useState("all");
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
+  const [userId, setUserId] = useState("");
+
+  console.log(userId)
 
   const navigate = useNavigate();
 
@@ -25,7 +28,7 @@ const AllUsers = () => {
   const isLoading = allUsersApi?.isLoading;
   const all_User = allUsersApi?.data?.data;
 
-  console.log(all_User)
+  console.log(all_User?.rateList)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
@@ -41,8 +44,6 @@ const AllUsers = () => {
           <div className={style.select_allUser}
           // style={{display: "flex", justifyContent: "space-between"}}
           >
-
-
             <button
               className={`btn`}
               onClick={() => navigate("/dashboard/create-customer")}
@@ -92,6 +93,7 @@ const AllUsers = () => {
                           <td>
                             <button
                               className={style.status_btn_paid}
+                              onClick={() => navigate(`/dashboard/all-user/customer-profile/${user?._id}`)}
                             >
                               View
                             </button>
