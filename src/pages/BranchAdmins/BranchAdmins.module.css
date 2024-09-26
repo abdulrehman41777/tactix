@@ -1,0 +1,143 @@
+.admin_wrapper {
+  padding-top: 11rem;
+}
+.table_wrapper {
+  width: 100%;
+  background-color: var(--light-primary-background);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.admin_head {
+  padding: 0rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin_head h4 {
+  color: var(--light-heading);
+}
+.table_container {
+  padding: 10px !important;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+.task_head_dots {
+  padding: 0.5rem;
+  background: var(--light-secondary);
+  border-radius: 6px;
+  display: flex;
+  width: fit-content;
+}
+.table_header {
+  height: 50px;
+}
+.table_header tr th {
+  padding: 10px;
+  color: #a3b1c2;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.table_body tr {
+  border-radius: 5px;
+  border: 0.5px solid rgb(173, 157, 157);
+}
+
+.table_body tr td {
+  padding: 5px 5px;
+  font-weight: 600;
+  color: var(--light-heading);
+}
+.icon {
+  color: var(--light-heading);
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.status_check,
+.status_cancel {
+  padding: 0.3rem;
+  border-radius: 50%;
+  background: #01b574;
+  width: fit-content;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+.status_cancel {
+  background: #ee5d50 !important;
+}
+.add_admin_wrapper {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+.add_btn {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #D8788C;
+  color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  justify-content: center;
+  align-items: center;
+}
+.add_btn:hover {
+  background-color: white;
+  color: #D8788C;
+  transform: scale(1.1);
+}
+.add_btn:active {
+  background-color: white;
+  color: #D8788C;
+  transform: scale(1);
+}
+.plus_sambol {
+  font-size: 23px;
+}
+
+.add_btn_heading {
+  color: var(--light-font-color);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+.status_btn_paid {
+  padding: 5px;
+  background-color: #D8788C;
+  border-radius: 5px;
+  color: white;
+  font-size: 15px;
+  outline: none;
+  border: none;
+  font-weight: 600;
+}
+@media screen and (max-width: 550px) {
+  .table_container {
+    width: 33rem;
+  }
+  .table_div {
+    overflow-x: scroll;
+  }
+  .table_wrapper::-webkit-scrollbar {
+    height: 7px;
+  }
+  .table_wrapper::-webkit-scrollbar-track {
+    background-color: var(--light-green);
+  }
+  .table_wrapper::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--primary-green);
+  }
+}

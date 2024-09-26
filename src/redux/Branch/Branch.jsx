@@ -70,6 +70,16 @@ const branch = createApi({
       },
       invalidatesTags: ["branch"],
     }),
+
+    GetSingleBranch: builder.query({
+      query: (branchID) => {
+        return {
+          url: `/branch/get_single_branch/${branchID}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["branch"],
+    }),
   }),
 });
 export const {
@@ -78,7 +88,8 @@ export const {
   useBranch_With_idQuery,
   useUpdate_BranchMutation,
   useAssignBranchToAdminMutation,
-  useBranchesByAdminQuery
+  useBranchesByAdminQuery,
+  useGetSingleBranchQuery
 } = branch;
 
 export default branch;

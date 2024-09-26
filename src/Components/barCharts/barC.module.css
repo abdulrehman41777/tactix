@@ -2,7 +2,7 @@
   background: var(--light-primary-background);
   border-radius: 10px;
   display: flex;
-  width: 50%;
+  width: 100%;
   padding: 1rem 1rem;
   flex-direction: column;
   gap: 5rem;

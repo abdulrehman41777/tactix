@@ -12,6 +12,8 @@ import Parcel from "../pages/Parcel/Parcel";
 import AddTax from "../pages/AddTax/AddTax";
 import AllRiders from "../pages/All-Rider/All_Rider";
 import AllGroups from "../pages/AllGroups/AllGroups";
+import SingleBranch from "../pages/SingleBranch/SingleBranch";
+import BranchAdmins from "../pages/BranchAdmins/BranchAdmins";
 
 const superAdmin = [
   {
@@ -23,8 +25,20 @@ const superAdmin = [
     element: <Home />,
   },
   {
-    path: "/dashboard/admin",
+    path: "/dashboard/admin", // Not using
     element: <SuperAdmin />,
+  },
+  {
+    path: "/dashboard/branch/admins",
+    element: <BranchAdmins />,
+  },
+  {
+    path: "/dashboard/branch/groups",
+    element: <AllGroups />,
+  },
+  {
+    path: "/dashboard/branch/groups/all-riders/:id",
+    element: <AllRiders />,
   },
   {
     path: "/dashboard/profile",
@@ -61,6 +75,10 @@ const superAdmin = [
   {
     path: "/dashboard/branch",
     element: <Branches />,
+  },
+  {
+    path: "/dashboard/branch/single-branch/:id",
+    element: <SingleBranch />,
   },
   {
     path: "/dashboard/add-tax",

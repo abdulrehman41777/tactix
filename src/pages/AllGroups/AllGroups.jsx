@@ -10,7 +10,7 @@ import ListLoader from "../../Components/Loader/ListLoader";
 import { useUsersQuery } from "../../redux/Auth/auth";
 import Available from "../../Components/cards/Available";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCreateGroupMutation, useGetGroupByAdminQuery, useGetGroupBySuperAdminQuery, useGetGroupQuery, useManagersQuery } from "../../redux/Manager/manager";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
@@ -32,6 +32,15 @@ const AllGroups = () => {
 
   const navigate = useNavigate();
 
+  const pathname = window.location.pathname;
+  const isBranch = pathname?.split("/")?.includes("branch")
+
+  // Get Data From Branch
+  const location = useLocation();
+  const data = location.state;
+
+  console.log(data)
+
   // Get Group By Manager
   const Get_Group_by_manager = useGetGroupQuery(userID, { skip: !userID || role !== "Manager" });
   const Get_Groups = Get_Group_by_manager?.data?.RidersGroup;
@@ -48,14 +57,17 @@ const AllGroups = () => {
   const SuperAdminLoading = Get_Group_by_SuperAdmin?.isLoading;
 
   useEffect(() => {
+
+    if (data?.from === "branch") {
+      setGroupData(data?.groups)
+    }
+
     if (role === "Manager") {
       setGroupData(Get_Groups)
     } else if (role === "Admin") {
       setGroupData(Get_Groups_Admin)
-    } else if (role === "SuperAdmin") {
-      setGroupData(Get_Groups_SuperAdmin)
     }
-  }, [role, Get_Group_by_Admin, Get_Group_by_manager, Get_Group_by_SuperAdmin])
+  }, [data, Get_Group_by_manager, Get_Group_by_Admin])
 
   // Create Group API
   const [createGroupAPI, { isLoading: createGroupLoad }] = useCreateGroupMutation()
@@ -80,6 +92,7 @@ const AllGroups = () => {
       console.log(error)
     }
   }
+
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Get_Groups?.length / 6);
@@ -121,7 +134,7 @@ const AllGroups = () => {
               <Available message={"No Group Available"} />
             ) : (
               <div className={style.table_div}>
-                {(isLoading || AdminLoading || SuperAdminLoading) ? (
+                {(isLoading || AdminLoading) ? (
                   <ListLoader />
                 ) : (
                   <table className={`${style.table_container}`}>
@@ -151,7 +164,11 @@ const AllGroups = () => {
                               <td>
                                 <span className="d-flex gap-4">
 
-                                  <button className={style.status_btn_paid} onClick={() => navigate(`/dashboard/all-riders/${user?._id}`)}>
+                                  <button className={style.status_btn_paid} onClick={() =>
+                                    isBranch ?
+                                      navigate(`/dashboard/branch/groups/all-riders/${user?._id}`) :
+                                      navigate(`/dashboard/create-rider/${user?._id}`)
+                                  }>
                                     View
                                   </button>
                                   <button
@@ -167,7 +184,12 @@ const AllGroups = () => {
                             ) :
                               (<button
                                 className={style.status_btn_paid}
-                                onClick={() => navigate(`/dashboard/all-riders/${user?._id}`)}
+                                onClick={() =>
+                                  isBranch ?
+                                    navigate(`/dashboard/branch/groups/all-riders/${user?._id}`)
+                                    :
+                                    navigate(`/dashboard/create-rider/${user?._id}`)
+                                }
                               >
                                 View
                               </button>)

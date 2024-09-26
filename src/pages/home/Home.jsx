@@ -15,79 +15,77 @@ import PieChart from "../../Components/PieChart/PieChart";
 
 const Home = () => {
   return (
-    <div>
-      <Dlayout pageName={"Main Dashboard"}>
-        <div className={style.home_header_wrapper}>
-          <div className={style.home_slider_wrapper}>
-            <div className={style.home_slider_box}>
-              <span className={style.home_slider_span}>
-                <ImStatsBars2 />
-              </span>
-              <div>
-                <p>Earning</p>
-                <h2>$308.4</h2>
-              </div>
-            </div>
-            <div className={style.home_slider_box}>
-              <span className={style.home_slider_span}>
-                <BiDollar />
-              </span>
-              <div>
-                <p>Spend This Month</p>
-                <h2>$613.4</h2>
-              </div>
-            </div>
-            <div className={style.home_slider_box}>
-              <div>
-                <p>Sales</p>
-                <h2>$613.4</h2>
-                <span className={style.Month_growth}>
-                  <p>+23%</p> Since Last Month
-                </span>
-              </div>
-            </div>
-            <div
-              className={style.home_slider_box}
-              style={{ justifyContent: "space-between" }}
-            >
-              <div>
-                <p>Spend This Month</p>
-                <h2>$613.4</h2>
-              </div>
-              <img src={flag} alt="no img found" />
-            </div>
-            <div className={style.home_slider_box}>
-              <span className={style.home_slider_span}>
-                <GiCheckMark />
-              </span>
-              <div>
-                <p>New Task</p>
-                <h2>154</h2>
-              </div>
-            </div>
-            <div className={style.home_slider_box}>
-              <span className={style.home_slider_span}>
-                <BsFileTextFill />
-              </span>
-              <div>
-                <p>Total Projects</p>
-                <h2>1545</h2>
-              </div>
+    <Dlayout pageName={"Main Dashboard"}>
+      <div className={style.home_header_wrapper}>
+        <div className={style.home_slider_wrapper}>
+          <div className={style.home_slider_box}>
+            <span className={style.home_slider_span}>
+              <ImStatsBars2 />
+            </span>
+            <div>
+              <p>Earning</p>
+              <h2>$308.4</h2>
             </div>
           </div>
-          <div className={style.first_bars_row}>
-            <LineC />
-            <BarC />
+          <div className={style.home_slider_box}>
+            <span className={style.home_slider_span}>
+              <BiDollar />
+            </span>
+            <div>
+              <p>Spend This Month</p>
+              <h2>$613.4</h2>
+            </div>
           </div>
-          <div className={style.second_bars_row}>
-            <Task />
-            <Calender />
-            <Visitors />
-            <PieChart />
+          <div className={style.home_slider_box}>
+            <div>
+              <p>Sales</p>
+              <h2>$613.4</h2>
+              <span className={style.Month_growth}>
+                <p>+23%</p> Since Last Month
+              </span>
+            </div>
+          </div>
+          <div
+            className={style.home_slider_box}
+            style={{ justifyContent: "space-between" }}
+          >
+            <div>
+              <p>Spend This Month</p>
+              <h2>$613.4</h2>
+            </div>
+            <img src={flag} alt="no img found" />
+          </div>
+          <div className={style.home_slider_box}>
+            <span className={style.home_slider_span}>
+              <GiCheckMark />
+            </span>
+            <div>
+              <p>New Task</p>
+              <h2>154</h2>
+            </div>
+          </div>
+          <div className={style.home_slider_box}>
+            <span className={style.home_slider_span}>
+              <BsFileTextFill />
+            </span>
+            <div>
+              <p>Total Projects</p>
+              <h2>1545</h2>
+            </div>
           </div>
         </div>
-      </Dlayout>
-    </div>
+        <div className={style.first_bars_row}>
+          <LineC />
+          <BarC />
+        </div>
+        <div className={style.second_bars_row}>
+          <Task />
+          <Calender />
+          <Visitors />
+          <PieChart />
+        </div>
+      </div>
+    </Dlayout>
   );
 };
 

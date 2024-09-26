@@ -31,21 +31,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },
-    {
-      path: "/dashboard/admin",
-      name: "Admin",
-      icon: <RiAdminFill />,
-    },
-    {
-      path: "/dashboard/manager",
-      name: "Manager",
-      icon: <RiAdminFill />,
-    },
-    {
-      path: "/dashboard/all-user",
-      name: "All Users",
-      icon: <BsPeopleFill />,
-    },
+
 
     {
       path: "/dashboard/parcel",
@@ -54,11 +40,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
 
 
-    {
-      path: "/dashboard/groups",
-      name: "All Groups",
-      icon: <MdDirectionsBike />,
-    },
+
 
     {
       path: "/dashboard/countries",

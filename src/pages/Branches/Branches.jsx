@@ -11,6 +11,9 @@ import { useAll_branchesQuery, useBranchesByAdminQuery } from "../../redux/Branc
 import { useNavigate } from "react-router-dom";
 import UpdateBranch from "../../Components/UpdateBranch/UpdateBranch";
 import AssignBranch from "../../Components/AssignBranch/AssignBranch";
+import { FcInvite } from "react-icons/fc";
+import { RxUpdate } from "react-icons/rx";
+import { MdRemoveRedEye } from "react-icons/md";
 
 const Branches = () => {
   const [itemOffset, setItemOffset] = useState(0);
@@ -20,20 +23,19 @@ const Branches = () => {
   const [assignBranch, setAssignBranch] = useState(false);
   const [branchDetail, setBranchDetail] = useState(false);
 
+
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const userID = selector?.data?.user?._id;
-
 
   //All Branch API
   const all_Branches_API = useAll_branchesQuery(userID, { skip: !userID });
   const All_branches = all_Branches_API?.data?.allbranches;
 
 
-  const branchesByAdminQuery = useBranchesByAdminQuery(userID, { skip: !userID });
+  const branchesByAdminQuery = useBranchesByAdminQuery(userID, { skip: !userID || role !== "Admin" });
   const branchesByAdminData = branchesByAdminQuery?.data?.findAdminBranches;
 
-  console.log(All_branches)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(All_branches?.length / 6);
@@ -52,7 +54,7 @@ const Branches = () => {
     setBranchDetail(item);
   };
 
-  const navigate = useNavigate();
+  const navigation = useNavigate()
 
   return (
     <div>
@@ -71,10 +73,6 @@ const Branches = () => {
               </h4>
             </div>
           )}
-
-
-
-
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
               <h4>Branches</h4>
@@ -90,8 +88,7 @@ const Branches = () => {
                       <th>NAME</th>
                       <th>NUMBER</th>
                       <th>ADDRESS</th>
-                      <th>EDIT</th>
-                      <th>INVITE ADMIN</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody className={`${style.table_body}`}>
@@ -114,21 +111,14 @@ const Branches = () => {
                               </div>
                             </td>
                             <td>{user?.branch_address}</td>
+
                             <td>
-                              <button
-                                className={style.status_btn_paid}
-                                onClick={() => handleBranchDetail(user)}
-                              >
-                                Update
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className={style.status_btn_paid}
-                                onClick={() => handleAssignBranchDetail(user)}
-                              >
-                                Invite
-                              </button>
+
+                              <span className="d-flex gap-2">
+                                <FcInvite color="#D8788C" onClick={() => handleAssignBranchDetail(user)} style={{ cursor: "pointer" }} />
+                                <RxUpdate color="#D8788C" onClick={() => handleBranchDetail(user)} style={{ cursor: "pointer" }} />
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} onClick={() => navigation(`/dashboard/branch/single-branch/${user?._id}`)} />
+                              </span>
                             </td>
                           </tr>
                         ))
@@ -168,22 +158,6 @@ const Branches = () => {
                                 </div>
                               </td>
                               <td>{user?.branch_address}</td>
-                              {/* <td>
-                                <button
-                                  className={style.status_btn_paid}
-                                  onClick={() => handleBranchDetail(user)}
-                                >
-                                  Update
-                                </button>
-                              </td>
-                              <td>
-                                <button
-                                  className={style.status_btn_paid}
-                                  onClick={() => handleAssignBranchDetail(user)}
-                                >
-                                  Invite
-                                </button>
-                              </td> */}
                             </tr>
                           ))
 

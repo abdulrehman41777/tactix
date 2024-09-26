@@ -17,8 +17,6 @@ const AddBranch = ({ setAddAdmin }) => {
   });
   const [countryID, setCountryID] = useState("");
   const [stateID, setStateID] = useState("");
-
-
   // const [adminID, setAdminID] = useState([]);
 
   const { branch_name, branch_address, branch_contact_number } = branch_fields;
@@ -60,7 +58,7 @@ const AddBranch = ({ setAddAdmin }) => {
             branch_name: branch_name,
             branch_address: branch_address,
             branch_contact_number: branch_contact_number,
-            
+
           },
         });
         if (!res.error) {
@@ -103,7 +101,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="text"
             placeholder="Branch Name"
-            className="form-control mb-3"
+            className="form-control mb-3 text-white"
             name="branch_name"
             value={branch_name}
             onChange={handleBranchFields}
@@ -111,7 +109,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="text"
             placeholder="Branch Address"
-            className="form-control mb-3"
+            className="form-control mb-3 text-white"
             value={branch_address}
             name="branch_address"
             onChange={handleBranchFields}
@@ -119,7 +117,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="number"
             placeholder="Contact"
-            className="form-control mb-3"
+            className="form-control mb-3 text-white"
             value={branch_contact_number}
             name="branch_contact_number"
             onChange={(e) => {
@@ -130,28 +128,12 @@ const AddBranch = ({ setAddAdmin }) => {
             maxLength="11"
           />
 
-          {/* <select
-            value={adminID.length === 0 ? "" : adminID[adminID.length - 1]}
-            onChange={handleChange}
-            className="text-dark bg-light ms-2"
-          >
-            <option value="" disabled className="text-dark">
-              Assign To Admins
-            </option>
-            {All_Admins?.map((item) => (
-              <option value={item?._id} className="text-dark" key={item?._id}>
-                {item?.name}
-              </option>
-            ))}
-          </select> */}
-
-
           {isLoading ? (
-            <button className="modal_sumbit_btn mt-3 text-dark" disabled>
+            <button className="modal_sumbit_btn mt-3 text-white" disabled>
               Creating Branch...
             </button>
           ) : (
-            <button className="modal_sumbit_btn mt-3 text-dark">Submit</button>
+            <button className="modal_sumbit_btn mt-3 text-white">Submit</button>
           )}
         </form>
       </div>

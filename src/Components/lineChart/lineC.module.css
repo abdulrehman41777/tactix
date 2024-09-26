@@ -2,7 +2,7 @@
   background: var(--light-primary-background);
   border-radius: 10px;
   display: flex;
-  width: 50%;
+  width: 100%;
   padding: 1rem 0rem;
 }
 .lineC_details_wrapper {
@@ -43,7 +43,7 @@
   height: 20rem;
 }
 .chart {
-  width: 70%;
+  width: 100%;
 }
 @media screen and (max-width: 990px) {
   .lineC_wrapper {
