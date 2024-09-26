@@ -15,74 +15,6 @@ import {
 import { useCreateUserMutation } from "../../redux/Auth/auth";
 import { MdCancel } from "react-icons/md";
 
-// const CreateCustomer = () => {
-//   return (
-//     <div className="d-flex justify-content-center flex-row position-relative">
-//       <div className="d-flex flex-column justify-content-center align-items-center gap-3">
-//         <div className="d-flex flex-column w-100 gap-3">
-//           <div className="row g-3">
-//             <div className="col-sm-4">
-//               <label>Name</label>
-//               <input
-//                 type="text"
-//                 className="border border-secondary p-3 rounded w-100"
-//                 placeholder="Name"
-//               />
-//             </div>
-//             <div className="col-sm-4">
-//               <label>Email</label>
-//               <input
-//                 type="text"
-//                 className="border border-secondary p-3 rounded w-100"
-//                 placeholder="Email"
-//               />
-//             </div>
-//             <div className="col-sm-4">
-//               <label>Password</label>
-//               <input
-//                 type="text"
-//                 className="border border-secondary p-3 rounded w-100"
-//                 placeholder="Password"
-//               />
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className="d-flex w-100 gap-3">
-//           <input
-//             type="text"
-//             className="border border-secondary p-3 rounded w-100"
-//             placeholder="From"
-//           />
-//           <input
-//             type="text"
-//             className="border border-secondary p-3 rounded w-100"
-//             placeholder="To"
-//           />
-//           <input
-//             type="number"
-//             className="border border-secondary p-3 rounded w-100"
-//             placeholder="Price"
-//           />
-//           <button
-//             name="Add"
-//             className="btn btn-primary p-2"
-//             style={{ Maxwidth: "100%" }}
-//           >
-//             Add
-//           </button>
-//         </div>
-
-//         <div className="d-flex justify-content-center">
-//           <button name="Create Product" className="btn btn-success p-3 rounded">
-//             Create Product
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 const CreateCustomer = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
@@ -215,7 +147,7 @@ const CreateCustomer = () => {
                 <div className="d-flex flex-column w-100 gap-3">
                   <div className="row g-3">
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
-                      <label>Name</label>
+                      <label style={{ color: "#a3b1c2" }}>Name</label>
                       <input
                         type="text"
                         placeholder="Name"
@@ -226,7 +158,7 @@ const CreateCustomer = () => {
                       )}
                     </div>
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
-                      <label>Email</label>
+                      <label style={{ color: "#a3b1c2" }}>Email</label>
                       <input
                         type="text"
                         placeholder="Email"
@@ -237,7 +169,7 @@ const CreateCustomer = () => {
                       )}
                     </div>
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
-                      <label>Password</label>
+                      <label style={{ color: "#a3b1c2" }}>Password</label>
                       <input
                         type="text"
                         placeholder="Password"
@@ -317,7 +249,7 @@ const CreateCustomer = () => {
                     name="Create Product"
                     className="btn p-3 rounded"
                     onClick={handleSubmit}
-                    style={{background: '#D8788C'}}
+                    style={{ background: '#D8788C' }}
                   >
                     Create Customer
                   </button>

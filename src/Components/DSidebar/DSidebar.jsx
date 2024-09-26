@@ -3,7 +3,7 @@ import logo from "../../assets/dashboard_logo.png";
 import style from "./Dsidebar.module.css";
 import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { IoIosAddCircle, IoIosPeople, IoMdClose } from "react-icons/io";
 import { GrStatusGoodSmall, GrUserManager } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
@@ -23,6 +23,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   const selector = useSelector((state) => state?.userData);
   const dispatch = useDispatch();
   const role = selector?.data?.user?.role[0];
+
 
   const superAdmin = [
     {
@@ -113,14 +114,14 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   ];
   const manager = [
     {
-      path: "/dashboard/",
+      path: "/dashboard",
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },
 
     {
       path: "/dashboard/all-user",
-      name: "All Users",
+      name: "Customers",
       icon: <BsPeopleFill />,
     },
     {
