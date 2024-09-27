@@ -4,16 +4,10 @@ import style from "./signup.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import * as EmailValidator from "email-validator";
-import { useCreate_ManagerMutation } from "../../redux/Manager/manager";
-import {
-  useAll_branchesQuery,
-  useBranchesByAdminQuery,
-} from "../../redux/Branch/Branch";
-import { useCreateUserMutation } from "../../redux/Auth/auth";
-import { MdCancel } from "react-icons/md";
+import { useGetSingleUserByIDQuery } from "../../redux/Auth/auth";
+import { useParams } from "react-router-dom";
+import { useCreate_User_ParcelMutation } from "../../redux/Parcel/Parcel";
 
 const CreateCustomerOrder = () => {
   const selector = useSelector((state) => state?.userData);
@@ -21,155 +15,106 @@ const CreateCustomerOrder = () => {
   const manager_id = selector?.data?.user?._id;
   // console.log(selector);
 
+  const { userId: userId, branchId } = useParams();
   const navigate = useNavigate();
 
-  // State to hold input values for From, To, and Price
-  const [locations, setLocations] = useState([{ from: "", to: "", price: "" }]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const GetUserById = useGetSingleUserByIDQuery(userId);
+  const rateList = GetUserById?.data?.rateList?.rateList;
 
-  // Handle input change for locations
-  const handleLocationChange = (index, e) => {
-    const newLocations = [...locations];
-    newLocations[index][e.target.name] = e.target.value;
-    setLocations(newLocations);
-  };
-
-  // Add a new set of location fields
-  const handleAdd = () => {
-    setLocations([...locations, { from: "", to: "", price: "" }]);
-  };
-
-  // Remove a set of location fields
-  const handleRemove = (index) => {
-    const newLocations = locations.filter((_, i) => i !== index);
-    setLocations(newLocations);
-  };
-
-  // Validation function
-  const validateForm = () => {
-    let valid = true;
-    let newErrors = {};
-
-    // Validate static fields
-    if (!name.trim()) {
-      newErrors.name = "Name is required.";
-      valid = false;
-    }
-    if (!email.trim()) {
-      newErrors.email = "Email is required.";
-      valid = false;
-    }
-    if (!password.trim()) {
-      newErrors.password = "Password is required.";
-      valid = false;
-    }
-
-    // Validate all but the last location set
-    locations.slice(0, -1).forEach((location, index) => {
-      if (!location.from || !location.to || !location.price) {
-        newErrors[`location${index}`] =
-          "All location fields (From, To, Price) are required.";
-        valid = false;
-      }
-    });
-
-    setErrors(newErrors);
-    return valid;
-  };
-
-  const [createUser, { isLoading }] = useCreateUserMutation();
-
-  // Handle form submission
-  const handleSubmit = async () => {
-    if (!validateForm()) {
-      // If validation fails, return early
-      return;
-    }
-
-    // Filter out empty location fields (those with empty from, to, and price)
-    const filteredLocations = locations.filter(
-      (location) =>
-        location.from.trim() || location.to.trim() || location.price.trim()
-    );
-
-    // Prepare data to send
-    const formData = {
-      name,
-      email,
-      password,
-      rateList: filteredLocations,
-    };
-
-    // Here, you can use the formData to send to an API, e.g.,
-    // fetch('/api/endpoint', { method: 'POST', body: JSON.stringify(formData) })
-
-    // console.log("Form Data to Submit:", formData);
-
-    try {
-      const res = await createUser({
-        BranchId: id,
-        managerID: manager_id,
-        data: formData,
-      });
-
-      if (!res.error) {
-        setLocations([{ from: "", to: "", price: "" }]);
-        setName("");
-        setEmail("");
-        setPassword("");
-        navigate(-1);
-      }
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  const [rateListID, setRateListID] = useState("");
   const [formData, setFormData] = useState({
     parcelName: "",
     weight: "",
     Solid_Liquid: "",
     recieverPhone: "",
     recieverEmail: "",
-    recieverAddress: "",
-    recieverPostCode: "",
-    senderPhone: "",
-    senderPostCode: "",
-    codAmount: false,
-    dimensions: {
+    reciverAddress: "",
+    ReciverPostCode: "",
+    SenderPhone: "",
+    SenderPostCode: "",
+    SenderAddress: "",
+    CodAmount: false,
+    Dimension: {
       width: "",
-      height: ""
-    }
+      height: "",
+    },
   });
 
-  console.log(formData)
+  const {
+    parcelName,
+    weight,
+    Solid_Liquid,
+    recieverPhone,
+    recieverEmail,
+    reciverAddress,
+    ReciverPostCode,
+    SenderPhone,
+    SenderPostCode,
+    SenderAddress,
+    CodAmount,
+    Dimension,
+  } = formData;
 
-  const { parcelName, weight, Solid_Liquid, recieverPhone, recieverEmail,recieverAddress, recieverPostCode, senderPhone, senderPostCode, codAmount, dimensions } = formData;
- 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     if (name === "width" || name === "height") {
       setFormData((prevData) => ({
         ...prevData,
-        dimensions: {
-          ...prevData.dimensions,
-          [name]: value
-        }
+        Dimension: {
+          ...prevData.Dimension,
+          [name]: value,
+        },
       }));
     } else if (type === "checkbox") {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: checked
+        [name]: checked,
+      }));
+    } else if (name === "Solid_Liquid") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: [value],
       }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value
+        [name]: value,
       }));
+    }
+  };
+
+  const [createUserParcelApi, { isLoading }] = useCreate_User_ParcelMutation();
+
+  const handleSubmit = async () => {
+    try {
+      if (
+        parcelName === "" ||
+        weight === "" ||
+        Solid_Liquid === "" ||
+        recieverPhone === "" ||
+        recieverEmail === "" ||
+        reciverAddress === "" ||
+        ReciverPostCode === "" ||
+        SenderPhone === "" ||
+        SenderPostCode === "" ||
+        Dimension.width === "" ||
+        Dimension.height === "" ||
+        rateListID === ""
+      ) {
+        return NotificationAlert("All Field Rquired");
+      }
+      const res = await createUserParcelApi({
+        userId,
+        BranchId: branchId,
+        rateListID: rateListID,
+        data: formData,
+      });
+      if (!res.error) {
+        navigate(-1);
+      }
+    } catch (error) {
+      NotificationAlert("Something Went Wrong!");
     }
   };
 
@@ -204,28 +149,50 @@ const CreateCustomerOrder = () => {
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Weight</label>
-                      <input type="text" placeholder="Weight" name="weight" value={weight} onChange={handleChange} />
+                      <input
+                        type="text"
+                        placeholder="Weight"
+                        name="weight"
+                        value={weight}
+                        onChange={handleChange}
+                      />
                     </div>
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>
                         Solid or Liquid
                       </label>
-                      <select name="Solid_Liquid" value={Solid_Liquid} onChange={handleChange}>
+                      <select
+                        name="Solid_Liquid"
+                        value={Solid_Liquid}
+                        onChange={handleChange}
+                      >
                         <option value=""> Select One </option>
-                        <option value="solid"> Solid </option>
-                        <option value="liquid"> Liquid </option>
+                        <option value="Solid"> Solid </option>
+                        <option value="Liquid"> Liquid </option>
                       </select>
                     </div>
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Width</label>
-                      <input type="text" placeholder="Width" name="width" value={dimensions.width} onChange={handleChange} />
+                      <input
+                        type="text"
+                        placeholder="Width"
+                        name="width"
+                        value={Dimension.width}
+                        onChange={handleChange}
+                      />
                     </div>
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Height</label>
-                      <input type="text" placeholder="Height" name="height" value={dimensions.height} onChange={handleChange} />
+                      <input
+                        type="text"
+                        placeholder="Height"
+                        name="height"
+                        value={Dimension.height}
+                        onChange={handleChange}
+                      />
                     </div>
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
@@ -257,8 +224,8 @@ const CreateCustomerOrder = () => {
                       <input
                         type="text"
                         placeholder="Reciver Address"
-                        name="recieverAddress"
-                        value={recieverAddress}
+                        name="reciverAddress"
+                        value={reciverAddress}
                         onChange={handleChange}
                       />
                     </div>
@@ -270,8 +237,8 @@ const CreateCustomerOrder = () => {
                       <input
                         type="text"
                         placeholder="Reciver Post Code"
-                        name="recieverPostCode"
-                        value={recieverPostCode}
+                        name="ReciverPostCode"
+                        value={ReciverPostCode}
                         onChange={handleChange}
                       />
                     </div>
@@ -281,8 +248,19 @@ const CreateCustomerOrder = () => {
                       <input
                         type="text"
                         placeholder="Sender Phone"
-                        name="senderPhone"
-                        value={senderPhone}
+                        name="SenderPhone"
+                        value={SenderPhone}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Sender Address</label>
+                      <input
+                        type="text"
+                        placeholder="Sender Address"
+                        name="SenderAddress"
+                        value={SenderAddress}
                         onChange={handleChange}
                       />
                     </div>
@@ -294,34 +272,51 @@ const CreateCustomerOrder = () => {
                       <input
                         type="text"
                         placeholder="Sender Post Code"
-                        name="senderPostCode"
-                        value={senderPostCode}
+                        name="SenderPostCode"
+                        value={SenderPostCode}
                         onChange={handleChange}
                       />
-                    </div>
-
-                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
-                        <input
-                          type="checkbox"
-                          name="codAmount"
-                          checked={codAmount}
-                          onChange={handleChange}
-                        />
-                        <label style={{ color: "#a3b1c2" }}>CodAmount</label>
                     </div>
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-center">
-                  <button
-                    name="Create Product"
-                    className="btn p-3 py-2 rounded"
-                    onClick={handleSubmit}
-                    style={{ background: "#D8788C", color: "#FFFFFF" }}
-                  >
-                    Create Order
-                  </button>
+                <div className="d-flex justify-content-center w-75">
+                  <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
+                    <input
+                      type="checkbox"
+                      name="CodAmount"
+                      checked={CodAmount}
+                      onChange={handleChange}
+                    />
+                    <label style={{ color: "#a3b1c2" }}>Cash on Delivery</label>
+                  </div>
+
+                  <div className={`col-sm-4 gap-0 ${style.label}`}>
+                    <label style={{ color: "#a3b1c2" }}>Rate List</label>
+                    <select
+                      name="rateListID"
+                      value={rateListID}
+                      onChange={(e) => setRateListID(e.target.value)}
+                    >
+                      <option value=""> Select One </option>
+                      {rateList?.map((item) => (
+                        <option value={item._id} key={item._id}>
+                          {" "}
+                          {item.from},{item.to},{item.price}{" "}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
+                <button
+                  name="Create Product"
+                  className="btn p-3 py-2 rounded"
+                  onClick={handleSubmit}
+                  style={{ background: "#D8788C", color: "#FFFFFF" }}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Create Order"}
+                </button>
               </div>
             </div>
           </div>

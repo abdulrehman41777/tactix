@@ -31,7 +31,6 @@ const CustomerProfile = () => {
   const User_Data = GetUserById?.data?.findUser;
   const Profile_Img = User_Data?.profileImage;
   const rateList = GetUserById?.data?.rateList?.rateList;
-  console.log(rateList)
 
   const parcels = useGet_User_ParcelQuery(userId);
   // console.log(parcels?.data?.findUserParcel);
@@ -152,10 +151,7 @@ const CustomerProfile = () => {
                 <h6>{User_Data?.name}</h6>
                 <p>{User_Data?.email}</p>
               </div>
-              <div
-                className={`d-flex gap-3`}
-                style={{ marginTop: "-2rem" }}
-              >
+              <div className={`d-flex gap-3`} style={{ marginTop: "-2rem" }}>
                 {/* <div>
                   <h5>17</h5>
                   <p>Posts</p>
@@ -176,7 +172,7 @@ const CustomerProfile = () => {
                         `/dashboard/all-user/customer-profile/create-customer-order/${userId}/${branchId}`
                       )
                     }
-                    style={{padding: "0.4rem 0.5rem"}}
+                    style={{ padding: "0.4rem 0.5rem" }}
                   >
                     Create Order
                   </button>
@@ -187,11 +183,12 @@ const CustomerProfile = () => {
                     // value={Solid_Liquid}
                     // onChange={handleChange}
                   >
-                    {
-                      rateList?.map((item)=>(
-                        <option value=""> {item.from},{item.to},{item.price} </option>
-                      ))
-                    }
+                    {rateList?.map((item) => (
+                      <option value="">
+                        {" "}
+                        {item.from},{item.to},{item.price}{" "}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

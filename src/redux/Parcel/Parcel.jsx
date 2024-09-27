@@ -92,11 +92,12 @@ const percel = createApi({
       providesTags: ["parcel"],
     }),
     create_User_Parcel: builder.mutation({
-      query: (userId, BranchId, rateListID, data) => {
+      query: ({ userId, BranchId, rateListID, data }) => {
+        console.log(userId, BranchId, rateListID, "redux console");
         return {
           url: `parcel/create_parcel/${userId}/${BranchId}/${rateListID}`,
           method: "POST",
-          body: data
+          body: data,
         };
       },
       // providesTags: ["parcel"],
@@ -114,7 +115,7 @@ export const {
   useParcel_StatusMutation,
   useRider_ParcelQuery,
   useGet_User_ParcelQuery,
-  useCreate_User_ParcelMutation
+  useCreate_User_ParcelMutation,
 } = percel;
 
 export default percel;
