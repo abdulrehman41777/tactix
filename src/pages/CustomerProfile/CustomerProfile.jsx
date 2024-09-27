@@ -30,7 +30,6 @@ const CustomerProfile = () => {
   const GetUserById = useGetSingleUserByIDQuery(userId);
   const User_Data = GetUserById?.data?.findUser;
   const Profile_Img = User_Data?.profileImage;
-  const rateList = GetUserById?.data?.rateList?.rateList;
 
   const parcels = useGet_User_ParcelQuery(userId);
   // console.log(parcels?.data?.findUserParcel);
@@ -176,20 +175,6 @@ const CustomerProfile = () => {
                   >
                     Create Order
                   </button>
-                </div>
-                <div>
-                  <select
-                    name="Solid_Liquid"
-                    // value={Solid_Liquid}
-                    // onChange={handleChange}
-                  >
-                    {rateList?.map((item) => (
-                      <option value="">
-                        {" "}
-                        {item.from},{item.to},{item.price}{" "}
-                      </option>
-                    ))}
-                  </select>
                 </div>
               </div>
             </div>
