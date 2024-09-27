@@ -93,7 +93,6 @@ const percel = createApi({
     }),
     create_User_Parcel: builder.mutation({
       query: ({ userId, BranchId, rateListID, data }) => {
-        console.log(userId, BranchId, rateListID, "redux console");
         return {
           url: `parcel/create_parcel/${userId}/${BranchId}/${rateListID}`,
           method: "POST",

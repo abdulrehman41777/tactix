@@ -32,7 +32,7 @@ const CustomerProfile = () => {
   const Profile_Img = User_Data?.profileImage;
 
   const parcels = useGet_User_ParcelQuery(userId);
-  // console.log(parcels?.data?.findUserParcel);
+  const allParcels = parcels?.data?.findUserParcel;
 
   //   const allUsersApi = useGetAllUserByBranchQuery(id);
   // const rateList = allUsersApi?.data?.data;
@@ -186,42 +186,35 @@ const CustomerProfile = () => {
               <table className={`${style_table.table_container}`}>
                 <thead className={`${style_table.table_header}`}>
                   <tr>
-                    <th>NAME</th>
-                    <th>Email</th>
-                    <th>Password</th>
+                    <th>Parcel Name</th>
+                    <th>Solid/Liquid</th>
+                    <th>Cash on Delivery</th>
+                    <th>Weight</th>
+                    <th>Dimensions(WxH)</th>
+                    <th>Status</th>
                     <th className="d-flex justify-content-center">Action</th>
                   </tr>
                 </thead>
                 <tbody className={`${style_table.table_body}`}>
-                  {all_User
-                    ?.filter(
-                      (item) =>
-                        item?.name
-                          ?.toLowerCase()
-                          ?.includes(search?.toLowerCase()) &&
-                        (filter === "all" || item.role[0] === filter)
-                    )
-
-                    ?.slice(itemOffset, endOffset)
-                    ?.map((user, index) => (
-                      <tr key={index}>
-                        <td className="d-flex align-items-center">
-                          {user?.name}
-                        </td>
-                        <td>{user?.email}</td>
-                        <td>{user?.password}</td>
-                        <td className="d-flex justify-content-center">
-                          <button
-                            className={style_table.status_btn_paid}
-                            onClick={() =>
-                              navigate("/dashboard/all-user/customer-profile")
-                            }
-                          >
-                            View
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                  {allParcels?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="d-flex align-items-center">
+                        {item?.parcelName}
+                      </td>
+                      <td>{item?.Solid_Liquid[0]}</td>
+                      <td>{item?.CodAmount ? "Yes" : "No"}</td>
+                      <td>{item?.weight} kg</td>
+                      <td>
+                        ({item?.Dimension?.width}cmx{item?.Dimension?.height}cm)
+                      </td>
+                      <td>{item?.status[0]}</td>
+                      <td className="d-flex justify-content-center">
+                        <button className={style_table.status_btn_paid}>
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             )}
