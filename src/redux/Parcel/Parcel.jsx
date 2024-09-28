@@ -101,6 +101,16 @@ const percel = createApi({
       },
       // providesTags: ["parcel"],
     }),
+    create_Bulk_Parcel: builder.mutation({
+      query: ({ userId, branchID, data }) => {
+        return {
+          url: `parcel/bulk-parcel/${userId}/${branchID}`,
+          method: "POST",
+          body: data,
+        };
+      },
+      // providesTags: ["parcel"],
+    }),
   }),
 });
 
@@ -115,6 +125,7 @@ export const {
   useRider_ParcelQuery,
   useGet_User_ParcelQuery,
   useCreate_User_ParcelMutation,
+  useCreate_Bulk_ParcelMutation,
 } = percel;
 
 export default percel;

@@ -17,7 +17,10 @@ import {
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import { logout } from "../../redux/features/authState";
 import style_table from "./AllUsers.module.css";
-import { useGet_User_ParcelQuery } from "../../redux/Parcel/Parcel";
+import {
+  useCreate_Bulk_ParcelMutation,
+  useGet_User_ParcelQuery,
+} from "../../redux/Parcel/Parcel";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CustomerProfile = () => {
@@ -33,6 +36,43 @@ const CustomerProfile = () => {
 
   const parcels = useGet_User_ParcelQuery(userId);
   const allParcels = parcels?.data?.findUserParcel;
+
+  const [bulkFile, setBulkFile] = useState("");
+  const [isUpload, setIsUpload] = useState(false);
+
+  const handleUploadFile = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setBulkFile(file);
+    }
+  };
+
+  const [createBulkParcelApi, { isLoading: bulkParcelLoading }] =
+    useCreate_Bulk_ParcelMutation();
+
+  const handleSubmitBulk = async () => {
+    try {
+      if (bulkFile === "") {
+        return NotificationAlert("Upload File");
+      }
+
+      const formData = new FormData();
+      formData.append("file", bulkFile);
+
+      const res = await createBulkParcelApi({
+        userId: userId,
+        branchID: branchId,
+        data: formData,
+      });
+      if (!res.error) {
+        setBulkFile("");
+        NotificationAlert("Bulk Order Create Successfully", "success");
+        setIsUpload(false);
+      }
+    } catch (error) {
+      NotificationAlert("Something Went Wrong!");
+    }
+  };
 
   //   const allUsersApi = useGetAllUserByBranchQuery(id);
   // const rateList = allUsersApi?.data?.data;
@@ -93,39 +133,6 @@ const CustomerProfile = () => {
   //     }
   //   };
 
-  const all_User = [
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      password: "password123",
-      role: ["customer"],
-    },
-    {
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      password: "mypassword",
-      role: ["admin"],
-    },
-    {
-      name: "David Brown",
-      email: "david.brown@example.com",
-      password: "securepass",
-      role: ["customer"],
-    },
-    {
-      name: "Emily White",
-      email: "emily.white@example.com",
-      password: "emily123",
-      role: ["admin"],
-    },
-    {
-      name: "Michael Johnson",
-      email: "michael.johnson@example.com",
-      password: "mike2021",
-      role: ["customer"],
-    },
-  ];
-
   const search = ""; // or the search term you're looking for
   const filter = "all"; // or "customer", "admin", etc.
   const isLoading = false; // change to true if you want to simulate loading
@@ -150,7 +157,14 @@ const CustomerProfile = () => {
                 <h6>{User_Data?.name}</h6>
                 <p>{User_Data?.email}</p>
               </div>
-              <div className={`d-flex gap-3`} style={{ marginTop: "-2rem" }}>
+              <div
+                className={`d-flex gap-3`}
+                style={{
+                  marginTop: "-2rem",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
                 {/* <div>
                   <h5>17</h5>
                   <p>Posts</p>
@@ -163,7 +177,7 @@ const CustomerProfile = () => {
                   <h5>274</h5>
                   <p>Following</p>
                 </div> */}
-                <div>
+                <div className="d-flex gap-4">
                   <button
                     className={`${style_table.status_btn_paid}`}
                     onClick={() =>
@@ -175,7 +189,31 @@ const CustomerProfile = () => {
                   >
                     Create Order
                   </button>
+                  <button
+                    className={`${style_table.status_btn_paid}`}
+                    style={{ padding: "0.4rem 0.5rem" }}
+                    onClick={() =>
+                      isUpload ? handleSubmitBulk() : setIsUpload(true)
+                    }
+                    disabled={bulkParcelLoading}
+                  >
+                    {isUpload
+                      ? bulkParcelLoading
+                        ? "Loading..."
+                        : "Submit"
+                      : "Create Bulk Order"}
+                  </button>
                 </div>
+                {isUpload && (
+                  <span className={`${style_table.status_btn_paid}`}>
+                    <input
+                      type="file"
+                      className="hidden"
+                      name="logo"
+                      onChange={handleUploadFile}
+                    />
+                  </span>
+                )}
               </div>
             </div>
           </div>
