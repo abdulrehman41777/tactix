@@ -16,7 +16,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?._id.slice(16, -1).toUpperCase()}</span>
+          <span className="ms-2">{data?._id.slice(-8).toUpperCase()}</span>
         </div>
         <button className={styles.status_btn_progress}>
           <span className={`${styles.pending_btn_circle} mx-1`}></span>Pending

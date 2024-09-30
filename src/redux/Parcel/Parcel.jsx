@@ -7,6 +7,7 @@ const percel = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
 
   endpoints: (builder) => ({
+    // Del
     createParcel: builder.mutation({
       query: (data) => {
         return {
@@ -17,6 +18,7 @@ const percel = createApi({
       },
       invalidatesTags: ["parcel"],
     }),
+    // Del
     Branch_parcel: builder.query({
       query: (branchID) => {
         return {
@@ -26,6 +28,7 @@ const percel = createApi({
       },
       providesTags: ["parcel"],
     }),
+    // Del
     All_parcel: builder.query({
       query: () => {
         return {
@@ -35,6 +38,7 @@ const percel = createApi({
       },
       providesTags: ["parcel"],
     }),
+    // Del
     User_parcel: builder.query({
       query: (id) => {
         return {
@@ -82,6 +86,7 @@ const percel = createApi({
       },
       providesTags: ["parcel"],
     }),
+
     get_User_Parcel: builder.query({
       query: (userId) => {
         return {
@@ -94,7 +99,7 @@ const percel = createApi({
     create_User_Parcel: builder.mutation({
       query: ({ userId, BranchId, rateListID, data }) => {
         return {
-          url: `parcel/create_parcel/${userId}/${BranchId}/${rateListID}`,
+          url: `/parcel/create_parcel/${userId}/${BranchId}/${rateListID}`,
           method: "POST",
           body: data,
         };
@@ -121,6 +126,22 @@ const percel = createApi({
       },
       invalidatesTags: ["parcel", "tracking"],
     }),
+    getParcels: builder.query({
+      query: (id) => {
+        return {
+          url: `parcel/${id}/get-parcels`,
+          method: "GET",
+        };
+      },
+    }),
+    getSingleParcels: builder.query({
+      query: (parcelID) => {
+        return {
+          url: `parcel/${parcelID}/get-single-parcel`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -137,6 +158,8 @@ export const {
   useCreate_User_ParcelMutation,
   useCreate_Bulk_ParcelMutation,
   useBulk_ParcelMutation,
+  useGetParcelsQuery,
+  useGetSingleParcelsQuery,
 } = percel;
 
 export default percel;

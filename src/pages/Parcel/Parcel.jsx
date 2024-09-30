@@ -8,12 +8,6 @@ import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
 import ShipmentCard from "../../Components/ShipmentCard/ShipmentCard";
-import {
-  useAll_parcelQuery,
-  useBranch_parcelQuery,
-  useParcel_AssignedQuery,
-  useUser_parcelQuery,
-} from "../../redux/Parcel/Parcel";
 import ProccedModal from "../../Components/ProccedModal/ProccedModal";
 import { BiPlus } from "react-icons/bi";
 import AddWeightPrice from "../../Components/AddWeightPrice/AddWeightPrice";
@@ -22,6 +16,7 @@ import UpdateWeightPrice from "../../Components/AddWeightPrice/UpdateWeightPrice
 import Available from "../../Components/cards/Available";
 import Receipt from "../../Components/ReceiptCard/Receipt";
 import Assigned_Parcel from "../../Components/Assigned_Parcel/Assigned_Parcel";
+import { useGetParcelsQuery } from "../../redux/Parcel/Parcel";
 
 const Parcel = () => {
   const [checkAssign, setCheckAssign] = useState("all");
@@ -36,44 +31,19 @@ const Parcel = () => {
   const branchID = selector?.data?.user?.branchID;
   const role = selector?.data?.user?.role[0];
 
-  // API for SuperAdmin only
-  const All_Parcel_API = useAll_parcelQuery();
-  const Superadmin_isLoading = All_Parcel_API?.isLoading;
-  const All_Parcel = All_Parcel_API?.data?.parcels;
-
-  // API for manager or admin with branch ID
-  const Branch_Parcel_API = useBranch_parcelQuery(branchID, {
-    skip: !branchID,
-  });
-  const Admin_isLoading = Branch_Parcel_API?.isLoading;
-  const Branch_Parcel = Branch_Parcel_API?.data?.parcel;
-  console.log(Branch_Parcel);
-  //API for User only with UserID
-  const User_Parcel_API = useUser_parcelQuery(id, { skip: !id });
-  const User_isLoading = User_Parcel_API?.isLoading;
-  const User_Parcel = User_Parcel_API?.data?.parcels;
+  const getParcelsApi = useGetParcelsQuery(id);
+  const getParcelsLoading = getParcelsApi?.isLoading;
+  console.log(getParcelsApi?.data?.parcels);
 
   let Data = [];
 
   if (role === "SuperAdmin") {
-    Data = All_Parcel;
+    Data = getParcelsApi?.data?.parcels;
   } else if (role === "Admin" || role === "Manager") {
-    Data = Branch_Parcel;
+    Data = getParcelsApi?.data?.parcels;
   } else if (role === "User") {
-    Data = User_Parcel;
+    Data = getParcelsApi?.data?.parcels;
   }
-
-  //API for getting Weight Pricing
-  const All_Parcel_Price_API = useGet_All_Parcel_PriceQuery(branchID, {
-    skip: !branchID,
-  });
-  const All_Parcel_Price = All_Parcel_Price_API?.data?.weights.length === 0;
-
-  // Already Assigned Parcel
-  const Parcel_Assigned_API = useParcel_AssignedQuery(branchID, {
-    skip: !branchID,
-  });
-  const Parcel_Assigned = Parcel_Assigned_API?.data?.assignments;
 
   // pagination
   const endOffset = itemOffset + 6;
@@ -142,7 +112,7 @@ const Parcel = () => {
                 <Available message={"No Parcel Available"} />
               ) : (
                 <div className={`row ${style.card_wrapper}`}>
-                  {Admin_isLoading || Superadmin_isLoading || User_isLoading ? (
+                  {getParcelsLoading ? (
                     <ListLoader />
                   ) : (
                     Data?.slice(itemOffset, endOffset)?.map((data, index) => (
@@ -159,7 +129,7 @@ const Parcel = () => {
               <Available message={"No Parcel Available"} />
             ) : (
               <div className={`row ${style.card_wrapper}`}>
-                {Admin_isLoading || Superadmin_isLoading || User_isLoading ? (
+                {getParcelsLoading ? (
                   <ListLoader />
                 ) : (
                   Parcel_Assigned?.slice(itemOffset, endOffset)?.map(
