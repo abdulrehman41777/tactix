@@ -95,7 +95,7 @@ const CustomerProfile = () => {
       const res = await bulkParcelApi({
         userId: userId,
         branchID: branchId,
-        data: bulkData,
+        data: { data: bulkData },
       });
       if (!res.error) {
         setIsUpload(0);

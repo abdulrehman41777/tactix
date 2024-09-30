@@ -119,7 +119,7 @@ const percel = createApi({
           body: data,
         };
       },
-      // providesTags: ["parcel"],
+      invalidatesTags: ["parcel", "tracking"],
     }),
   }),
 });
