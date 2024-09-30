@@ -11,6 +11,7 @@ import { BsCardChecklist, BsFillPersonVcardFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import {
+  useGetAllUserByBranchQuery,
   useGetSingleUserByIDQuery,
   useUpdate_ProfileMutation,
 } from "../../redux/Auth/auth";
@@ -18,6 +19,7 @@ import { NotificationAlert } from "../../Components/NotificationAlert/Notificati
 import { logout } from "../../redux/features/authState";
 import style_table from "./AllUsers.module.css";
 import {
+  useBulk_ParcelMutation,
   useCreate_Bulk_ParcelMutation,
   useGet_User_ParcelQuery,
 } from "../../redux/Parcel/Parcel";
@@ -38,13 +40,23 @@ const CustomerProfile = () => {
   const allParcels = parcels?.data?.findUserParcel;
 
   const [bulkFile, setBulkFile] = useState("");
-  const [isUpload, setIsUpload] = useState(false);
+  const [isUpload, setIsUpload] = useState(0);
+  const [bulkData, setBulkData] = useState([]);
+  const [rateList, setRateList] = useState([]);
 
   const handleUploadFile = (event) => {
     const file = event.target.files[0];
     if (file) {
       setBulkFile(file);
     }
+  };
+
+  const handleRateList = ({ id, rateListID }) => {
+    setBulkData((prev) =>
+      prev.map((item) =>
+        item._id === id ? { ...item, rateListID: rateListID } : item
+      )
+    );
   };
 
   const [createBulkParcelApi, { isLoading: bulkParcelLoading }] =
@@ -67,17 +79,36 @@ const CustomerProfile = () => {
       if (!res.error) {
         setBulkFile("");
         NotificationAlert("Bulk Order Create Successfully", "success");
-        setIsUpload(false);
+        setIsUpload(2);
+        setRateList(res?.data?.rateList?.rateList);
+        setBulkData(res?.data?.validData);
       }
     } catch (error) {
       NotificationAlert("Something Went Wrong!");
     }
   };
 
-  //   const allUsersApi = useGetAllUserByBranchQuery(id);
+  const [bulkParcelApi, { isLoading: bulkLoading }] = useBulk_ParcelMutation();
+
+  const handleCreateBulkParcel = async () => {
+    try {
+      const res = await bulkParcelApi({
+        userId: userId,
+        branchID: branchId,
+        data: bulkData,
+      });
+      if (!res.error) {
+        setIsUpload(0);
+      }
+    } catch (error) {
+      NotificationAlert("Something Went Wrong!");
+    }
+  };
+
+  // const allUsersApi = useGetAllUserByBranchQuery(branchId);
   // const rateList = allUsersApi?.data?.data;
 
-  // console.log(all_User?.rateList)
+  // console.log(rateList);
 
   //   const [isPassOne, setIsPassOne] = useState(false);
   //   const [isPassTwo, setIsPassTwo] = useState(false);
@@ -192,7 +223,7 @@ const CustomerProfile = () => {
                   <button
                     className={`${style_table.status_btn_paid}`}
                     style={{ padding: "0.4rem 0.5rem" }}
-                    onClick={() => setIsUpload(true)}
+                    onClick={() => setIsUpload(1)}
                     disabled={bulkParcelLoading}
                   >
                     Create Bulk Order
@@ -375,7 +406,7 @@ const CustomerProfile = () => {
           </div> */}
         </div>
       </Dlayout>
-      {isUpload && (
+      {isUpload === 1 && (
         <div className="modal_wrapper">
           <div className="modal_box">
             <div className="modal_head d-flex justify-content-center">
@@ -405,6 +436,76 @@ const CustomerProfile = () => {
                 }}
               >
                 {bulkParcelLoading ? "Loading..." : "Submit"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+      {isUpload === 2 && (
+        <div className="modal_wrapper">
+          <div className="modal_box w-75">
+            <div className="modal_head d-flex justify-content-center">
+              <h2 className="f-bold pb-3">Bulk Order</h2>
+              <span className="modal_close_btn" onClick={() => setIsUpload(0)}>
+                X
+              </span>
+            </div>
+            <form className="mt-1 modal_form ">
+              <table className={`${style_table.table_container}`}>
+                <thead className={`${style_table.table_header}`}>
+                  <tr>
+                    <th>Parcel Name</th>
+                    <th>Solid/Liquid</th>
+                    <th>Cash on Delivery</th>
+                    <th>Weight</th>
+                    <th>Dimensions(WxH)</th>
+                    <th>Rate List</th>
+                  </tr>
+                </thead>
+                <tbody className={`${style_table.table_body}`}>
+                  {bulkData?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="d-flex align-items-center">
+                        {item?.parcelName}
+                      </td>
+                      <td>{item?.Solid_Liquid}</td>
+                      <td>{item?.CodAmount ? "Yes" : "No"}</td>
+                      <td>{item?.weight} kg</td>
+                      <td>
+                        ({item?.Dimension?.width}cmx{item?.Dimension?.height}cm)
+                      </td>
+                      <td>
+                        <select
+                          name="rateListID"
+                          onChange={(e) =>
+                            handleRateList({
+                              id: item._id,
+                              rateListID: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select One </option>
+                          {rateList?.map((rate) => (
+                            <option value={rate._id} key={rate._id}>
+                              {" "}
+                              {rate.from},{rate.to},{rate.price}{" "}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <button
+                className="modal_sumbit_btn mt-3"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCreateBulkParcel();
+                }}
+              >
+                {bulkLoading ? "Loading..." : "Submit"}
               </button>
             </form>
           </div>
