@@ -192,28 +192,12 @@ const CustomerProfile = () => {
                   <button
                     className={`${style_table.status_btn_paid}`}
                     style={{ padding: "0.4rem 0.5rem" }}
-                    onClick={() =>
-                      isUpload ? handleSubmitBulk() : setIsUpload(true)
-                    }
+                    onClick={() => setIsUpload(true)}
                     disabled={bulkParcelLoading}
                   >
-                    {isUpload
-                      ? bulkParcelLoading
-                        ? "Loading..."
-                        : "Submit"
-                      : "Create Bulk Order"}
+                    Create Bulk Order
                   </button>
                 </div>
-                {isUpload && (
-                  <span className={`${style_table.status_btn_paid}`}>
-                    <input
-                      type="file"
-                      className="hidden"
-                      name="logo"
-                      onChange={handleUploadFile}
-                    />
-                  </span>
-                )}
               </div>
             </div>
           </div>
@@ -391,6 +375,41 @@ const CustomerProfile = () => {
           </div> */}
         </div>
       </Dlayout>
+      {isUpload && (
+        <div className="modal_wrapper">
+          <div className="modal_box">
+            <div className="modal_head d-flex justify-content-center">
+              <h2 className="f-bold pb-3">Upload File Here</h2>
+              <span
+                className="modal_close_btn"
+                onClick={() => setIsUpload(false)}
+              >
+                X
+              </span>
+            </div>
+            <form className="mt-1 modal_form ">
+              <span className={`${style_table.status_btn_paid}`}>
+                <input
+                  type="file"
+                  className="hidden"
+                  name="logo"
+                  onChange={handleUploadFile}
+                />
+              </span>
+
+              <button
+                className="modal_sumbit_btn mt-3"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmitBulk();
+                }}
+              >
+                {bulkParcelLoading ? "Loading..." : "Submit"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
