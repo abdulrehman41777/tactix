@@ -38,6 +38,7 @@ const CreateCustomerOrder = () => {
       width: "",
       height: "",
     },
+    isDamaged: false,
   });
 
   const {
@@ -53,6 +54,7 @@ const CreateCustomerOrder = () => {
     SenderAddress,
     CodAmount,
     Dimension,
+    isDamaged,
   } = formData;
 
   const handleChange = (e) => {
@@ -277,37 +279,52 @@ const CreateCustomerOrder = () => {
                         onChange={handleChange}
                       />
                     </div>
+
+                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
+                      <label className={style.cyberpunk_checkbox_label}>
+                        <input
+                          type="checkbox"
+                          name="isDamaged"
+                          checked={isDamaged}
+                          onChange={handleChange}
+                          className={style.cyberpunk_checkbox}
+                        />
+                        is Damaged?
+                      </label>
+                    </div>
+
+                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
+                      <label className={style.cyberpunk_checkbox_label}>
+                        <input
+                          type="checkbox"
+                          name="CodAmount"
+                          checked={CodAmount}
+                          onChange={handleChange}
+                          className={style.cyberpunk_checkbox}
+                        />
+                        Cash on Delivery
+                      </label>
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Rate List</label>
+                      <select
+                        name="rateListID"
+                        value={rateListID}
+                        onChange={(e) => setRateListID(e.target.value)}
+                      >
+                        <option value=""> Select One </option>
+                        {rateList?.map((item) => (
+                          <option value={item._id} key={item._id}>
+                            {" "}
+                            {item.from},{item.to},{item.price}{" "}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-center w-75">
-                  <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
-                    <input
-                      type="checkbox"
-                      name="CodAmount"
-                      checked={CodAmount}
-                      onChange={handleChange}
-                    />
-                    <label style={{ color: "#a3b1c2" }}>Cash on Delivery</label>
-                  </div>
-
-                  <div className={`col-sm-4 gap-0 ${style.label}`}>
-                    <label style={{ color: "#a3b1c2" }}>Rate List</label>
-                    <select
-                      name="rateListID"
-                      value={rateListID}
-                      onChange={(e) => setRateListID(e.target.value)}
-                    >
-                      <option value=""> Select One </option>
-                      {rateList?.map((item) => (
-                        <option value={item._id} key={item._id}>
-                          {" "}
-                          {item.from},{item.to},{item.price}{" "}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
                 <button
                   name="Create Product"
                   className="btn p-3 py-2 rounded"

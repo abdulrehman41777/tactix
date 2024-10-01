@@ -9,8 +9,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
 
-  console.log(data);
-
   return (
     <div className={`${styles.shipment_card}`}>
       <div
@@ -28,13 +26,35 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
 
       {/* lines */}
       <ul className="bar pt-3">
+        {data?.rateList?.map((item, index) => (
+          <>
+            <li key={index + 1}>
+              <div
+                className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+              >
+                <span>From:</span>
+                <span>
+                  <span>{item?.from}</span>
+                </span>
+              </div>
+            </li>
+            <li>
+              <div
+                className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+              >
+                <span>To:</span>
+                <span>
+                  <span>{item?.to}</span>
+                </span>
+              </div>
+            </li>
+          </>
+        ))}
         <li>
           <div
             className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
           >
-            <span>
-              {data?.fromCity?.city} , {data?.toCity?.city}
-            </span>
+            <span>Order Date</span>
             <span>
               <span>{data?.createdAt.split("T")[0]}</span>
             </span>
@@ -44,10 +64,18 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
           <div
             className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
           >
+            <span>Weight:</span>
+            <span>{data?.weight} kg</span>
+          </div>
+        </li>
+        <li>
+          <div
+            className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+          >
+            <span>Dimensions (W x H):</span>
             <span>
-              {data?.fromCountry?.country} , {data?.toCountry?.country}
+              {data?.Dimension?.width} cm x {data?.Dimension?.height} cm
             </span>
-            <span>10 Feb, 2023</span>
           </div>
         </li>
       </ul>

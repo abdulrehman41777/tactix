@@ -85,12 +85,21 @@ const CustomerProfile = () => {
         data: formData,
       });
       if (!res.error) {
-        setBulkFile("");
-        NotificationAlert("Bulk Order Create Successfully", "success");
-        setIsUpload(2);
-        setRateList(res?.data?.rateList?.rateList);
-        setBulkData(res?.data?.validData);
+        if (
+          res?.data?.invalidData?.length === 0 ||
+          res?.data?.invalidData === null
+        ) {
+          setBulkFile("");
+          NotificationAlert("Bulk Order Create Successfully", "success");
+          setIsUpload(2);
+          setRateList(res?.data?.rateList?.rateList);
+          setBulkData(res?.data?.validData);
+        } else {
+          setBulkFile("");
+          NotificationAlert("Uplaod Correct Csv");
+        }
       }
+      console.log(res);
     } catch (error) {
       NotificationAlert("Something Went Wrong!");
     }
