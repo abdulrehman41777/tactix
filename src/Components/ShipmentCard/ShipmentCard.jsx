@@ -27,8 +27,8 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       {/* lines */}
       <ul className="bar pt-3">
         {data?.rateList?.map((item, index) => (
-          <>
-            <li key={index + 1}>
+          <div key={index + 1}>
+            <li>
               <div
                 className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
               >
@@ -48,7 +48,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
                 </span>
               </div>
             </li>
-          </>
+          </div>
         ))}
         <li>
           <div
@@ -81,9 +81,15 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       </ul>
 
       <div className="d-flex justify-content-between">
-        <button className={styles.status_btn} style={{ cursor: "default" }}>
-          Cost : ${data?.price}
-        </button>
+        {data?.rateList?.map((item, index) => (
+          <button
+            className={styles.status_btn}
+            style={{ cursor: "default" }}
+            key={index + 1}
+          >
+            Cost : ${item?.price * data?.weight}
+          </button>
+        ))}
         {role === "Manager" && (
           <button
             className={styles.status_btn}

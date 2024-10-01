@@ -142,6 +142,14 @@ const percel = createApi({
         };
       },
     }),
+    assign_Parcel: builder.mutation({
+      query: ({ branchID, riderGroupID, riderID }) => {
+        return {
+          url: `parcel/${branchID}/${riderGroupID}/assign-parcels/${riderID}`,
+          method: "POST",
+        };
+      },
+    }),
   }),
 });
 
