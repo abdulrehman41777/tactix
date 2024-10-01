@@ -48,16 +48,6 @@ const percel = createApi({
       },
       providesTags: ["parcel"],
     }),
-    Assign_Parcel: builder.mutation({
-      query: ({ branchID, parcelID, data }) => {
-        return {
-          url: `/assignments/${branchID}/assign-parcel/${parcelID}`,
-          method: "POST",
-          body: data,
-        };
-      },
-      invalidatesTags: ["parcel"],
-    }),
     Parcel_Assigned: builder.query({
       query: (branchID) => {
         return {
@@ -143,10 +133,11 @@ const percel = createApi({
       },
     }),
     assign_Parcel: builder.mutation({
-      query: ({ branchID, riderGroupID, riderID }) => {
+      query: ({ branchID, riderGroupID, riderID, data }) => {
         return {
           url: `parcel/${branchID}/${riderGroupID}/assign-parcels/${riderID}`,
           method: "POST",
+          body: data,
         };
       },
     }),
@@ -158,7 +149,6 @@ export const {
   useBranch_parcelQuery,
   useAll_parcelQuery,
   useUser_parcelQuery,
-  useAssign_ParcelMutation,
   useParcel_AssignedQuery,
   useParcel_StatusMutation,
   useRider_ParcelQuery,
@@ -168,6 +158,7 @@ export const {
   useBulk_ParcelMutation,
   useGetParcelsQuery,
   useGetSingleParcelsQuery,
+  useAssign_ParcelMutation,
 } = percel;
 
 export default percel;

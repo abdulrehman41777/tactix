@@ -68,8 +68,25 @@ const manager = createApi({
       providesTags: ["groups"],
     }),
 
+    getRiderGroup: builder.query({
+      query: (BranchID) => {
+        console.log(BranchID, "BranchID");
+        return {
+          url: `/riders_group/get_riders_group_by_branch/${BranchID}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
-export const { useCreate_ManagerMutation, useManagersQuery, useCreateGroupMutation, useGetGroupQuery, useGetGroupByAdminQuery, useGetGroupBySuperAdminQuery } = manager;
+export const {
+  useCreate_ManagerMutation,
+  useManagersQuery,
+  useCreateGroupMutation,
+  useGetGroupQuery,
+  useGetGroupByAdminQuery,
+  useGetGroupBySuperAdminQuery,
+  useGetRiderGroupQuery,
+} = manager;
 
 export default manager;

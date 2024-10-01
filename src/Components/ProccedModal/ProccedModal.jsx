@@ -3,32 +3,32 @@ import { useAssign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
-import { useGet_TaxesQuery } from "../../redux/Taxes/taxes";
 
-const ProccedModal = ({ setModal, parcelID, customerID }) => {
+const ProccedModal = ({
+  setModal,
+  branchID,
+  groupData,
+  customerID,
+  parcelID,
+}) => {
   const [packageDetail, setPackageDetail] = useState({
-    tax: "",
+    group: "",
     rider: "",
     message: "",
   });
-  console.log(customerID);
-  const selector = useSelector((state) => state?.userData);
-  const branchID = selector?.data?.user?.branchID;
-  const id = selector?.data?.user?._id;
 
-  const { tax, rider, message } = packageDetail;
+  const { group, rider, message } = packageDetail;
 
   const handlePackageDetail = (e) => {
     setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
   };
 
-  // All Taxes
-  const All_Taxes_API = useGet_TaxesQuery();
-  const All_Taxes = All_Taxes_API?.data?.taxDetails;
-  console.log(All_Taxes);
+  const selector = useSelector((state) => state?.userData);
+  const id = selector?.data?.user?._id;
+
   // All Rider
-  const All_Rider_API = useAll_RidersQuery(branchID, { skip: !branchID });
-  const All_Rider = All_Rider_API?.data?.riders;
+  const All_Rider_API = useAll_RidersQuery(group, { skip: !group });
+  const All_Rider = All_Rider_API?.data?.findGroupRiders;
 
   const [assign_parcel, { isLoading }] = useAssign_ParcelMutation();
 
@@ -36,14 +36,13 @@ const ProccedModal = ({ setModal, parcelID, customerID }) => {
     e.preventDefault();
     try {
       const res = await assign_parcel({
-        branchID,
-        parcelID,
+        branchID: branchID,
+        riderGroupID: group,
+        riderID: rider,
         data: {
           assignedFromManager: id,
-          riderID: packageDetail.rider,
-          taxID: packageDetail.tax,
-          parcelID: parcelID,
           customerID: customerID,
+          parcelID: parcelID,
         },
       });
       if (!res.error) {
@@ -51,6 +50,7 @@ const ProccedModal = ({ setModal, parcelID, customerID }) => {
       } else {
         NotificationAlert("Error");
       }
+      console.log(res);
     } catch (error) {
       NotificationAlert("Error");
     }
@@ -61,7 +61,7 @@ const ProccedModal = ({ setModal, parcelID, customerID }) => {
       <div className="modal_box">
         <div className="modal_head d-flex justify-content-center">
           <h2 className="f-bold pb-3">Add Package Detail</h2>
-          <span className="modal_close_btn" onClick={() => setModal(false)}>
+          <span className="modal_close_btn" onClick={() => setModal(null)}>
             X
           </span>
         </div>
@@ -70,35 +70,37 @@ const ProccedModal = ({ setModal, parcelID, customerID }) => {
           onSubmit={handlePArcelAssign}
         >
           <select
-            name="rider"
+            name="group"
             className="text-dark bg-light"
             onChange={(e) => handlePackageDetail(e)}
-            value={rider}
+            value={group}
           >
             <option value="" disabled defaultValue className="text-dark">
-              Select Rider
+              Select Group
             </option>
-            {All_Rider?.map((rider) => (
-              <option value={rider?._id} key={rider?._id} className="text-dark">
-                {rider?.name}
+            {groupData?.map((item) => (
+              <option value={item?._id} key={item?._id} className="text-dark">
+                {item?.groupname}
               </option>
             ))}
           </select>
-          <select
-            name="tax"
-            defaultValue={"default"}
-            onChange={(e) => handlePackageDetail(e)}
-            className="text-dark bg-light"
-          >
-            <option value="default" disabled className="text-dark">
-              Select Tax
-            </option>
-            {All_Taxes?.map((tax) => (
-              <option value={tax?._id} key={tax?._id} className="text-dark">
-                {tax?.taxType} (Tax:{tax?.tax})
+          {All_Rider && (
+            <select
+              name="rider"
+              className="text-dark bg-light"
+              onChange={(e) => handlePackageDetail(e)}
+              value={rider}
+            >
+              <option value="" disabled defaultValue className="text-dark">
+                Select Rider
               </option>
-            ))}
-          </select>
+              {All_Rider?.map((item) => (
+                <option value={item?._id} key={item?._id} className="text-dark">
+                  {item?.name}
+                </option>
+              ))}
+            </select>
+          )}
           {isLoading ? (
             <button className="modal_sumbit_btn mt-3" disabled>
               Submiting

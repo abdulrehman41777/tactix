@@ -20,28 +20,48 @@ const Assigned_Parcel = ({ data }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?._id.slice(16, -1).toUpperCase()}</span>
+          <span className="ms-2">{data?._id.slice(-4).toUpperCase()}</span>
         </div>
         <button
           className={styles.status_btn_progress}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          {data?.Status[0]}
+          {data?.status[0]}
         </button>
-        <small className={styles.order_name}>
-          {data?.parcelID?.parcelName}
-        </small>
+        <small className={styles.order_name}>{data?.parcelName}</small>
       </div>
 
       {/* lines */}
       <ul className="bar pt-3">
+        {data?.rateList?.map((item, index) => (
+          <div key={index + 1}>
+            <li>
+              <div
+                className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+              >
+                <span>From:</span>
+                <span>
+                  <span>{item?.from}</span>
+                </span>
+              </div>
+            </li>
+            <li>
+              <div
+                className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+              >
+                <span>To:</span>
+                <span>
+                  <span>{item?.to}</span>
+                </span>
+              </div>
+            </li>
+          </div>
+        ))}
         <li>
           <div
             className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
           >
-            <span>
-              {data?.parcelID?.fromCity?.city} , {data?.parcelID?.toCity?.city}
-            </span>
+            <span>Order Date</span>
             <span>
               <span>{data?.createdAt.split("T")[0]}</span>
             </span>
@@ -51,30 +71,35 @@ const Assigned_Parcel = ({ data }) => {
           <div
             className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
           >
-            <span>
-              {data?.parcelID?.fromCountry?.country} ,{" "}
-              {data?.parcelID?.toCountry?.country}
-            </span>
-            <span>10 Feb, 2023</span>
+            <span>Weight:</span>
+            <span>{data?.weight} kg</span>
           </div>
         </li>
         <li>
           <div
             className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
           >
-            <span>Rider</span>
-            <span>{data?.riderID?.name}</span>
+            <span>Dimensions (W x H):</span>
+            <span>
+              {data?.Dimension?.width} cm x {data?.Dimension?.height} cm
+            </span>
           </div>
         </li>
       </ul>
 
       <div className="d-flex justify-content-between">
-        <button className={styles.status_btn} style={{ cursor: "default" }}>
-          Cost : ${data?.parcelID?.price}
-        </button>
+        {data?.rateList?.map((item, index) => (
+          <button
+            className={styles.status_btn}
+            style={{ cursor: "default" }}
+            key={index + 1}
+          >
+            Cost : ${item?.price * data?.weight}
+          </button>
+        ))}
         <button
           className={styles.status_btn}
-          onClick={() => handleUpdateStatus(data?._id)}
+          // onClick={() => handleUpdateStatus(data?._id)}
           style={{ cursor: "pointer" }}
         >
           Update Status

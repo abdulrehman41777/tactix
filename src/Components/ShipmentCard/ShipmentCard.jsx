@@ -2,12 +2,30 @@ import { useSelector } from "react-redux";
 import styles from "./shipmentcard.module.css";
 import ProccedModal from "../ProccedModal/ProccedModal";
 import { useState } from "react";
+import { useGetRiderGroupQuery } from "../../redux/Manager/manager";
 
 const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
-  const [procced, setProcced] = useState(false);
+  const [procced, setProcced] = useState(null);
+  const [apidata, setApiData] = useState({});
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
+
+  const { data: group, isLoading: groupLoading } = useGetRiderGroupQuery(
+    procced,
+    {
+      skip: !procced,
+    }
+  );
+  const groupData = group?.findRiderGroups;
+
+  const handleProceed = (parcelID, customerID, branchID) => {
+    setProcced(branchID);
+    setApiData({
+      customerID: customerID,
+      parcelID: parcelID,
+    });
+  };
 
   return (
     <div className={`${styles.shipment_card}`}>
@@ -93,7 +111,9 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
         {role === "Manager" && (
           <button
             className={styles.status_btn}
-            onClick={() => setProcced(true)}
+            onClick={() =>
+              handleProceed(data?._id, data?.userId, data?.branchID)
+            }
           >
             Procced
           </button>
@@ -110,8 +130,10 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       {procced && (
         <ProccedModal
           setModal={setProcced}
-          parcelID={parcelID}
-          customerID={data?.customerID?._id}
+          branchID={procced}
+          groupData={groupData}
+          customerID={apidata.customerID}
+          parcelID={apidata.parcelID}
         />
       )}
     </div>
