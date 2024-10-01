@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dlayout from "../../Components/DLayout/Dlayout";
 import style from "./profile.module.css";
 import profile_bg from "../../assets/profile/profile_bg.png";
@@ -22,6 +22,7 @@ import {
   useBulk_ParcelMutation,
   useCreate_Bulk_ParcelMutation,
   useGet_User_ParcelQuery,
+  useGetSingleParcelsQuery,
 } from "../../redux/Parcel/Parcel";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -43,6 +44,8 @@ const CustomerProfile = () => {
   const [isUpload, setIsUpload] = useState(0);
   const [bulkData, setBulkData] = useState([]);
   const [rateList, setRateList] = useState([]);
+  const [isView, setIsView] = useState(null);
+  const [orderData, setOrderData] = useState({});
 
   const handleUploadFile = (event) => {
     const file = event.target.files[0];
@@ -58,6 +61,11 @@ const CustomerProfile = () => {
       )
     );
   };
+
+  const { data: parcelData, isLoading: getParcelData } =
+    useGetSingleParcelsQuery(isView, {
+      skip: !isView,
+    });
 
   const [createBulkParcelApi, { isLoading: bulkParcelLoading }] =
     useCreate_Bulk_ParcelMutation();
@@ -105,70 +113,17 @@ const CustomerProfile = () => {
     }
   };
 
-  // const allUsersApi = useGetAllUserByBranchQuery(branchId);
-  // const rateList = allUsersApi?.data?.data;
+  const search = "";
+  const filter = "all";
+  const isLoading = false;
+  const itemOffset = 0;
+  const endOffset = 5;
 
-  // console.log(rateList);
-
-  //   const [isPassOne, setIsPassOne] = useState(false);
-  //   const [isPassTwo, setIsPassTwo] = useState(false);
-  //   const [confirmPass, setConfirmPass] = useState(User_Data?.password);
-  //   const [updateFields, setUpdateFields] = useState({
-  //     name: User_Data?.name,
-  //     email: User_Data?.email,
-  //     profileImage: "",
-  //     password: User_Data?.password,
-  //   });
-
-  //   const { name, email, password, profileImage } = updateFields;
-
-  //   const handleUpdateProfile = (e) => {
-  //     setUpdateFields({ ...updateFields, [e.target.name]: e.target.value });
-  //   };
-
-  // Update the profile
-  //   const [update_Profile_API, { isLoading }] = useUpdate_ProfileMutation();
-
-  //   const onChangeProfile = (e) => {
-  //     const files = e.target.files[0];
-  //     setUpdateFields((prevFields) => ({
-  //       ...prevFields,
-  //       profileImage: files,
-  //     }));
-  //   };
-
-  //   const handleUpdate = async (e) => {
-  //     e.preventDefault();
-  //     if (updateFields.password === confirmPass) {
-  //       try {
-  //         const formData = new FormData();
-  //         formData.append("email", email);
-  //         formData.append("name", name);
-  //         formData.append("password", password);
-  //         formData.append("profileImage", profileImage);
-  //         const res = await update_Profile_API({
-  //           userID,
-  //           data: formData,
-  //         });
-  //         if (!res.error) {
-  //           NotificationAlert("Profile updated successfully", "success");
-  //           disPatch(logout());
-  //         } else {
-  //           NotificationAlert("Error While updating profile");
-  //         }
-  //       } catch (error) {
-  //         NotificationAlert("Error");
-  //       }
-  //     } else {
-  //       NotificationAlert("Password Should Be Same");
-  //     }
-  //   };
-
-  const search = ""; // or the search term you're looking for
-  const filter = "all"; // or "customer", "admin", etc.
-  const isLoading = false; // change to true if you want to simulate loading
-  const itemOffset = 0; // pagination start index
-  const endOffset = 5; // pagination end index (or any number you want to limit results)
+  useEffect(() => {
+    if (isView && parcelData) {
+      setOrderData(parcelData?.parcel);
+    }
+  }, [isView, parcelData]);
 
   return (
     <div>
@@ -265,9 +220,10 @@ const CustomerProfile = () => {
                         <button
                           className={style_table.status_btn_paid}
                           onClick={() =>
-                            navigate(
-                              `/dashboard/all-user/customer-profile/single-parcel/${userId}/${item?._id}`
-                            )
+                            // navigate(
+                            //   `/dashboard/all-user/customer-profile/single-parcel/${userId}/${item?._id}`
+                            // )
+                            setIsView(item?._id)
                           }
                         >
                           View
@@ -515,6 +471,101 @@ const CustomerProfile = () => {
                 {bulkLoading ? "Loading..." : "Submit"}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+      {isView && (
+        <div className="modal_wrapper">
+          <div className="modal_box">
+            <div className="modal_head d-flex justify-content-center">
+              <h2 className="f-bold pb-3">Customer Order</h2>
+              <span
+                className="modal_close_btn"
+                onClick={() => setIsView(false)}
+              >
+                X
+              </span>
+            </div>
+            <div className="mt-1 d-flex flex-column gap-2">
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Parcel Name:</span>
+                <span>{orderData.parcelName}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Weight:</span>
+                <span>{orderData.weight} kg</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Solid or Liquid:</span>
+                <span>{orderData.Solid_Liquid}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Width:</span>
+                <span>{orderData.Dimension?.width} cm</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Height:</span>
+                <span>{orderData.Dimension?.height} cm</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Reciever Phone:</span>
+                <span>{orderData?.recieverPhone}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Reciver Address:</span>
+                <span>{orderData?.reciverAddress}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Reciver Post Code:</span>
+                <span>{orderData?.ReciverPostCode}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Sender Phone:</span>
+                <span>{orderData?.SenderPhone}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Sender Address:</span>
+                <span>{orderData?.SenderAddress}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Sender Post Code:</span>
+                <span>{orderData?.SenderPostCode}</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <span>Cash on Delivery:</span>
+                <span>{orderData?.CodAmount ? "Yes" : "No"}</span>
+              </div>
+
+              {orderData?.ratelist?.map((item, index) => (
+                <div key={index} className="d-flex flex-column gap-2">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span>From:</span>
+                    <span>{item?.from}</span>
+                  </div>
+
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span>To:</span>
+                    <span>{item?.to}</span>
+                  </div>
+
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span>Price:</span>
+                    <span>{item?.price}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
