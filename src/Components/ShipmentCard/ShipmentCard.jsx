@@ -9,6 +9,8 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
 
+  console.log(data);
+
   return (
     <div className={`${styles.shipment_card}`}>
       <div
