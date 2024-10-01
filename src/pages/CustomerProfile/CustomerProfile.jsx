@@ -262,7 +262,14 @@ const CustomerProfile = () => {
                       </td>
                       <td>{item?.status[0]}</td>
                       <td className="d-flex justify-content-center">
-                        <button className={style_table.status_btn_paid}>
+                        <button
+                          className={style_table.status_btn_paid}
+                          onClick={() =>
+                            navigate(
+                              `/dashboard/all-user/customer-profile/single-parcel/${userId}/${item?._id}`
+                            )
+                          }
+                        >
                           View
                         </button>
                       </td>

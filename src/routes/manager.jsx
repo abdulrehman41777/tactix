@@ -16,6 +16,7 @@ import AllGroups from "../pages/AllGroups/AllGroups";
 import CreateCustomer from "../pages/CreateCustomer/CreateCustomer";
 import CustomerProfile from "../pages/CustomerProfile/CustomerProfile";
 import CreateCustomerOrder from "../pages/CreateCustomerOrder/CreateCustomerOrder";
+import SingleParcel from "../pages/SingleParcel/SingleParcel";
 
 const manager = [
   {
@@ -81,6 +82,10 @@ const manager = [
   {
     path: "/dashboard/all-user/customer-profile/create-customer-order/:userId/:branchId",
     element: <CreateCustomerOrder />,
+  },
+  {
+    path: "/dashboard/all-user/customer-profile/single-parcel/:userId/:parcelID",
+    element: <SingleParcel />,
   },
   {
     path: "*",
