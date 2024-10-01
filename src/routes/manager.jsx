@@ -84,10 +84,6 @@ const manager = [
     element: <CreateCustomerOrder />,
   },
   {
-    path: "/dashboard/all-user/customer-profile/single-parcel/:userId/:parcelID",
-    element: <SingleParcel />,
-  },
-  {
     path: "*",
     element: <Navigate to="/dashboard/" />,
   },
