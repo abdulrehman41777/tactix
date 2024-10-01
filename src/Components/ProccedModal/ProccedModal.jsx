@@ -60,7 +60,7 @@ const ProccedModal = ({
     <div className="modal_wrapper">
       <div className="modal_box">
         <div className="modal_head d-flex justify-content-center">
-          <h2 className="f-bold pb-3">Add Package Detail</h2>
+          <h2 className="f-bold pb-3">Assign Parcel</h2>
           <span className="modal_close_btn" onClick={() => setModal(null)}>
             X
           </span>

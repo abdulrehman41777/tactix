@@ -34,10 +34,11 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?._id.slice(-8).toUpperCase()}</span>
+          <span className="ms-2">{data?._id.slice(-4).toUpperCase()}</span>
         </div>
         <button className={styles.status_btn_progress}>
-          <span className={`${styles.pending_btn_circle} mx-1`}></span>Pending
+          <span className={`${styles.pending_btn_circle} mx-1`}></span>
+          {data?.status}
         </button>
         <small className={styles.order_name}>{data?.parcelName}</small>
       </div>
@@ -108,16 +109,19 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             Cost : ${item?.price * data?.weight}
           </button>
         ))}
-        {role === "Manager" && (
-          <button
-            className={styles.status_btn}
-            onClick={() =>
-              handleProceed(data?._id, data?.userId, data?.branchID)
-            }
-          >
-            Procced
-          </button>
-        )}
+        {role === "Manager" &&
+          (data?.status[0] === "pending" ? (
+            <button
+              className={styles.status_btn}
+              onClick={() =>
+                handleProceed(data?._id, data?.userId, data?.branchID)
+              }
+            >
+              Procced
+            </button>
+          ) : (
+            <button className={styles.status_btn}>Update Status</button>
+          ))}
         {role === "User" && (
           <button
             className={styles.status_btn}

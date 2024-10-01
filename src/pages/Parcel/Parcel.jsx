@@ -125,15 +125,15 @@ const Parcel = () => {
                   )}
                 </div>
               )
-            ) : Data?.filter((data) => data?.status === "assigned")?.length ===
-              0 ? (
+            ) : Data?.filter((data) => data?.status[0] === "assigned")
+                ?.length === 0 ? (
               <Available message={"No Parcel Available"} />
             ) : (
               <div className={`row ${style.card_wrapper}`}>
                 {getParcelsLoading ? (
                   <ListLoader />
                 ) : (
-                  Data?.filter((data) => data?.status === "assigned")
+                  Data?.filter((data) => data?.status[0] === "assigned")
                     ?.slice(itemOffset, endOffset)
                     ?.map((data, index) => (
                       <Assigned_Parcel
