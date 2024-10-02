@@ -28,12 +28,10 @@ const Parcel = () => {
 
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
-  const branchID = selector?.data?.user?.branchID;
   const role = selector?.data?.user?.role[0];
 
   const getParcelsApi = useGetParcelsQuery(id);
   const getParcelsLoading = getParcelsApi?.isLoading;
-  console.log(getParcelsApi?.data?.parcels);
 
   let Data = [];
 

@@ -8,7 +8,6 @@ import LineProgressBar from "../../Components/lineProgressBar/LineProgressBar";
 import ReactPaginate from "react-paginate";
 import { BiPlus } from "react-icons/bi";
 import AddParcel from "../../Components/AddParcel/AddParcel";
-import { useUser_parcelQuery } from "../../redux/Parcel/Parcel";
 import { useSelector } from "react-redux";
 
 const YoursOrders = () => {
@@ -81,13 +80,6 @@ const YoursOrders = () => {
       orderID: "#321nb32n1b",
     },
   ];
-
-  //API for User only with UserID
-  const User_Parcel_API = useUser_parcelQuery(id, { skip: !id });
-  const User_isLoading = User_Parcel_API?.isLoading;
-  const User_Parcel = User_Parcel_API?.data?.parcels;
-
-  console.log(User_Parcel);
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(userData?.length / 6);

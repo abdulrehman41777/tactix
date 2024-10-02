@@ -18,36 +18,6 @@ const percel = createApi({
       },
       invalidatesTags: ["parcel"],
     }),
-    // Del
-    Branch_parcel: builder.query({
-      query: (branchID) => {
-        return {
-          url: `/parcel/get-parcels/${branchID}`,
-          method: "GET",
-        };
-      },
-      providesTags: ["parcel"],
-    }),
-    // Del
-    All_parcel: builder.query({
-      query: () => {
-        return {
-          url: `/parcel/all-parcels`,
-          method: "GET",
-        };
-      },
-      providesTags: ["parcel"],
-    }),
-    // Del
-    User_parcel: builder.query({
-      query: (id) => {
-        return {
-          url: `/parcel/created-parcels/${id}`,
-          method: "GET",
-        };
-      },
-      providesTags: ["parcel"],
-    }),
     Parcel_Assigned: builder.query({
       query: (branchID) => {
         return {
@@ -147,9 +117,6 @@ const percel = createApi({
 
 export const {
   useCreateParcelMutation,
-  useBranch_parcelQuery,
-  useAll_parcelQuery,
-  useUser_parcelQuery,
   useParcel_AssignedQuery,
   useParcel_StatusMutation,
   useRider_ParcelQuery,
