@@ -33,7 +33,6 @@ const Parcel = () => {
 
   const getParcelsApi = useGetParcelsQuery(id);
   const getParcelsLoading = getParcelsApi?.isLoading;
-  console.log(getParcelsApi?.data?.parcels);
 
   let Data = [];
 
@@ -126,7 +125,7 @@ const Parcel = () => {
                 </div>
               )
             ) : Data?.filter((data) => data?.status[0] === "assigned")
-                ?.length === 0 ? (
+              ?.length === 0 ? (
               <Available message={"No Parcel Available"} />
             ) : (
               <div className={`row ${style.card_wrapper}`}>

@@ -113,9 +113,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
           (data?.status[0] === "pending" ? (
             <button
               className={styles.status_btn}
-              onClick={() =>
-                handleProceed(data?._id, data?.userId, data?.branchID)
-              }
+              onClick={() => handleProceed(data?._id, data?.userId, data?.branchID)}
             >
               Procced
             </button>
