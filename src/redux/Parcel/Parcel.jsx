@@ -3,7 +3,7 @@ import API_BASE_URL from "../../../config";
 
 const percel = createApi({
   reducerPath: "parcel",
-  tagTypes: ["parcel", "tracking"],
+  tagTypes: ["parcel", "tracking", "assign_parcel", "update_assign_parcel"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
 
   endpoints: (builder) => ({
@@ -17,36 +17,6 @@ const percel = createApi({
         };
       },
       invalidatesTags: ["parcel"],
-    }),
-    // Del
-    Branch_parcel: builder.query({
-      query: (branchID) => {
-        return {
-          url: `/parcel/get-parcels/${branchID}`,
-          method: "GET",
-        };
-      },
-      providesTags: ["parcel"],
-    }),
-    // Del
-    All_parcel: builder.query({
-      query: () => {
-        return {
-          url: `/parcel/all-parcels`,
-          method: "GET",
-        };
-      },
-      providesTags: ["parcel"],
-    }),
-    // Del
-    User_parcel: builder.query({
-      query: (id) => {
-        return {
-          url: `/parcel/created-parcels/${id}`,
-          method: "GET",
-        };
-      },
-      providesTags: ["parcel"],
     }),
     Parcel_Assigned: builder.query({
       query: (branchID) => {
@@ -123,6 +93,7 @@ const percel = createApi({
           method: "GET",
         };
       },
+      providesTags: ["assign_parcel", "update_assign_parcel"],
     }),
     getSingleParcels: builder.query({
       query: (parcelID) => {
@@ -140,16 +111,23 @@ const percel = createApi({
           body: data,
         };
       },
-      invalidatesTags: ["parcel", "tracking"],
+      invalidatesTags: ["assign_parcel"],
+    }),
+    update_assign_Parcel: builder.mutation({
+      query: ({ assignmentID, data }) => {
+        return {
+          url: `assignments/update-assignment-status/${assignmentID}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["update_assign_parcel"],
     }),
   }),
 });
 
 export const {
   useCreateParcelMutation,
-  useBranch_parcelQuery,
-  useAll_parcelQuery,
-  useUser_parcelQuery,
   useParcel_AssignedQuery,
   useParcel_StatusMutation,
   useRider_ParcelQuery,
@@ -160,6 +138,7 @@ export const {
   useGetParcelsQuery,
   useGetSingleParcelsQuery,
   useAssign_ParcelMutation,
+  useUpdate_assign_ParcelMutation
 } = percel;
 
 export default percel;

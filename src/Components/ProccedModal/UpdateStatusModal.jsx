@@ -1,48 +1,31 @@
 import React, { useState } from "react";
-import { useAssign_ParcelMutation } from "../../redux/Parcel/Parcel";
+import { useAssign_ParcelMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
 
-const UpdateStatusModal = ({ setModal, branchID, groupData, customerID, parcelID }) => {
-    const [packageDetail, setPackageDetail] = useState({
-        group: "",
-        rider: "",
-        message: "",
-    });
-
-    const { group, rider, message } = packageDetail;
-
-    const handlePackageDetail = (e) => {
-        setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
-    };
+const UpdateStatusModal = ({ setModal, assignmentID }) => {
+    const [status, setStatus] = useState();
 
     const selector = useSelector((state) => state?.userData);
     const id = selector?.data?.user?._id;
+    console.log(status)
+    const assignArray = ["Transfer", "Collected", "Shipped", "Delivered", "Cancelled", "Return to Depot"]
 
-    // All Rider
-    const All_Rider_API = useAll_RidersQuery(group, { skip: !group });
-    const All_Rider = All_Rider_API?.data?.findGroupRiders;
-
-    const [assign_parcel, { isLoading }] = useAssign_ParcelMutation();
+    const [update_assign_parcel, { isLoading }] = useUpdate_assign_ParcelMutation();
 
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
         try {
-            const res = await assign_parcel({
-                branchID: branchID,
-                riderGroupID: group,
-                riderID: rider,
-                data: {
-                    assignedFromManager: id,
-                    customerID: customerID,
-                    parcelID: parcelID,
-                },
+            const res = await update_assign_parcel({
+                assignmentID: assignmentID,
+                data: { status: [status] },
             });
             if (!res.error) {
-                NotificationAlert("Parcel Assinged", "success");
+                NotificationAlert("Parcel Status Updated", "success");
+                setModal(null)
             } else {
-                NotificationAlert("Error");
+                NotificationAlert(res?.error?.data?.message);
             }
             console.log(res);
         } catch (error) {
@@ -54,31 +37,30 @@ const UpdateStatusModal = ({ setModal, branchID, groupData, customerID, parcelID
         <div className="modal_wrapper">
             <div className="modal_box">
                 <div className="modal_head d-flex justify-content-center">
-                    <h2 className="f-bold pb-3">Assign Parcel</h2>
+                    <h2 className="f-bold pb-3">Update Assign Status</h2>
                     <span className="modal_close_btn" onClick={() => setModal(null)}>
                         X
                     </span>
                 </div>
                 <form
                     className="mt-1 modal_form d-flex flex-column gap-2"
-                    onSubmit={handlePArcelAssign}
-                >
+                    onSubmit={handlePArcelAssign} >
                     <select
                         name="group"
                         className="text-dark bg-light"
-                        onChange={(e) => handlePackageDetail(e)}
-                        value={group}
+                        onChange={(e) => setStatus(e.target.value)}
                     >
-                        <option value="" disabled defaultValue className="text-dark">
+                        <option value={status} disabled defaultValue className="text-dark">
                             Select Group
                         </option>
-                        {groupData?.map((item) => (
-                            <option value={item?._id} key={item?._id} className="text-dark">
-                                {item?.groupname}
+                        {assignArray?.map((item, i) => (
+                            <option value={item} key={i} className="text-dark">
+                                {item}
                             </option>
                         ))}
+
                     </select>
-                    {All_Rider && (
+                    {/* {All_Rider && (
                         <select
                             name="rider"
                             className="text-dark bg-light"
@@ -94,13 +76,13 @@ const UpdateStatusModal = ({ setModal, branchID, groupData, customerID, parcelID
                                 </option>
                             ))}
                         </select>
-                    )}
+                    )} */}
                     {isLoading ? (
                         <button className="modal_sumbit_btn mt-3" disabled>
                             Submiting
                         </button>
                     ) : (
-                        <button className="modal_sumbit_btn mt-3 ">Submit</button>
+                        <button className="modal_sumbit_btn mt-3 " >Submit</button>
                     )}
                 </form>
             </div>

@@ -3,13 +3,17 @@ import styles from "./shipmentcard.module.css";
 import ProccedModal from "../ProccedModal/ProccedModal";
 import { useState } from "react";
 import { useGetRiderGroupQuery } from "../../redux/Manager/manager";
+import UpdateStatusModal from "../ProccedModal/UpdateStatusModal";
 
 const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [procced, setProcced] = useState(null);
+  const [assignmentID, setAssignmentID] = useState(null);
   const [apidata, setApiData] = useState({});
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
+
+  console.log(assignmentID)
 
   const { data: group, isLoading: groupLoading } = useGetRiderGroupQuery(
     procced,
@@ -28,7 +32,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   };
 
   return (
-    <div className={`${styles.shipment_card}`}>
+    <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
       <div
         className={`${styles.shipment_card_head} d-flex justify-content-between`}
       >
@@ -38,7 +42,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
         </div>
         <button className={styles.status_btn_progress}>
           <span className={`${styles.pending_btn_circle} mx-1`}></span>
-          {data?.status}
+          {data?.assignment !== null ? data?.assignment?.Status[0] : data?.status}
         </button>
         <small className={styles.order_name}>{data?.parcelName}</small>
       </div>
@@ -97,6 +101,18 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             </span>
           </div>
         </li>
+        {data?.assignment !== null &&
+          <li>
+            <div
+              className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+            >
+              <span>Track ID:</span>
+              <span>
+                {data?.assignment?.trackID}
+              </span>
+            </div>
+          </li>
+        }
       </ul>
 
       <div className="d-flex justify-content-between">
@@ -118,7 +134,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
               Procced
             </button>
           ) : (
-            <button className={styles.status_btn}>Update Status</button>
+            <button className={styles.status_btn} onClick={() => setAssignmentID(data?.assignment?._id)}>Update Status</button>
           ))}
         {role === "User" && (
           <button
@@ -136,6 +152,12 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
           groupData={groupData}
           customerID={apidata.customerID}
           parcelID={apidata.parcelID}
+        />
+      )}
+      {assignmentID && (
+        <UpdateStatusModal
+          setModal={setAssignmentID}
+          assignmentID={assignmentID}
         />
       )}
     </div>

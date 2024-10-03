@@ -9,11 +9,8 @@ import ListLoader from "../../Components/Loader/ListLoader";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
 import ShipmentCard from "../../Components/ShipmentCard/ShipmentCard";
 import {
-  useAll_parcelQuery,
-  useBranch_parcelQuery,
   useParcel_AssignedQuery,
   useRider_ParcelQuery,
-  useUser_parcelQuery,
 } from "../../redux/Parcel/Parcel";
 import ProccedModal from "../../Components/ProccedModal/ProccedModal";
 import { BiPlus } from "react-icons/bi";
@@ -49,11 +46,6 @@ const Rider_Parcel = () => {
   // });
   // const Admin_isLoading = Branch_Parcel_API?.isLoading;
   // const Branch_Parcel = Branch_Parcel_API?.data?.parcel;
-
-  //API for User only with UserID
-  const User_Parcel_API = useUser_parcelQuery(id, { skip: !id });
-  const User_isLoading = User_Parcel_API?.isLoading;
-  const User_Parcel = User_Parcel_API?.data?.parcels;
 
   // let Data = [];
 
@@ -103,7 +95,7 @@ const Rider_Parcel = () => {
               <Available message={"No Parcel Available"} />
             ) : (
               <div className={`row ${style.card_wrapper}`}>
-                {User_isLoading ? (
+                {false ? (
                   <ListLoader />
                 ) : (
                   Rider_Parcel?.slice(itemOffset, endOffset)?.map(
