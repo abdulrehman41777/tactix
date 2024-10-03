@@ -84,6 +84,7 @@ const CustomerProfile = () => {
         branchID: branchId,
         data: formData,
       });
+
       if (!res.error) {
         if (
           res?.data?.invalidData?.length === 0 ||

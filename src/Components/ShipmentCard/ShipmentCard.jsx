@@ -9,11 +9,14 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [procced, setProcced] = useState(null);
   const [assignmentID, setAssignmentID] = useState(null);
   const [apidata, setApiData] = useState({});
+  const [parcelData, setParcelData] = useState(null)
+
+  console.log(parcelData)
+
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
 
-  console.log(assignmentID)
 
   const { data: group, isLoading: groupLoading } = useGetRiderGroupQuery(
     procced,
@@ -29,6 +32,10 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       customerID: customerID,
       parcelID: parcelID,
     });
+  };
+
+  const handleGetData = (parcelData) => {
+    setParcelData(parcelData);
   };
 
   return (
@@ -133,9 +140,17 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             >
               Procced
             </button>
-          ) : (
-            <button className={styles.status_btn} onClick={() => setAssignmentID(data?.assignment?._id)}>Update Status</button>
-          ))}
+          ) : data?.assignment?.Status[0] === "Cancelled" || data?.assignment?.Status[0] === "Return to Depot" ?
+            <button
+              className={styles.status_btn}
+              onClick={() => handleGetData(data)}
+            >
+              View
+            </button>
+            :
+            (
+              <button className={styles.status_btn} onClick={() => setAssignmentID(data?.assignment?._id)}>Update Status</button>
+            ))}
         {role === "User" && (
           <button
             className={styles.status_btn}

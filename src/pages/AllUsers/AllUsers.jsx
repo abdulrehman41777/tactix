@@ -15,9 +15,6 @@ const AllUsers = () => {
   const [filter, setFilter] = useState("all");
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
-  const [userId, setUserId] = useState("");
-
-  console.log(userId)
 
   const navigate = useNavigate();
 
@@ -27,8 +24,6 @@ const AllUsers = () => {
   const allUsersApi = useGetAllUserByBranchQuery(id);
   const isLoading = allUsersApi?.isLoading;
   const all_User = allUsersApi?.data?.data;
-
-  console.log(all_User?.rateList)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
@@ -42,7 +37,6 @@ const AllUsers = () => {
       <Dlayout pageName="All Customers" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
           <div className={style.select_allUser}
-          // style={{display: "flex", justifyContent: "space-between"}}
           >
             <button
               className={`btn`}
