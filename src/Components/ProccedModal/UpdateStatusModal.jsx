@@ -6,20 +6,29 @@ import { useAll_RidersQuery } from "../../redux/Rider/rider";
 
 const UpdateStatusModal = ({ setModal, assignmentID }) => {
     const [status, setStatus] = useState();
+    const [reason, setReason] = useState("")
 
     const selector = useSelector((state) => state?.userData);
     const id = selector?.data?.user?._id;
-    console.log(status)
     const assignArray = ["Transfer", "Collected", "Shipped", "Delivered", "Cancelled", "Return to Depot"]
 
+    console.log({ status, reason })
+
     const [update_assign_parcel, { isLoading }] = useUpdate_assign_ParcelMutation();
+
+    const handleGetStatus = (value) => {
+        setStatus(value)
+        if (status === "Cancelled" || status === "Return to Depot") {
+            setReason("")
+        }
+    }
 
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
         try {
             const res = await update_assign_parcel({
                 assignmentID: assignmentID,
-                data: { status: [status] },
+                data: { status: [status], reason: reason },
             });
             if (!res.error) {
                 NotificationAlert("Parcel Status Updated", "success");
@@ -48,7 +57,7 @@ const UpdateStatusModal = ({ setModal, assignmentID }) => {
                     <select
                         name="group"
                         className="text-dark bg-light"
-                        onChange={(e) => setStatus(e.target.value)}
+                        onChange={(e) => handleGetStatus(e.target.value)}
                     >
                         <option value={status} disabled defaultValue className="text-dark">
                             Select Group
@@ -60,23 +69,17 @@ const UpdateStatusModal = ({ setModal, assignmentID }) => {
                         ))}
 
                     </select>
-                    {/* {All_Rider && (
-                        <select
-                            name="rider"
+                    {(status === "Cancelled" || status === "Return to Depot") &&
+                        <textarea
+                            placeholder="reason"
+                            name="reason"
                             className="text-dark bg-light"
-                            onChange={(e) => handlePackageDetail(e)}
-                            value={rider}
-                        >
-                            <option value="" disabled defaultValue className="text-dark">
-                                Select Rider
-                            </option>
-                            {All_Rider?.map((item) => (
-                                <option value={item?._id} key={item?._id} className="text-dark">
-                                    {item?.name}
-                                </option>
-                            ))}
-                        </select>
-                    )} */}
+                            style={{ padding: 2, borderRadius: 5 }}
+                            rows={5}
+                            onChange={(e) => setReason(e.target.value)}
+                            value={reason}
+                        />
+                    }
                     {isLoading ? (
                         <button className="modal_sumbit_btn mt-3" disabled>
                             Submiting

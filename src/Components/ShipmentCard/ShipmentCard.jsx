@@ -4,6 +4,7 @@ import ProccedModal from "../ProccedModal/ProccedModal";
 import { useState } from "react";
 import { useGetRiderGroupQuery } from "../../redux/Manager/manager";
 import UpdateStatusModal from "../ProccedModal/UpdateStatusModal";
+import ViewParcelData from "../ViewParcelData/ViewParcelData";
 
 const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [procced, setProcced] = useState(null);
@@ -174,6 +175,9 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
           setModal={setAssignmentID}
           assignmentID={assignmentID}
         />
+      )}
+      {parcelData && (
+        <ViewParcelData setIsView={setParcelData} orderData={parcelData} />
       )}
     </div>
   );

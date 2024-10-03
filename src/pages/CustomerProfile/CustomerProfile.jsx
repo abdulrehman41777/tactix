@@ -100,7 +100,6 @@ const CustomerProfile = () => {
           NotificationAlert("Uplaod Correct Csv");
         }
       }
-      console.log(res);
     } catch (error) {
       NotificationAlert("Something Went Wrong!");
     }
@@ -123,11 +122,7 @@ const CustomerProfile = () => {
     }
   };
 
-  const search = "";
-  const filter = "all";
   const isLoading = false;
-  const itemOffset = 0;
-  const endOffset = 5;
 
   useEffect(() => {
     if (isView && parcelData) {
@@ -245,138 +240,6 @@ const CustomerProfile = () => {
               </table>
             )}
           </div>
-
-          {/* <div className={style.lower}>
-            <form
-              style={{ height: "100%", width: "100%" }}
-              onSubmit={handleUpdate}
-            >
-              <div className={style.profile_update_wrapper}>
-                <label
-                  htmlFor="image"
-                  style={{ width: "100%", height: "100%", cursor: "pointer" }}
-                  className={style.upload_pic_label}
-                >
-                  <div className={style.update_profile_button}>
-                    <RiUploadCloudFill className={style.upload_icon} />
-                    <h3>Upload Files</h3>
-                    <p className="text-center">
-                      PNG, JPG and GIF files are allowed
-                    </p>
-                  </div>
-                </label>
-                <input
-                  type="file"
-                  name="profileImage"
-                  id="image"
-                  onChange={onChangeProfile}
-                  multiple="multiple"
-                  accept="video/png/jpeg*"
-                  style={{ display: "none" }}
-                />
-                <div className={style.upload_detail}>
-                  <h3>Complete your profile</h3>
-                  <p>
-                    Stay on the pulse of distributed projects with an anline
-                    whiteboard to plan, coordinate and discuss
-                  </p>
-                </div>
-              </div>
-            </form>
-            <div className={style.update_profile_fields_wrapper}>
-              <p>Update Your Profile</p>
-              <form className={style.form} onSubmit={handleUpdate}>
-                <div className={style.update_profile_fields_box_wrapper}>
-                  <h6>Name</h6>
-                  <div className={style.update_profile_fields_box}>
-                    <AiOutlineUser
-                      className={style.update_profile_fields_box_icon}
-                    />
-                    <input
-                      value={updateFields.name}
-                      type="text"
-                      placeholder="Enter Your Name"
-                      name="name"
-                      onChange={handleUpdateProfile}
-                    />
-                  </div>
-                </div>
-                <div className={style.update_profile_fields_box_wrapper}>
-                  <h6>Email</h6>
-                  <div className={style.update_profile_fields_box}>
-                    <MdEmail className={style.update_profile_fields_box_icon} />
-                    <input
-                      value={updateFields.email}
-                      type="email"
-                      name="email"
-                      onChange={handleUpdateProfile}
-                      placeholder="Enter Your Email"
-                    />
-                  </div>
-                </div>
-                <div className={style.update_profile_fields_box_wrapper}>
-                  <h6>Password</h6>
-                  <div className={style.update_profile_fields_box}>
-                    <RiLockPasswordFill
-                      className={style.update_profile_fields_box_icon}
-                    />
-                    <input
-                      type={isPassOne ? "text" : "password"}
-                      name="password"
-                      onChange={handleUpdateProfile}
-                      placeholder="Enter Your Password"
-                      value={password}
-                    />
-                    {isPassOne ? (
-                      <AiFillEye
-                        className={style.update_profile_fields_box_icon}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setIsPassOne(false)}
-                      />
-                    ) : (
-                      <AiFillEyeInvisible
-                        className={style.update_profile_fields_box_icon}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setIsPassOne(true)}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className={style.update_profile_fields_box_wrapper}>
-                  <h6>Confirm Password</h6>
-                  <div className={style.update_profile_fields_box}>
-                    <RiLockPasswordFill
-                      className={style.update_profile_fields_box_icon}
-                    />
-                    <input
-                      type={isPassTwo ? "text" : "password"}
-                      placeholder="Enter Your Password"
-                      onChange={(e) => setConfirmPass(e.target.value)}
-                      value={confirmPass}
-                    />
-                    {isPassTwo ? (
-                      <AiFillEye
-                        className={style.update_profile_fields_box_icon}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setIsPassTwo(false)}
-                      />
-                    ) : (
-                      <AiFillEyeInvisible
-                        className={style.update_profile_fields_box_icon}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setIsPassTwo(true)}
-                      />
-                    )}
-                  </div>
-                </div>
-                {isLoading ? (
-                  <button className={style.update_btn}>UPDATING</button>
-                ) : (
-                  <button className={style.update_btn}>UPDATE</button>
-                )}
-              </form>
-            </div>
-          </div> */}
         </div>
       </Dlayout>
       {isUpload === 1 && (
