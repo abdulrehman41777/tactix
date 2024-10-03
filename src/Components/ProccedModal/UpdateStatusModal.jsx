@@ -1,18 +1,33 @@
 import React, { useState } from "react";
-import { useAssign_ParcelMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
+import { useTransfer_ParcelMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
-import { useAll_RidersQuery } from "../../redux/Rider/rider";
+import rider, { useAll_RidersQuery } from "../../redux/Rider/rider";
 
-const UpdateStatusModal = ({ setModal, assignmentID }) => {
+const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
+    const [packageDetail, setPackageDetail] = useState({
+        groupID: "",
+        riderID: "",
+    });
     const [status, setStatus] = useState();
     const [reason, setReason] = useState("")
 
-    const selector = useSelector((state) => state?.userData);
-    const id = selector?.data?.user?._id;
-    const assignArray = ["Transfer", "Collected", "Shipped", "Delivered", "Cancelled", "Return to Depot"]
+    const { groupID, riderID } = packageDetail;
 
-    console.log({ status, reason })
+    const selector = useSelector((state) => state?.userData);
+    const userID = selector?.data?.user?._id;
+
+    console.log(userID, "groupData")
+
+    const assignArray = ["Delivered", "Transfer", "Collected", "Shipped", "Cancelled", "Return to Depot"]
+
+    const handlePackageDetail = (e) => {
+        setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
+    };
+
+    // All Rider
+    const All_Rider_API = useAll_RidersQuery(groupID, { skip: !groupID });
+    const All_Rider = All_Rider_API?.data?.findGroupRiders;
 
     const [update_assign_parcel, { isLoading }] = useUpdate_assign_ParcelMutation();
 
@@ -22,16 +37,51 @@ const UpdateStatusModal = ({ setModal, assignmentID }) => {
             setReason("")
         }
     }
-
+    console.log(status)
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
         try {
+
+            if (status === "" || status === undefined) {
+                return NotificationAlert("Select Status");
+            }
+
             const res = await update_assign_parcel({
                 assignmentID: assignmentID,
                 data: { status: [status], reason: reason },
             });
             if (!res.error) {
                 NotificationAlert("Parcel Status Updated", "success");
+                setModal(null)
+            } else {
+                NotificationAlert(res?.error?.data?.message);
+            }
+            console.log(res);
+        } catch (error) {
+            NotificationAlert("Error");
+        }
+    };
+
+    const [tranferParcel, { isLoading: transferLoading }] = useTransfer_ParcelMutation()
+
+    const handleTransferParcel = async (e) => {
+        e.preventDefault();
+        try {
+            if (groupID === "") {
+                return NotificationAlert("Select Group First");
+            }
+            if (riderID === "") {
+                return NotificationAlert("Select Rider");
+            }
+
+            const res = await tranferParcel({
+                assignmentID: assignmentID,
+                newRiderID: riderID,
+                newriderGroupID: groupID,
+                assignedFromManager: userID,
+            });
+            if (!res.error) {
+                NotificationAlert(res.data.message, "success");
                 setModal(null)
             } else {
                 NotificationAlert(res?.error?.data?.message);
@@ -53,13 +103,13 @@ const UpdateStatusModal = ({ setModal, assignmentID }) => {
                 </div>
                 <form
                     className="mt-1 modal_form d-flex flex-column gap-2"
-                    onSubmit={handlePArcelAssign} >
+                    onSubmit={status !== "Transfer" ? handlePArcelAssign : handleTransferParcel} >
                     <select
-                        name="group"
+                        name="status"
                         className="text-dark bg-light"
                         onChange={(e) => handleGetStatus(e.target.value)}
                     >
-                        <option value={status} disabled defaultValue className="text-dark">
+                        <option value={status} defaultValue className="text-dark">
                             Select Group
                         </option>
                         {assignArray?.map((item, i) => (
@@ -80,7 +130,43 @@ const UpdateStatusModal = ({ setModal, assignmentID }) => {
                             value={reason}
                         />
                     }
-                    {isLoading ? (
+                    {(status === "Transfer") &&
+                        <>
+                            <select
+                                name="groupID"
+                                className="text-dark bg-light"
+                                onChange={(e) => handlePackageDetail(e)}
+                                value={groupID}
+                            >
+                                <option value="" disabled defaultValue className="text-dark">
+                                    Select Group
+                                </option>
+                                {groupData?.map((item) => (
+                                    <option value={item?._id} key={item?._id} className="text-dark">
+                                        {item?.groupname}
+                                    </option>
+                                ))}
+                            </select>
+                            {All_Rider && (
+                                <select
+                                    name="riderID"
+                                    className="text-dark bg-light"
+                                    onChange={(e) => handlePackageDetail(e)}
+                                    value={riderID}
+                                >
+                                    <option value="" disabled defaultValue className="text-dark">
+                                        Select Rider
+                                    </option>
+                                    {All_Rider?.map((item) => (
+                                        <option value={item?._id} key={item?._id} className="text-dark">
+                                            {item?.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+                        </>
+                    }
+                    {(isLoading || transferLoading) ? (
                         <button className="modal_sumbit_btn mt-3" disabled>
                             Submiting
                         </button>

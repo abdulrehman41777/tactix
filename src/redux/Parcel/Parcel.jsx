@@ -3,7 +3,7 @@ import API_BASE_URL from "../../../config";
 
 const percel = createApi({
   reducerPath: "parcel",
-  tagTypes: ["parcel", "tracking", "assign_parcel", "update_assign_parcel"],
+  tagTypes: ["parcel", "tracking", "assign_parcel", "update_assign_parcel", "transfer_parcel"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
 
   endpoints: (builder) => ({
@@ -93,7 +93,7 @@ const percel = createApi({
           method: "GET",
         };
       },
-      providesTags: ["assign_parcel", "update_assign_parcel"],
+      providesTags: ["assign_parcel", "update_assign_parcel", "transfer_parcel"],
     }),
     getSingleParcels: builder.query({
       query: (parcelID) => {
@@ -123,6 +123,15 @@ const percel = createApi({
       },
       invalidatesTags: ["update_assign_parcel"],
     }),
+    transfer_Parcel: builder.mutation({
+      query: ({ assignmentID, newRiderID, newriderGroupID, assignedFromManager }) => {
+        return {
+          url: `assignments/transfer-assignments/${assignmentID}/${newRiderID}/${newriderGroupID}/${assignedFromManager}`,
+          method: "PATCH",
+        };
+      },
+      invalidatesTags: ["transfer_parcel"],
+    }),
   }),
 });
 
@@ -138,7 +147,8 @@ export const {
   useGetParcelsQuery,
   useGetSingleParcelsQuery,
   useAssign_ParcelMutation,
-  useUpdate_assign_ParcelMutation
+  useUpdate_assign_ParcelMutation,
+  useTransfer_ParcelMutation
 } = percel;
 
 export default percel;

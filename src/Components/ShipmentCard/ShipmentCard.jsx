@@ -8,6 +8,7 @@ import ViewParcelData from "../ViewParcelData/ViewParcelData";
 
 const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [procced, setProcced] = useState(null);
+  const [getBranchID, setGetBranchID] = useState(null);
   const [assignmentID, setAssignmentID] = useState(null);
   const [apidata, setApiData] = useState({});
   const [parcelData, setParcelData] = useState(null)
@@ -20,9 +21,9 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
 
 
   const { data: group, isLoading: groupLoading } = useGetRiderGroupQuery(
-    procced,
+    (procced || getBranchID),
     {
-      skip: !procced,
+      skip: (!procced && !getBranchID),
     }
   );
   const groupData = group?.findRiderGroups;
@@ -38,6 +39,12 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const handleGetData = (parcelData) => {
     setParcelData(parcelData);
   };
+
+  const handleUpdateStatus = (branchID, assignmentID) => {
+    setGetBranchID(branchID);
+    setAssignmentID(assignmentID)
+
+  }
 
   return (
     <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
@@ -150,7 +157,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             </button>
             :
             (
-              <button className={styles.status_btn} onClick={() => setAssignmentID(data?.assignment?._id)}>Update Status</button>
+              <button className={styles.status_btn} onClick={() => handleUpdateStatus(data?.branchID, data?.assignment?._id)}>Update Status</button>
             ))}
         {role === "User" && (
           <button
@@ -174,6 +181,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
         <UpdateStatusModal
           setModal={setAssignmentID}
           assignmentID={assignmentID}
+          groupData={groupData}
         />
       )}
       {parcelData && (
