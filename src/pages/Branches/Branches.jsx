@@ -7,7 +7,10 @@ import ReactPaginate from "react-paginate";
 import { BiPlus } from "react-icons/bi";
 import AddBranch from "../../Components/AddBranch/AddBranch";
 import { useSelector } from "react-redux";
-import { useAll_branchesQuery, useBranchesByAdminQuery } from "../../redux/Branch/Branch";
+import {
+  useAll_branchesQuery,
+  useBranchesByAdminQuery,
+} from "../../redux/Branch/Branch";
 import { useNavigate } from "react-router-dom";
 import UpdateBranch from "../../Components/UpdateBranch/UpdateBranch";
 import AssignBranch from "../../Components/AssignBranch/AssignBranch";
@@ -23,7 +26,6 @@ const Branches = () => {
   const [assignBranch, setAssignBranch] = useState(false);
   const [branchDetail, setBranchDetail] = useState(false);
 
-
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const userID = selector?.data?.user?._id;
@@ -32,11 +34,10 @@ const Branches = () => {
   const all_Branches_API = useAll_branchesQuery(userID, { skip: !userID });
   const All_branches = all_Branches_API?.data?.allbranches;
 
-  console.log(all_Branches_API)
-
-  const branchesByAdminQuery = useBranchesByAdminQuery(userID, { skip: !userID || role !== "Admin" });
+  const branchesByAdminQuery = useBranchesByAdminQuery(userID, {
+    skip: !userID || role !== "Admin",
+  });
   const branchesByAdminData = branchesByAdminQuery?.data?.findAdminBranches;
-
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(All_branches?.length / 6);
@@ -55,7 +56,7 @@ const Branches = () => {
     setBranchDetail(item);
   };
 
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   return (
     <div>
@@ -82,8 +83,8 @@ const Branches = () => {
               </div>
             </div>
             <div className={style.table_div}>
-              {
-                role === "SuperAdmin" ? <table className={`${style.table_container}`}>
+              {role === "SuperAdmin" ? (
+                <table className={`${style.table_container}`}>
                   <thead className={`${style.table_header}`}>
                     <tr>
                       <th>NAME</th>
@@ -93,81 +94,86 @@ const Branches = () => {
                     </tr>
                   </thead>
                   <tbody className={`${style.table_body}`}>
-                    {
+                    {All_branches?.filter((item) =>
+                      item?.branch_name
+                        ?.toLowerCase()
+                        ?.includes(search?.toLowerCase())
+                    )
+                      ?.slice(itemOffset, endOffset)
+                      ?.map((user, index) => (
+                        <tr key={index}>
+                          <td className="d-flex align-items-center">
+                            {user?.branch_name}
+                          </td>
+                          <td>
+                            <div className={style.status}>
+                              {user?.branch_contact_number}
+                            </div>
+                          </td>
+                          <td>{user?.branch_address}</td>
 
-                      All_branches?.filter((item) =>
+                          <td>
+                            <span className="d-flex gap-2">
+                              <FcInvite
+                                color="#D8788C"
+                                onClick={() => handleAssignBranchDetail(user)}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <RxUpdate
+                                color="#D8788C"
+                                onClick={() => handleBranchDetail(user)}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <MdRemoveRedEye
+                                color="#D8788C"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  navigation(
+                                    `/dashboard/branch/single-branch/${user?._id}`
+                                  )
+                                }
+                              />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              ) : (
+                <table className={`${style.table_container}`}>
+                  <thead className={`${style.table_header}`}>
+                    <tr>
+                      <th>NAME</th>
+                      <th>NUMBER</th>
+                      <th>ADDRESS</th>
+                      {/* <th>EDIT</th>
+                        <th>INVITE ADMIN</th> */}
+                    </tr>
+                  </thead>
+                  <tbody className={`${style.table_body}`}>
+                    {branchesByAdminData
+                      ?.filter((item) =>
                         item?.branch_name
                           ?.toLowerCase()
                           ?.includes(search?.toLowerCase())
                       )
-                        ?.slice(itemOffset, endOffset)
-                        ?.map((user, index) => (
-                          <tr key={index}>
-                            <td className="d-flex align-items-center">
-                              {user?.branch_name}
-                            </td>
-                            <td>
-                              <div className={style.status}>
-                                {user?.branch_contact_number}
-                              </div>
-                            </td>
-                            <td>{user?.branch_address}</td>
-
-                            <td>
-
-                              <span className="d-flex gap-2">
-                                <FcInvite color="#D8788C" onClick={() => handleAssignBranchDetail(user)} style={{ cursor: "pointer" }} />
-                                <RxUpdate color="#D8788C" onClick={() => handleBranchDetail(user)} style={{ cursor: "pointer" }} />
-                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} onClick={() => navigation(`/dashboard/branch/single-branch/${user?._id}`)} />
-                              </span>
-                            </td>
-                          </tr>
-                        ))
-
-
-                    }
+                      ?.slice(itemOffset, endOffset)
+                      ?.map((user, index) => (
+                        <tr key={index}>
+                          <td className="d-flex align-items-center">
+                            {user?.branch_name}
+                          </td>
+                          <td>
+                            <div className={style.status}>
+                              {user?.branch_contact_number}
+                            </div>
+                          </td>
+                          <td>{user?.branch_address}</td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
-                  :
-                  <table className={`${style.table_container}`}>
-                    <thead className={`${style.table_header}`}>
-                      <tr>
-                        <th>NAME</th>
-                        <th>NUMBER</th>
-                        <th>ADDRESS</th>
-                        {/* <th>EDIT</th>
-                        <th>INVITE ADMIN</th> */}
-                      </tr>
-                    </thead>
-                    <tbody className={`${style.table_body}`}>
-                      {
-
-                        branchesByAdminData?.filter((item) =>
-                          item?.branch_name
-                            ?.toLowerCase()
-                            ?.includes(search?.toLowerCase())
-                        )
-                          ?.slice(itemOffset, endOffset)
-                          ?.map((user, index) => (
-                            <tr key={index}>
-                              <td className="d-flex align-items-center">
-                                {user?.branch_name}
-                              </td>
-                              <td>
-                                <div className={style.status}>
-                                  {user?.branch_contact_number}
-                                </div>
-                              </td>
-                              <td>{user?.branch_address}</td>
-                            </tr>
-                          ))
-
-
-                      }
-                    </tbody>
-                  </table>
-              }
-
+              )}
             </div>
           </div>
           {All_branches?.length >= 6 && (

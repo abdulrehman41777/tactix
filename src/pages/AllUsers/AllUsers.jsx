@@ -20,6 +20,7 @@ const AllUsers = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
   const role = selector?.data?.user?.role?.[0];
+  console.log(selector);
 
   const allUsersApi = useGetAllUserByBranchQuery(id);
   const isLoading = allUsersApi?.isLoading;
@@ -76,7 +77,6 @@ const AllUsers = () => {
                             ?.includes(search?.toLowerCase()) &&
                           (filter === "all" || item.role[0] === filter)
                       )
-
                       ?.slice(itemOffset, endOffset)
                       ?.map((user, index) => (
                         <tr key={index}>

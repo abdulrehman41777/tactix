@@ -56,6 +56,8 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
         if (!res.error) {
           setAssignBranch(false);
           NotificationAlert("Branch Updated successfully", "success");
+        } else {
+          NotificationAlert(res.error.data.message);
         }
       } catch (error) {
         console.log(error);
