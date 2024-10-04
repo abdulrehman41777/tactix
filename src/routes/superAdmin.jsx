@@ -18,75 +18,53 @@ import BranchAdmins from "../pages/BranchAdmins/BranchAdmins";
 const superAdmin = [
   {
     path: "/",
-    element: <Main />,
+    element: <Main />, // working
   },
   {
     path: "/dashboard/",
-    element: <Home />,
-  },
-  {
-    path: "/dashboard/admin", // Not using
-    element: <SuperAdmin />,
-  },
-  {
-    path: "/dashboard/branch/admins",
-    element: <BranchAdmins />,
-  },
-  {
-    path: "/dashboard/branch/groups",
-    element: <AllGroups />,
-  },
-  {
-    path: "/dashboard/branch/groups/all-riders/:id",
-    element: <AllRiders />,
-  },
-  {
-    path: "/dashboard/profile",
-    element: <Profile />,
-  },
-
-  {
-    path: "/dashboard/create-admin",
-    element: <CreateAdmin />,
-  },
-  {
-    path: "/dashboard/manager",
-    element: <Admin />,
-  },
-  {
-    path: "/dashboard/countries",
-    element: <AddCountries />,
-  },
-  {
-    path: "/dashboard/all-user",
-    element: <AllUsers />,
-  },
-
-  {
-    path: "/dashboard/all-riders/:id",
-    element: <AllRiders />,
-  },
-
-  {
-    path: "/dashboard/groups",
-    element: <AllGroups />,
+    element: <Home />, // working
   },
 
   {
     path: "/dashboard/branch",
-    element: <Branches />,
+    element: <Branches />, // working
   },
+
   {
     path: "/dashboard/branch/single-branch/:id",
-    element: <SingleBranch />,
+    element: <SingleBranch />, // working
+  },
+
+  {
+    path: "/dashboard/branch/admins",
+    element: <BranchAdmins />, // working
+  },
+
+  {
+    path: "/dashboard/branch/groups",
+    element: <AllGroups />, // working
   },
   {
-    path: "/dashboard/add-tax",
-    element: <AddTax />,
+    path: "/dashboard/branch/groups/all-riders/:id",
+    element: <AllRiders />, // working
   },
+  {
+    path: "/dashboard/profile",
+    element: <Profile />, // working
+  },
+
+  {
+    path: "/dashboard/create-admin",
+    element: <CreateAdmin />, // working
+  },
+  {
+    path: "/dashboard/branch/users",
+    element: <AllUsers />, // pending
+  },
+
   {
     path: "/dashboard/parcel",
-    element: <Parcel />,
+    element: <Parcel />, // working
   },
 
   {

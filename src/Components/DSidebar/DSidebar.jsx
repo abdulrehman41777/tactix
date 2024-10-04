@@ -32,24 +32,20 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <AiFillHome />,
     },
 
-
     {
       path: "/dashboard/parcel",
       name: "All Parcel",
       icon: <BsBox2Fill />,
     },
 
-
-
-
-    {
-      path: "/dashboard/countries",
-      name: "Countries",
-      icon: <BiWorld />,
-    },
     {
       path: "/dashboard/branch",
       name: "Branch",
+      icon: <BiGitBranch />,
+    },
+    {
+      path: "/dashboard/create-admin",
+      name: "Create Admin",
       icon: <BiGitBranch />,
     },
     {
