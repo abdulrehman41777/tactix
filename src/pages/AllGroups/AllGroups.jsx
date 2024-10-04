@@ -11,66 +11,69 @@ import { useUsersQuery } from "../../redux/Auth/auth";
 import Available from "../../Components/cards/Available";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useCreateGroupMutation, useGetGroupByAdminQuery, useGetGroupBySuperAdminQuery, useGetGroupQuery, useManagersQuery } from "../../redux/Manager/manager";
+import {
+  useCreateGroupMutation,
+  useGetGroupByAdminQuery,
+  useGetGroupQuery,
+  useManagersQuery,
+} from "../../redux/Manager/manager";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 
 const AllGroups = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
-  const [groupData, setGroupData] = useState([])
+  const [groupData, setGroupData] = useState([]);
   const [createGroup, setCreateGroup] = useState({
     isOpen: false,
-    groupname: null
-  })
+    groupname: null,
+  });
 
   // User Data
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
-  const userID = selector?.data?.user?._id
-  const branchID = selector?.data
+  const userID = selector?.data?.user?._id;
+  const branchID = selector?.data;
 
   const navigate = useNavigate();
 
   const pathname = window.location.pathname;
-  const isBranch = pathname?.split("/")?.includes("branch")
+  const isBranch = pathname?.split("/")?.includes("branch");
 
   // Get Data From Branch
   const location = useLocation();
   const data = location.state;
 
-  console.log(data)
-
   // Get Group By Manager
-  const Get_Group_by_manager = useGetGroupQuery(userID, { skip: !userID || role !== "Manager" });
+  const Get_Group_by_manager = useGetGroupQuery(userID, {
+    skip: !userID || role !== "Manager",
+  });
   const Get_Groups = Get_Group_by_manager?.data?.RidersGroup;
   const isLoading = Get_Group_by_manager?.isLoading;
 
   // Get Group By Admin
-  const Get_Group_by_Admin = useGetGroupByAdminQuery({ AdminId: userID }, { skip: !userID || role !== 'Admin' });
+  const Get_Group_by_Admin = useGetGroupByAdminQuery(
+    { AdminId: userID },
+    { skip: !userID || role !== "Admin" }
+  );
   const Get_Groups_Admin = Get_Group_by_Admin?.data?.findRiderGroups;
   const AdminLoading = Get_Group_by_Admin?.isLoading;
 
-  // Get Group By Super Admin
-  const Get_Group_by_SuperAdmin = useGetGroupBySuperAdminQuery({ superAdminID: userID }, { skip: !userID });
-  const Get_Groups_SuperAdmin = Get_Group_by_SuperAdmin?.data?.findRiderGroups;
-  const SuperAdminLoading = Get_Group_by_SuperAdmin?.isLoading;
-
   useEffect(() => {
-
     if (data?.from === "branch") {
-      setGroupData(data?.groups)
+      setGroupData(data?.groups);
     }
 
     if (role === "Manager") {
-      setGroupData(Get_Groups)
+      setGroupData(Get_Groups);
     } else if (role === "Admin") {
-      setGroupData(Get_Groups_Admin)
+      setGroupData(Get_Groups_Admin);
     }
-  }, [data, Get_Group_by_manager, Get_Group_by_Admin])
+  }, [data, Get_Group_by_manager, Get_Group_by_Admin]);
 
   // Create Group API
-  const [createGroupAPI, { isLoading: createGroupLoad }] = useCreateGroupMutation()
+  const [createGroupAPI, { isLoading: createGroupLoad }] =
+    useCreateGroupMutation();
 
   const handleCreateGroup = async () => {
     try {
@@ -83,16 +86,15 @@ const AllGroups = () => {
         data: {
           groupname: createGroup.groupname,
         },
-      })
+      });
 
       if (!res.error) {
-        setCreateGroup((prev) => ({ ...prev, isOpen: false, groupname: "" }))
+        setCreateGroup((prev) => ({ ...prev, isOpen: false, groupname: "" }));
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Get_Groups?.length / 6);
@@ -110,31 +112,56 @@ const AllGroups = () => {
             <div className={style.admin_head}>
               <h4>Group's</h4>
               <div className="d-flex gap-4 align-items-center">
-                {createGroup.isOpen &&
-                  <input type="text" className="border-0 rounded-3 px-3 py-2" style={{ background: "var(--light-secondary)" }} placeholder="Group Name" onChange={(e) => setCreateGroup((prev) => ({ ...prev, groupname: e.target.value }))} />
-                }
-                {role === "Manager" ?
-                  !createGroup.isOpen ?
+                {createGroup.isOpen && (
+                  <input
+                    type="text"
+                    className="border-0 rounded-3 px-3 py-2"
+                    style={{ background: "var(--light-secondary)" }}
+                    placeholder="Group Name"
+                    onChange={(e) =>
+                      setCreateGroup((prev) => ({
+                        ...prev,
+                        groupname: e.target.value,
+                      }))
+                    }
+                  />
+                )}
+                {role === "Manager" ? (
+                  !createGroup.isOpen ? (
                     <button
                       className={style.status_btn_paid}
-                      onClick={() => setCreateGroup((prev) => ({ ...prev, isOpen: true }))}
+                      onClick={() =>
+                        setCreateGroup((prev) => ({ ...prev, isOpen: true }))
+                      }
                     >
                       Create Group
                     </button>
-                    :
+                  ) : (
                     <div className="d-flex gap-3">
-                      <FaCheck color="white" size={20} style={{ cursor: "pointer" }} onClick={handleCreateGroup} />
-                      <MdCancel color="white" size={20} onClick={() => setCreateGroup((prev) => ({ ...prev, isOpen: false }))} style={{ cursor: "pointer" }} />
-                    </div> : null
-                }
-
+                      <FaCheck
+                        color="white"
+                        size={20}
+                        style={{ cursor: "pointer" }}
+                        onClick={handleCreateGroup}
+                      />
+                      <MdCancel
+                        color="white"
+                        size={20}
+                        onClick={() =>
+                          setCreateGroup((prev) => ({ ...prev, isOpen: false }))
+                        }
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                  )
+                ) : null}
               </div>
             </div>
             {groupData?.length === 0 ? (
               <Available message={"No Group Available"} />
             ) : (
               <div className={style.table_div}>
-                {(isLoading || AdminLoading) ? (
+                {isLoading || AdminLoading ? (
                   <ListLoader />
                 ) : (
                   <table className={`${style.table_container}`}>
@@ -147,11 +174,12 @@ const AllGroups = () => {
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {groupData?.filter((item) =>
-                        item?.groupname
-                          ?.toLowerCase()
-                          ?.includes(search?.toLowerCase())
-                      )
+                      {groupData
+                        ?.filter((item) =>
+                          item?.groupname
+                            ?.toLowerCase()
+                            ?.includes(search?.toLowerCase())
+                        )
                         ?.slice(itemOffset, endOffset)
                         ?.map((user, index) => (
                           <tr key={index}>
@@ -163,46 +191,59 @@ const AllGroups = () => {
                             {role === "Manager" ? (
                               <td>
                                 <span className="d-flex gap-4">
-
-                                  <button className={style.status_btn_paid} onClick={() =>
-                                    navigate(`/dashboard/groups/all-riders/${user?._id}`)
-                                  }>
+                                  <button
+                                    className={style.status_btn_paid}
+                                    onClick={() =>
+                                      navigate(
+                                        `/dashboard/groups/all-riders/${user?._id}`
+                                      )
+                                    }
+                                  >
                                     View
                                   </button>
                                   <button
                                     className={style.status_btn_paid}
                                     onClick={() =>
-                                      navigate(`/dashboard/create-rider/${user?._id}`)
+                                      navigate(
+                                        `/dashboard/create-rider/${user?._id}`
+                                      )
                                     }
                                   >
                                     Add Rider
                                   </button>
                                 </span>
                               </td>
-                            ) : role === "Admin" ?
+                            ) : role === "Admin" ? (
                               <td>
                                 <span className="d-flex gap-4">
-
-                                  <button className={style.status_btn_paid} onClick={() =>
-                                    navigate(`/dashboard/groups/all-riders/${user?._id}`)
-                                  }>
+                                  <button
+                                    className={style.status_btn_paid}
+                                    onClick={() =>
+                                      navigate(
+                                        `/dashboard/groups/all-riders/${user?._id}`
+                                      )
+                                    }
+                                  >
                                     View
                                   </button>
-
                                 </span>
-                              </td> :
-                              (<button
+                              </td>
+                            ) : (
+                              <button
                                 className={style.status_btn_paid}
                                 onClick={() =>
-                                  isBranch ?
-                                    navigate(`/dashboard/branch/groups/all-riders/${user?._id}`)
-                                    :
-                                    navigate(`/dashboard/create-rider/${user?._id}`)
+                                  isBranch
+                                    ? navigate(
+                                        `/dashboard/branch/groups/all-riders/${user?._id}`
+                                      )
+                                    : navigate(
+                                        `/dashboard/create-rider/${user?._id}`
+                                      )
                                 }
                               >
                                 View
-                              </button>)
-                            }
+                              </button>
+                            )}
                           </tr>
                         ))}
                     </tbody>

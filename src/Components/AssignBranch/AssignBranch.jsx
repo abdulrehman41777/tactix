@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useAssignBranchToAdminMutation, useUpdate_BranchMutation } from "../../redux/Branch/Branch";
+import {
+  useAssignBranchToAdminMutation,
+  useUpdate_BranchMutation,
+} from "../../redux/Branch/Branch";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
 import { useAll_AdminsQuery } from "../../redux/Admin/admin";
@@ -15,7 +18,6 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
 
   const { branch_name, branch_address, branch_contact_number } = branch_fields;
 
-
   const [assignBranch, { isLoading }] = useAssignBranchToAdminMutation();
 
   const selector = useSelector((state) => state?.userData);
@@ -25,7 +27,9 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
   const All_Admins_API = useAll_AdminsQuery(id, { skip: !id });
   const All_Admins = All_Admins_API?.data?.createdRoles;
 
-  const filterAdmins = All_Admins?.filter(admins => !branchDetail?.AdminsId?.includes(admins?._id))
+  const filterAdmins = All_Admins?.filter(
+    (admins) => !branchDetail?.AdminsId?.includes(admins?._id)
+  );
 
   const handleChange = (e) => {
     const selectedAdmin = e.target.value;
@@ -50,10 +54,11 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
         });
 
         if (!res.error) {
-          NotificationAlert("Branch Updated successfully", "success");
           setAssignBranch(false);
+          NotificationAlert("Branch Updated successfully", "success");
         }
       } catch (error) {
+        console.log(error);
         NotificationAlert("Something went wrong");
       }
     } else {
@@ -66,7 +71,12 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
       <div className="modal_box">
         <div className="modal_head d-flex justify-content-center">
           <h2 className="f-bold pb-3">Assign Branch</h2>
-          <MdCancel className="position-absolute " style={{ cursor: "pointer", right: 20, top: 20 }} size={20} onClick={() => setAssignBranch(false)} />
+          <MdCancel
+            className="position-absolute "
+            style={{ cursor: "pointer", right: 20, top: 20 }}
+            size={20}
+            onClick={() => setAssignBranch(false)}
+          />
         </div>
         <form className="mt-1 modal_form " onSubmit={handleAddBranch}>
           <select
@@ -84,7 +94,6 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
             ))}
           </select>
 
-
           <div>
             {adminID.length === 0 ? (
               <div className="py-4 text-center">
@@ -93,13 +102,19 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
             ) : (
               <div className="py-4 d-flex gap-1">
                 {adminID.map((id, i) => (
-                  <p key={i} className="p-2 d-flex gap-2 text-white rounded-4 align-items-center" style={{ background: "var(--light-primary-background)" }}>
+                  <p
+                    key={i}
+                    className="p-2 d-flex gap-2 text-white rounded-4 align-items-center"
+                    style={{ background: "var(--light-primary-background)" }}
+                  >
                     {All_Admins.find((admin) => admin._id === id)?.name || id}
-                    <MdCancel onClick={() => handleRemoveAdmin(id)} style={{ cursor: "pointer" }} />
+                    <MdCancel
+                      onClick={() => handleRemoveAdmin(id)}
+                      style={{ cursor: "pointer" }}
+                    />
                   </p>
                 ))}
               </div>
-
             )}
           </div>
 
