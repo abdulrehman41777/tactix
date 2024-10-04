@@ -15,7 +15,6 @@ import {
   REGISTER,
 } from "redux-persist";
 import branch from "./Branch/Branch";
-import alluser from "./User/User";
 import country from "./Country/country";
 import admin from "./Admin/admin";
 import manager from "./Manager/manager";
@@ -29,13 +28,23 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: ["branch", "alluser", "country", "admin", "manager", "rider", "parcel", "taxes", "ParcelPrice", "Tracking"]
+  blacklist: [
+    "branch",
+    "alluser",
+    "country",
+    "admin",
+    "manager",
+    "rider",
+    "parcel",
+    "taxes",
+    "ParcelPrice",
+    "Tracking",
+  ],
 };
 
 const rootReducer = combineReducers({
   [auth.reducerPath]: auth.reducer,
   [branch.reducerPath]: branch.reducer,
-  [alluser.reducerPath]: alluser.reducer,
   [country.reducerPath]: country.reducer,
   [admin.reducerPath]: admin.reducer,
   [manager.reducerPath]: manager.reducer,
@@ -60,7 +69,6 @@ const store = configureStore({
     })
       .concat(auth.middleware)
       .concat(branch.middleware)
-      .concat(alluser.middleware)
       .concat(country.middleware)
       .concat(admin.middleware)
       .concat(manager.middleware)

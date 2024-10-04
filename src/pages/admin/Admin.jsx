@@ -4,13 +4,11 @@ import style from "./admin.module.css";
 import { Container } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 import ReactPaginate from "react-paginate";
-import { useAll_UserQuery } from "../../redux/User/User";
 import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useManagersQuery } from "../../redux/Manager/manager";
 import { useNavigate } from "react-router-dom";
 const Admin = () => {
-
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
 
@@ -20,32 +18,40 @@ const Admin = () => {
 
   const navigate = useNavigate();
 
-
   // All Managers for Admin branch
-  const Manager_Branch_API = useManagersQuery(
-    { adminID: id },
-    { skip: !id }
-  );
+  const Manager_Branch_API = useManagersQuery({ adminID: id }, { skip: !id });
+  const isLoading = Manager_Branch_API?.isLoading;
 
   // console.log(Manager_Branch_API?.data?.managers, "Manager_Branch_API.data")
 
   const Manager_Branch = Manager_Branch_API?.data?.user?.filter(
     (item) => item.role[0] === "Manager"
   );
-  // All Managers For SuperAdmin
-  const All_Manager_API = useAll_UserQuery(id, { skip: !id });
-  const isLoading = All_Manager_API?.isLoading;
-  const All_User = All_Manager_API?.data?.user?.filter(
-    (item) => item.role[0] === "Manager"
-  );
 
   const endOffset = itemOffset + 6;
-  const pageCount = Math.ceil(All_User?.length / 6);
+  const pageCount = Math.ceil(
+    Manager_Branch_API?.data?.managers?.filter((item) =>
+      item?.name?.toLowerCase()?.includes(search?.toLowerCase())
+    )?.length / 6
+  );
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * 6) % All_User?.length;
+    const newOffset =
+      (event.selected * 6) %
+      Manager_Branch_API?.data?.managers?.filter((item) =>
+        item?.name?.toLowerCase()?.includes(search?.toLowerCase())
+      )?.length;
     setItemOffset(newOffset);
   };
+
+  function convertToDate(isoString) {
+    const date = new Date(isoString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
 
   return (
     <div>
@@ -55,7 +61,8 @@ const Admin = () => {
             <div className={style.admin_head}>
               <h4>Manager's</h4>
               <div className={style.task_head_dots}>
-                <button className="btn text-white"
+                <button
+                  className="btn text-white"
                   onClick={() => navigate("/dashboard/create-manager")}
                 >
                   Add Manager
@@ -72,24 +79,25 @@ const Admin = () => {
                     <thead className={`${style.table_header}`}>
                       <tr>
                         <th>NAME</th>
-                        <th>BRANCH</th>
+                        <th>JOINED DATE</th>
                         <th>ROLE</th>
                         <th>ACTION</th>
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {Manager_Branch_API?.data?.managers?.filter((item) =>
-                        item?.name
-                          ?.toLowerCase()
-                          ?.includes(search?.toLowerCase())
-                      )
+                      {Manager_Branch_API?.data?.managers
+                        ?.filter((item) =>
+                          item?.name
+                            ?.toLowerCase()
+                            ?.includes(search?.toLowerCase())
+                        )
                         ?.slice(itemOffset, endOffset)
                         ?.map((user, index) => (
                           <tr key={index}>
                             <td className="d-flex align-items-center">
                               {user?.name}
                             </td>
-                            <td>{user?.branchID?.branch_name}</td>
+                            <td>{convertToDate(user?.createdAt)}</td>
                             <td>{user?.role}</td>
                             <td>
                               <button className={style.status_btn_paid}>
@@ -112,24 +120,25 @@ const Admin = () => {
                     <thead className={`${style.table_header}`}>
                       <tr>
                         <th>NAME</th>
-                        <th>BRANCH</th>
+                        <th>JOINED DATE</th>
                         <th>ROLE</th>
                         <th>ACTION</th>
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {Manager_Branch_API?.data?.managers?.filter((item) =>
-                        item?.name
-                          ?.toLowerCase()
-                          ?.includes(search?.toLowerCase())
-                      )
+                      {Manager_Branch_API?.data?.managers
+                        ?.filter((item) =>
+                          item?.name
+                            ?.toLowerCase()
+                            ?.includes(search?.toLowerCase())
+                        )
                         ?.slice(itemOffset, endOffset)
                         ?.map((user, index) => (
                           <tr key={index}>
                             <td className="d-flex align-items-center">
                               {user?.name}
                             </td>
-                            <td>{user?.branchID?.branch_name}</td>
+                            <td>{convertToDate(user?.createdAt)}</td>
                             <td>{user?.role}</td>
                             <td>
                               <button className={style.status_btn_paid}>
@@ -144,7 +153,9 @@ const Admin = () => {
               ) : null}
             </div>
           </div>
-          {All_User >= 6 && (
+          {Manager_Branch_API?.data?.managers?.filter((item) =>
+            item?.name?.toLowerCase()?.includes(search?.toLowerCase())
+          )?.length >= 6 && (
             <ReactPaginate
               breakLabel="..."
               onPageChange={handlePageClick}

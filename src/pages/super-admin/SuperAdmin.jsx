@@ -5,7 +5,6 @@ import { Container } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 import ReactPaginate from "react-paginate";
 import { useAll_AdminsQuery } from "../../redux/Admin/admin";
-import alluser from "../../redux/User/User";
 import Available from "../../Components/cards/Available";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -30,7 +29,6 @@ const SuperAdmin = () => {
 
   const navigate = useNavigate();
 
-
   return (
     <div>
       <Dlayout pageName="Admin" search={search} setSearch={setSearch}>
@@ -41,13 +39,17 @@ const SuperAdmin = () => {
               <div className={style.task_head_dots}>
                 {/* <BsThreeDots className={style.icon} title="All Admin" /> */}
 
-                <button className="btn text-white" onClick={() => navigate("/dashboard/create-admin")} >
+                <button
+                  className="btn text-white"
+                  onClick={() => navigate("/dashboard/create-admin")}
+                >
                   Add Admin
                 </button>
-
               </div>
             </div>
-            {alluser.length === 0 ? (
+            {All_Admins?.filter((item) =>
+              item?.name?.toLowerCase()?.includes(search?.toLowerCase())
+            ).length === 0 ? (
               <Available
                 message={"No Admin Available"}
                 to={"/dashboard/branch"}
@@ -91,7 +93,9 @@ const SuperAdmin = () => {
               </div>
             )}
           </div>
-          {All_Admins?.length >= 6 && (
+          {All_Admins?.filter((item) =>
+            item?.name?.toLowerCase()?.includes(search?.toLowerCase())
+          )?.length >= 6 && (
             <ReactPaginate
               breakLabel="..."
               onPageChange={handlePageClick}
@@ -109,7 +113,7 @@ const SuperAdmin = () => {
           )}
         </Container>
       </Dlayout>
-    </div >
+    </div>
   );
 };
 

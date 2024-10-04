@@ -7,7 +7,6 @@ import { BsCheck, BsThreeDots } from "react-icons/bs";
 import LineProgressBar from "../../Components/lineProgressBar/LineProgressBar";
 import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
-import { useAll_UserQuery } from "../../redux/User/User";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useNavigate } from "react-router-dom";
 import { useGetAllUserByBranchQuery } from "../../redux/Auth/auth";
@@ -37,17 +36,16 @@ const AllUsers = () => {
     <div>
       <Dlayout pageName="All Customers" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          <div className={style.select_allUser}
-          >
-            {role === "Manager" &&
+          <div className={style.select_allUser}>
+            {role === "Manager" && (
               <button
                 className={`btn`}
                 onClick={() => navigate("/dashboard/create-customer")}
-                style={{ background: '#D8788C', color: '#fff' }}
+                style={{ background: "#D8788C", color: "#fff" }}
               >
                 Add Customer
               </button>
-            }
+            )}
           </div>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
@@ -90,7 +88,11 @@ const AllUsers = () => {
                           <td>
                             <button
                               className={style.status_btn_paid}
-                              onClick={() => navigate(`/dashboard/all-user/customer-profile/${user?._id}`)}
+                              onClick={() =>
+                                navigate(
+                                  `/dashboard/all-user/customer-profile/${user?._id}`
+                                )
+                              }
                             >
                               View
                             </button>
