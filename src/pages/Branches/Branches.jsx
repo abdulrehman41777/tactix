@@ -32,6 +32,7 @@ const Branches = () => {
   const all_Branches_API = useAll_branchesQuery(userID, { skip: !userID });
   const All_branches = all_Branches_API?.data?.allbranches;
 
+  console.log(all_Branches_API)
 
   const branchesByAdminQuery = useBranchesByAdminQuery(userID, { skip: !userID || role !== "Admin" });
   const branchesByAdminData = branchesByAdminQuery?.data?.findAdminBranches;

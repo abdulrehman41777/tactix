@@ -14,42 +14,42 @@ import AllGroups from "../pages/AllGroups/AllGroups";
 const admin = [
   {
     path: "/",
-    element: <Main />,
+    element: <Main />, // working
   },
   {
     path: "/dashboard/",
-    element: <Home />,
+    element: <Home />, // working
   },
   {
     path: "/dashboard/manager",
-    element: <Admin />,
+    element: <Admin />, // working
   },
   {
     path: "/dashboard/create-manager",
-    element: <CreateManager />,
+    element: <CreateManager />, // working
   },
 
   {
     path: "/dashboard/groups",
-    element: <AllGroups />,
+    element: <AllGroups />, // working
   },
   {
-    path: "/dashboard/all-riders/:id",
-    element: <AllRiders />,
+    path: "/dashboard/groups/all-riders/:id",
+    element: <AllRiders />, // working
   },
   {
     path: "/dashboard/all-user",
-    element: <AllUsers />,
+    element: <AllUsers />, // working
   },
 
   {
     path: "/dashboard/parcel",
-    element: <Parcel />,
+    element: <Parcel />, // working
   },
 
   {
     path: "/dashboard/profile",
-    element: <Profile />,
+    element: <Profile />, // working
   },
   {
     path: "*",

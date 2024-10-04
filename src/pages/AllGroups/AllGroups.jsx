@@ -165,9 +165,7 @@ const AllGroups = () => {
                                 <span className="d-flex gap-4">
 
                                   <button className={style.status_btn_paid} onClick={() =>
-                                    isBranch ?
-                                      navigate(`/dashboard/branch/groups/all-riders/${user?._id}`) :
-                                      navigate(`/dashboard/create-rider/${user?._id}`)
+                                    navigate(`/dashboard/groups/all-riders/${user?._id}`)
                                   }>
                                     View
                                   </button>
@@ -181,7 +179,18 @@ const AllGroups = () => {
                                   </button>
                                 </span>
                               </td>
-                            ) :
+                            ) : role === "Admin" ?
+                              <td>
+                                <span className="d-flex gap-4">
+
+                                  <button className={style.status_btn_paid} onClick={() =>
+                                    navigate(`/dashboard/groups/all-riders/${user?._id}`)
+                                  }>
+                                    View
+                                  </button>
+
+                                </span>
+                              </td> :
                               (<button
                                 className={style.status_btn_paid}
                                 onClick={() =>

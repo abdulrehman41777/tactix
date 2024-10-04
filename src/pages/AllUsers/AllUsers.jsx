@@ -20,6 +20,7 @@ const AllUsers = () => {
 
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
+  const role = selector?.data?.user?.role?.[0];
 
   const allUsersApi = useGetAllUserByBranchQuery(id);
   const isLoading = allUsersApi?.isLoading;
@@ -38,13 +39,15 @@ const AllUsers = () => {
         <Container className={style.admin_wrapper}>
           <div className={style.select_allUser}
           >
-            <button
-              className={`btn`}
-              onClick={() => navigate("/dashboard/create-customer")}
-              style={{ background: '#D8788C', color: '#fff' }}
-            >
-              Add Customer
-            </button>
+            {role === "Manager" &&
+              <button
+                className={`btn`}
+                onClick={() => navigate("/dashboard/create-customer")}
+                style={{ background: '#D8788C', color: '#fff' }}
+              >
+                Add Customer
+              </button>
+            }
           </div>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>

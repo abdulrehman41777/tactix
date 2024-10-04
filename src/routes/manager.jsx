@@ -24,63 +24,53 @@ const manager = [
   },
   {
     path: "/dashboard/",
-    element: <Home />,
+    element: <Home />, //working
   },
   {
     path: "/dashboard/profile",
-    element: <Profile />,
+    element: <Profile />,//working
   },
   {
     path: "/dashboard/all-user/customer-profile/:id",
-    element: <CustomerProfile />,
+    element: <CustomerProfile />, //working
   },
   {
     path: "/dashboard/groups",
-    element: <AllGroups />,
+    element: <AllGroups />,//working
   },
   {
-    path: "/dashboard/all-riders/:id",
-    element: <AllRiders />,
+    path: "/dashboard/groups/all-riders/:id",
+    element: <AllRiders />, // working
   },
   {
     path: "/dashboard/parcel",
-    element: <Parcel />,
+    element: <Parcel />, //working
   },
-  {
-    path: "/dashboard/add-tax",
-    element: <AddTax />,
-  },
-  {
-    path: "/parcel-status/",
-    element: <Parcel_Status />,
-  },
+
   {
     path: "/dashboard/create-orders",
-    element: <CreateParcel />,
+    element: <CreateParcel />,  //working
   },
   {
     path: "/dashboard/create-rider/:id",
-    element: <CreateRider />,
+    element: <CreateRider />, //working
   },
-  {
-    path: "/dashboard/group-rider/:id",
-    element: <CreateRider />,
-  },
-  {
-    path: "/dashboard/create-group",
-    element: <CreateGroups />,
-  },
+
+  // {
+  //   path: "/dashboard/create-group",
+  //   element: <CreateGroups />,
+  // },
   {
     path: "/dashboard/all-user",
-    element: <AllUsers />,
+    element: <AllUsers />,  //working
   },
   {
     path: "/dashboard/create-customer",
-    element: <CreateCustomer />,
+    element: <CreateCustomer />, //working
   },
   {
     path: "/dashboard/all-user/customer-profile/create-customer-order/:userId/:branchId",
-    element: <CreateCustomerOrder />,
+    element: <CreateCustomerOrder />, //working
   },
   {
     path: "*",

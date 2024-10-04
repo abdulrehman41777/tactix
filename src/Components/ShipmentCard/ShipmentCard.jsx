@@ -13,7 +13,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [apidata, setApiData] = useState({});
   const [parcelData, setParcelData] = useState(null)
 
-  console.log(parcelData)
+  console.log(data)
 
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
@@ -57,7 +57,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
         </div>
         <button className={styles.status_btn_progress}>
           <span className={`${styles.pending_btn_circle} mx-1`}></span>
-          {data?.assignment !== null ? data?.assignment?.Status[0] : data?.status}
+          {(data?.assignment !== null && data?.assignment) ? data?.assignment?.Status[0] : data?.status}
         </button>
         <small className={styles.order_name}>{data?.parcelName}</small>
       </div>
@@ -116,7 +116,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             </span>
           </div>
         </li>
-        {data?.assignment !== null &&
+        {(data?.assignment !== null && data?.assignment) &&
           <li>
             <div
               className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}

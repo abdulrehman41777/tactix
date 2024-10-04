@@ -25,7 +25,6 @@ const SingleBranch = () => {
     })
 
     const { id } = useParams()
-
     const navigation = useNavigate()
 
     const getSingleBranchAPI = useGetSingleBranchQuery(id, { skip: !id })
@@ -60,7 +59,7 @@ const SingleBranch = () => {
                             <h2>{getBranch?.parcels?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} />
+                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/parcels`, { state: branchDetails?.parcels })} />
                         </span>
                     </div>
                     <div className={style.home_slider_box}>

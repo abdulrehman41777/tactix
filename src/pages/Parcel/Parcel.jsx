@@ -6,12 +6,9 @@ import { BsThreeDots } from "react-icons/bs";
 import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
-import { useAll_RidersQuery } from "../../redux/Rider/rider";
 import ShipmentCard from "../../Components/ShipmentCard/ShipmentCard";
-import ProccedModal from "../../Components/ProccedModal/ProccedModal";
 import { BiPlus } from "react-icons/bi";
 import AddWeightPrice from "../../Components/AddWeightPrice/AddWeightPrice";
-import { useGet_All_Parcel_PriceQuery } from "../../redux/ParcelPrice/ParcelPrice";
 import UpdateWeightPrice from "../../Components/AddWeightPrice/UpdateWeightPrice";
 import Available from "../../Components/cards/Available";
 import Receipt from "../../Components/ReceiptCard/Receipt";
@@ -56,31 +53,20 @@ const Parcel = () => {
     <div>
       <Dlayout pageName="Parcels" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          {role === "Admin" && (
+          {(role === "Admin" || role === "SuperAdmin") ? null :
             <div className="d-flex justify-content-end gap-5">
-              {All_Parcel_Price === false ? (
-                <h4
-                  className={`f-bold ${style.add_btn_heading} mt-5 pb-4 justify-content-end`}
-                  onClick={() => setUpdateWeightPeice(true)}
-                >
-                  <span className={style.add_btn}>
-                    <BiPlus className={style.plus_sambol} />
-                  </span>
-                  Update Parcel Price
-                </h4>
-              ) : (
-                <h4
-                  className={`f-bold ${style.add_btn_heading} mt-5 pb-4 justify-content-end`}
-                  onClick={() => setAddWeight(true)}
-                >
-                  <span className={style.add_btn}>
-                    <BiPlus className={style.plus_sambol} />
-                  </span>
-                  Add Parcel Price
-                </h4>
-              )}
+
+              <h4
+                className={`f-bold ${style.add_btn_heading} mt-5 pb-4 justify-content-end`}
+                onClick={() => setAddWeight(true)}
+              >
+                <span className={style.add_btn}>
+                  <BiPlus className={style.plus_sambol} />
+                </span>
+                Add Parcel Price
+              </h4>
             </div>
-          )}
+          }
           {role === "Manager" ? (
             <div className="d-flex justify-content-end pb-3">
               <select
