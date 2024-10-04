@@ -29,6 +29,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const CustomerProfile = () => {
   const selector = useSelector((state) => state?.userData);
   const branchId = selector?.data?.user?.branchID;
+  const role = selector?.data?.user?.role[0];
 
   const { id: userId } = useParams();
   const navigate = useNavigate();
@@ -148,15 +149,16 @@ const CustomerProfile = () => {
                 <h6>{User_Data?.name}</h6>
                 <p>{User_Data?.email}</p>
               </div>
-              <div
-                className={`d-flex gap-3`}
-                style={{
-                  marginTop: "-2rem",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                {/* <div>
+              {role !== "Admin" && (
+                <div
+                  className={`d-flex gap-3`}
+                  style={{
+                    marginTop: "-2rem",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* <div>
                   <h5>17</h5>
                   <p>Posts</p>
                 </div>
@@ -168,28 +170,29 @@ const CustomerProfile = () => {
                   <h5>274</h5>
                   <p>Following</p>
                 </div> */}
-                <div className="d-flex gap-4">
-                  <button
-                    className={`${style_table.status_btn_paid}`}
-                    onClick={() =>
-                      navigate(
-                        `/dashboard/all-user/customer-profile/create-customer-order/${userId}/${branchId}`
-                      )
-                    }
-                    style={{ padding: "0.4rem 0.5rem" }}
-                  >
-                    Create Order
-                  </button>
-                  <button
-                    className={`${style_table.status_btn_paid}`}
-                    style={{ padding: "0.4rem 0.5rem" }}
-                    onClick={() => setIsUpload(1)}
-                    disabled={bulkParcelLoading}
-                  >
-                    Create Bulk Order
-                  </button>
+                  <div className="d-flex gap-4">
+                    <button
+                      className={`${style_table.status_btn_paid}`}
+                      onClick={() =>
+                        navigate(
+                          `/dashboard/all-user/customer-profile/create-customer-order/${userId}/${branchId}`
+                        )
+                      }
+                      style={{ padding: "0.4rem 0.5rem" }}
+                    >
+                      Create Order
+                    </button>
+                    <button
+                      className={`${style_table.status_btn_paid}`}
+                      style={{ padding: "0.4rem 0.5rem" }}
+                      onClick={() => setIsUpload(1)}
+                      disabled={bulkParcelLoading}
+                    >
+                      Create Bulk Order
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className={style_table.table_div} style={{ width: "100%" }}>

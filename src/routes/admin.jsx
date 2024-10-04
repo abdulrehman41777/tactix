@@ -10,6 +10,7 @@ import AllRiders from "../pages/All-Rider/All_Rider";
 import Parcel from "../pages/Parcel/Parcel";
 import AddTax from "../pages/AddTax/AddTax";
 import AllGroups from "../pages/AllGroups/AllGroups";
+import CustomerProfile from "../pages/CustomerProfile/CustomerProfile";
 
 const admin = [
   {
@@ -45,6 +46,11 @@ const admin = [
   {
     path: "/dashboard/parcel",
     element: <Parcel />, // working
+  },
+
+  {
+    path: "/dashboard/all-user/customer-profile/:id",
+    element: <CustomerProfile />, //working
   },
 
   {
