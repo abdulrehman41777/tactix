@@ -2,12 +2,8 @@ import React, { useEffect, useState } from "react";
 import Dlayout from "../../Components/DLayout/Dlayout";
 import style from "./AllGroups.module.css";
 import { Container } from "react-bootstrap";
-import { MdOutlineCancel } from "react-icons/md";
-import { BsCheck, BsThreeDots } from "react-icons/bs";
-import LineProgressBar from "../../Components/lineProgressBar/LineProgressBar";
 import ReactPaginate from "react-paginate";
 import ListLoader from "../../Components/Loader/ListLoader";
-import { useUsersQuery } from "../../redux/Auth/auth";
 import Available from "../../Components/cards/Available";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -15,7 +11,6 @@ import {
   useCreateGroupMutation,
   useGetGroupByAdminQuery,
   useGetGroupQuery,
-  useManagersQuery,
 } from "../../redux/Manager/manager";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
