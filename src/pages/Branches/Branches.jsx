@@ -51,6 +51,7 @@ const Branches = () => {
     setIsUpdateBranch(true);
     setBranchDetail(item);
   };
+
   const handleAssignBranchDetail = (item) => {
     setAssignBranch(true);
     setBranchDetail(item);
@@ -205,6 +206,7 @@ const Branches = () => {
         <AssignBranch
           setAssignBranch={setAssignBranch}
           branchDetail={branchDetail}
+          isRefetch={all_Branches_API}
         />
       )}
     </div>

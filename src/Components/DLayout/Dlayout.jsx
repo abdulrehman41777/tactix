@@ -71,7 +71,7 @@ const Dlayout = ({ children, pageName, search, setSearch }) => {
             <h4
               onClick={() => navigate("/dashboard/profile")}
               style={{ textTransform: "uppercase" }}
-              title={User_Data?.name}
+              title={User_Data?.role?.[0]}
             >
               {First_Name}
               {Second_Name}

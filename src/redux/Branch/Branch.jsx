@@ -28,8 +28,6 @@ const branch = createApi({
 
     assignBranchToAdmin: builder.mutation({
       query: ({ superAdminId, branchId, data }) => {
-
-
         return {
           url: `/branch/asign_branches_to_admin/${superAdminId}/${branchId}`,
           method: "PATCH",

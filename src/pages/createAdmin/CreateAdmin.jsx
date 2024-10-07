@@ -86,7 +86,7 @@ const CreateAdmin = () => {
   return (
     <div className={style.create_wrapper}>
       <Container className={style.login_warpper}>
-        <p className={style.back} onClick={() => navigate("/dashboard/")}>
+        <p className={style.back} onClick={() => navigate(-1)}>
           <IoIosArrowBack /> Back To Main
         </p>
         <div className={style.login_box_wrapper}>

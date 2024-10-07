@@ -8,15 +8,14 @@ import { useSelector } from "react-redux";
 import { useAll_AdminsQuery } from "../../redux/Admin/admin";
 import { MdCancel } from "react-icons/md";
 
-const AssignBranch = ({ setAssignBranch, branchDetail }) => {
+const AssignBranch = ({ setAssignBranch, branchDetail, isRefetch }) => {
   const [branch_fields, setBranch_fields] = useState({
     branch_name: branchDetail?.branch_name,
     branch_address: branchDetail?.branch_address,
     branch_contact_number: branchDetail?.branch_contact_number,
   });
-  const [adminID, setAdminID] = useState([]);
 
-  const { branch_name, branch_address, branch_contact_number } = branch_fields;
+  const [adminID, setAdminID] = useState([]);
 
   const [assignBranch, { isLoading }] = useAssignBranchToAdminMutation();
 
@@ -56,6 +55,7 @@ const AssignBranch = ({ setAssignBranch, branchDetail }) => {
         if (!res.error) {
           setAssignBranch(false);
           NotificationAlert("Branch Updated successfully", "success");
+          isRefetch.refetch()
         } else {
           NotificationAlert(res.error.data.message);
         }

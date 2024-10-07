@@ -15,9 +15,6 @@ const AddBranch = ({ setAddAdmin }) => {
     branch_address: "",
     branch_contact_number: "",
   });
-  const [countryID, setCountryID] = useState("");
-  const [stateID, setStateID] = useState("");
-  // const [adminID, setAdminID] = useState([]);
 
   const { branch_name, branch_address, branch_contact_number } = branch_fields;
 
@@ -68,9 +65,6 @@ const AddBranch = ({ setAddAdmin }) => {
             branch_address: "",
             branch_contact_number: "",
           });
-          setCountryID("");
-          setStateID("");
-          setCityID("");
           setAddAdmin(false);
         } else if (
           res.error.data.errors.find(
@@ -81,6 +75,7 @@ const AddBranch = ({ setAddAdmin }) => {
         }
       } catch (error) {
         NotificationAlert("Something went wrong");
+        console.log(error)
       }
     } else {
       NotificationAlert("All Fields Required");

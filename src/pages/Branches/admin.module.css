@@ -75,6 +75,7 @@
   justify-content: end;
   align-items: center;
   padding-bottom: 2rem;
+  gap:10px
 }
 .add_btn {
   display: flex;
