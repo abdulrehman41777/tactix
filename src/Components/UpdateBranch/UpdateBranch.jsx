@@ -27,7 +27,6 @@ const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
       try {
         const res = await updateBranch({
           id: branchID,
-          token,
           data: {
             branch_name: branch_name,
             branch_address: branch_address,
