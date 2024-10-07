@@ -50,7 +50,7 @@ const SingleBranch = () => {
                             <h2>{getBranchData?.AdminsId?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/admins`, { state: branchDetails?.branchAdmins })} />
+                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/admins`, { state: { admins: branchDetails?.branchAdmins, from: "branch", name: getBranchData?.branch_name } })} />
                         </span>
                     </div>
                     <div className={style.home_slider_box}>
@@ -59,7 +59,7 @@ const SingleBranch = () => {
                             <h2>{getBranch?.parcels?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/parcels`, { state: branchDetails?.parcels })} />
+                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/parcels`, { state: { parcels: branchDetails?.parcels, from: "branch", name: getBranchData?.branch_name } })} />
                         </span>
                     </div>
                     <div className={style.home_slider_box}>
@@ -68,7 +68,7 @@ const SingleBranch = () => {
                             <h2>{getBranch?.riders_group?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/groups`, { state: { groups: branchDetails?.groups, from: "branch" } })} />
+                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/groups`, { state: { groups: branchDetails?.groups, from: "branch", name: getBranchData?.branch_name } })} />
                         </span>
                     </div>
                     <div className={style.home_slider_box}>

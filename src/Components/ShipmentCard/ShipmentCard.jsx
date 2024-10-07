@@ -167,6 +167,14 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             Receipt
           </button>
         )}
+        {(role === "SuperAdmin") && (
+          <button
+            className={styles.status_btn}
+            onClick={() => handleGetData(data)}
+          >
+            View
+          </button>
+        )}
       </div>
       {procced && (
         <ProccedModal

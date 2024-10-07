@@ -39,6 +39,8 @@ const AllGroups = () => {
   const location = useLocation();
   const data = location.state;
 
+  console.log(data?.name)
+
   // Get Group By Manager
   const Get_Group_by_manager = useGetGroupQuery(userID, {
     skip: !userID || role !== "Manager",
@@ -101,7 +103,7 @@ const AllGroups = () => {
 
   return (
     <div>
-      <Dlayout pageName="Groups" search={search} setSearch={setSearch}>
+      <Dlayout pageName={isBranch ? data?.name + "/Groups" : "Groups"} search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
@@ -229,11 +231,11 @@ const AllGroups = () => {
                                 onClick={() =>
                                   isBranch
                                     ? navigate(
-                                        `/dashboard/branch/groups/all-riders/${user?._id}`
-                                      )
+                                      `/dashboard/branch/groups/all-riders/${user?._id}`
+                                    )
                                     : navigate(
-                                        `/dashboard/create-rider/${user?._id}`
-                                      )
+                                      `/dashboard/create-rider/${user?._id}`
+                                    )
                                 }
                               >
                                 View

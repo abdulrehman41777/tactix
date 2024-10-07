@@ -34,16 +34,6 @@ const BranchParcels = () => {
     const location = useLocation();
     const Data = location.state;
 
-    // let Data = [];
-
-    // if (role === "SuperAdmin") {
-    //     Data = getParcelsApi?.data?.parcels;
-    // } else if (role === "Admin" || role === "Manager") {
-    //     Data = getParcelsApi?.data?.parcels;
-    // } else if (role === "User") {
-    //     Data = getParcelsApi?.data?.parcels;
-    // }
-
     // pagination
     const endOffset = itemOffset + 6;
     const pageCount = Math.ceil(Data?.length / 6);
@@ -53,7 +43,7 @@ const BranchParcels = () => {
     };
     return (
         <div>
-            <Dlayout pageName="Parcels" search={search} setSearch={setSearch}>
+            <Dlayout pageName={Data?.from === "branch" ? Data?.name + "/Parcels" : "Parcels"} search={search} setSearch={setSearch}>
                 <Container className={style.admin_wrapper}>
                     {(role === "Admin" || role === "SuperAdmin") ? null :
                         <div className="d-flex justify-content-end gap-5">
@@ -95,14 +85,14 @@ const BranchParcels = () => {
                             </div>
                         </div>
                         {checkAssign === "all" ? (
-                            Data?.length === 0 ? (
+                            Data?.parcels?.length === 0 ? (
                                 <Available message={"No Parcel Available"} />
                             ) : (
                                 <div className={`row ${style.card_wrapper}`}>
                                     {getParcelsLoading ? (
                                         <ListLoader />
                                     ) : (
-                                        Data?.slice(itemOffset, endOffset)?.map((data, index) => (
+                                        Data?.parcels?.slice(itemOffset, endOffset)?.map((data, index) => (
                                             <ShipmentCard
                                                 data={data}
                                                 key={index}

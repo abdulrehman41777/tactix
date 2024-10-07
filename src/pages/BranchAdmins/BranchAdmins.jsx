@@ -26,7 +26,6 @@ const BranchAdmins = () => {
     const newOffset = (event.selected * 6) % All_Admins?.length;
     setItemOffset(newOffset);
   };
-
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -34,7 +33,7 @@ const BranchAdmins = () => {
 
   return (
     <div>
-      <Dlayout pageName="Admin" search={search} setSearch={setSearch}>
+      <Dlayout pageName={data?.from === "branch" ? data?.name + "/Admins" : "Admins"} search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
@@ -48,7 +47,7 @@ const BranchAdmins = () => {
                 </button>
               </div>
             </div>
-            {data.length === 0 ? (
+            {data?.admins?.length === 0 ? (
               <Available
                 message={"No Admin Available"}
                 to={"/dashboard/branch"}
@@ -68,7 +67,7 @@ const BranchAdmins = () => {
                     </tr>
                   </thead>
                   <tbody className={`${style.table_body}`}>
-                    {data
+                    {data?.admins
                       ?.filter((item) =>
                         item?.name
                           ?.toLowerCase()
