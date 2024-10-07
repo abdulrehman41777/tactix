@@ -18,7 +18,7 @@ const admin = [
     element: <Main />, // working
   },
   {
-    path: "/dashboard/",
+    path: "/dashboard/main",
     element: <Home />, // working
   },
   {

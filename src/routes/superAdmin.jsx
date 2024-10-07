@@ -11,6 +11,7 @@ import AllGroups from "../pages/AllGroups/AllGroups";
 import SingleBranch from "../pages/SingleBranch/SingleBranch";
 import BranchAdmins from "../pages/BranchAdmins/BranchAdmins";
 import BranchParcels from "../pages/Parcel/BranchParcels";
+import Admin from "../pages/admin/Admin";
 
 const superAdmin = [
   {
@@ -18,7 +19,7 @@ const superAdmin = [
     element: <Main />, // working
   },
   {
-    path: "/dashboard/",
+    path: "/dashboard/main",
     element: <Home />, // working
   },
 
@@ -59,6 +60,10 @@ const superAdmin = [
     element: <CreateAdmin />, // working
   },
   {
+    path: "/dashboard/All-admin",
+    element: <Admin />, // working
+  },
+  {
     path: "/dashboard/branch/users",
     element: <AllUsers />, // pending
   },
@@ -70,7 +75,7 @@ const superAdmin = [
 
   {
     path: "*",
-    element: <Navigate to="/dashboard/" />,
+    element: <Navigate to="/dashboard/main" />,
   },
 ];
 

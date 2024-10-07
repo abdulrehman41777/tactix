@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useManagersQuery } from "../../redux/Manager/manager";
 import { useNavigate } from "react-router-dom";
+import { useAll_AdminsQuery } from "../../redux/Admin/admin";
 const Admin = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
@@ -19,18 +20,18 @@ const Admin = () => {
   const navigate = useNavigate();
 
   // All Managers for Admin branch
-  const Manager_Branch_API = useManagersQuery({ adminID: id }, { skip: !id });
-  const isLoading = Manager_Branch_API?.isLoading;
-
+  const All_Admins = useAll_AdminsQuery(id, { skip: !id });
+  const isLoading = All_Admins?.isLoading;
+  console.log(All_Admins)
   // console.log(Manager_Branch_API?.data?.managers, "Manager_Branch_API.data")
 
-  const Manager_Branch = Manager_Branch_API?.data?.user?.filter(
+  const Manager_Branch = All_Admins?.data?.user?.filter(
     (item) => item.role[0] === "Manager"
   );
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(
-    Manager_Branch_API?.data?.managers?.filter((item) =>
+    All_Admins?.data?.createdRoles?.filter((item) =>
       item?.name?.toLowerCase()?.includes(search?.toLowerCase())
     )?.length / 6
   );
@@ -38,7 +39,7 @@ const Admin = () => {
   const handlePageClick = (event) => {
     const newOffset =
       (event.selected * 6) %
-      Manager_Branch_API?.data?.managers?.filter((item) =>
+      Manager_Branch_API?.data?.createdRoles?.filter((item) =>
         item?.name?.toLowerCase()?.includes(search?.toLowerCase())
       )?.length;
     setItemOffset(newOffset);
@@ -55,22 +56,13 @@ const Admin = () => {
 
   return (
     <div>
-      <Dlayout pageName="Manager" search={search} setSearch={setSearch}>
+      <Dlayout pageName="Admins" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
-              <h4>Manager's</h4>
-              <div className={style.task_head_dots}>
-                <button
-                  className="btn text-white"
-                  onClick={() => navigate("/dashboard/create-manager")}
-                >
-                  Add Manager
-                </button>
-              </div>
+              <h4>Admins</h4>
             </div>
             <div className={style.table_div}>
-              {/* For SuperAdmin */}
               {role === "SuperAdmin" ? (
                 isLoading ? (
                   <ListLoader />
@@ -85,53 +77,11 @@ const Admin = () => {
                       </tr>
                     </thead>
                     <tbody className={`${style.table_body}`}>
-                      {Manager_Branch_API?.data?.managers
-                        ?.filter((item) =>
-                          item?.name
-                            ?.toLowerCase()
-                            ?.includes(search?.toLowerCase())
-                        )
-                        ?.slice(itemOffset, endOffset)
-                        ?.map((user, index) => (
-                          <tr key={index}>
-                            <td className="d-flex align-items-center">
-                              {user?.name}
-                            </td>
-                            <td>{convertToDate(user?.createdAt)}</td>
-                            <td>{user?.role}</td>
-                            <td>
-                              <button className={style.status_btn_paid}>
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                )
-              ) : null}
-              {/* For Admin */}
-
-              {role === "Admin" ? (
-                isLoading ? (
-                  <ListLoader />
-                ) : (
-                  <table className={`${style.table_container}`}>
-                    <thead className={`${style.table_header}`}>
-                      <tr>
-                        <th>NAME</th>
-                        <th>JOINED DATE</th>
-                        <th>ROLE</th>
-                        <th>ACTION</th>
-                      </tr>
-                    </thead>
-                    <tbody className={`${style.table_body}`}>
-                      {Manager_Branch_API?.data?.managers
-                        ?.filter((item) =>
-                          item?.name
-                            ?.toLowerCase()
-                            ?.includes(search?.toLowerCase())
-                        )
+                      {All_Admins?.data?.createdRoles?.filter((item) =>
+                        item?.name
+                          ?.toLowerCase()
+                          ?.includes(search?.toLowerCase())
+                      )
                         ?.slice(itemOffset, endOffset)
                         ?.map((user, index) => (
                           <tr key={index}>
@@ -153,9 +103,7 @@ const Admin = () => {
               ) : null}
             </div>
           </div>
-          {Manager_Branch_API?.data?.managers?.filter((item) =>
-            item?.name?.toLowerCase()?.includes(search?.toLowerCase())
-          )?.length >= 6 && (
+          {All_Admins?.data?.createdRoles?.length >= 6 && (
             <ReactPaginate
               breakLabel="..."
               onPageChange={handlePageClick}

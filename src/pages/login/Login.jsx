@@ -35,12 +35,10 @@ const Login = () => {
     if (validateEmail) {
       try {
         const res = await login(loginFields);
-        console.log(res)
-
         if (!res.error) {
           NotificationAlert("Login successfully", "success");
           dispatch(authUser(res?.data));
-          navigate("/dashboard");
+          navigate("/dashboard/main");
           setLoginFields({
             email: "",
             password: "",

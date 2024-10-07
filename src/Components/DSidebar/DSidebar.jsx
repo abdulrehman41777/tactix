@@ -27,7 +27,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
 
   const superAdmin = [
     {
-      path: "/dashboard/",
+      path: "/dashboard/main",
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },
@@ -49,6 +49,11 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <BiGitBranch />,
     },
     {
+      path: "/dashboard/All-admin",
+      name: "All Admin",
+      icon: <BiGitBranch />,
+    },
+    {
       path: "/dashboard/profile",
       name: "Profile",
       icon: <CgProfile />,
@@ -57,7 +62,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   ];
   const admin = [
     {
-      path: "/dashboard/",
+      path: "/dashboard/main",
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },

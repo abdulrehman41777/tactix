@@ -15,6 +15,7 @@ const CreateAdmin = () => {
   const [createAdminFields, setCreateAdminFields] = useState({
     email: "",
     name: "",
+    phone: "",
     password: "",
     confirmpass: "",
   });
@@ -25,7 +26,7 @@ const CreateAdmin = () => {
 
   const navigate = useNavigate();
 
-  const { email, name, password, confirmpass } = createAdminFields;
+  const { email, name, phone, password, confirmpass } = createAdminFields;
 
   const validateEmail = EmailValidator.validate(email);
 
@@ -40,47 +41,44 @@ const CreateAdmin = () => {
 
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
-    if (email && name && password && confirmpass) {
-      if (password === confirmpass) {
-        if (validateEmail) {
-          try {
-            const res = await createAdmin({
-              superAdminID: userID,
-              data: {
-                email: email,
-                name: name,
-                password: password,
-              },
-            });
-            if (!res.error) {
-              NotificationAlert("Admin Created successfully", "success");
-              setCreateAdminFields({
-                email: "",
-                name: "",
-                password: "",
-                confirmpass: "",
-              });
-              navigate('/dashboard/admin');
-            } else if (
-              res.error.data.errors.find((err) => err.path === "name")
-            ) {
-              NotificationAlert("Name must be at least 5 characters");
-            } else if (
-              res.error.data.errors.find((err) => err.path === "password")
-            ) {
-              NotificationAlert("Password Must Contain Atleast 8 Chars");
-            }
-          } catch (error) {
-            NotificationAlert("User Already Exists With This Email");
-          }
-        } else {
-          NotificationAlert("Invalid Email");
-        }
-      } else {
-        NotificationAlert("Password Must Be Same");
+    if (!validateEmail) {
+      return NotificationAlert("Invalid Email");
+    }
+    if (password !== confirmpass) {
+      return NotificationAlert("Password Must Be Same");
+    }
+    if (!email && !name && !password && !confirmpass) {
+
+      return NotificationAlert("All Fields Required");
+    }
+
+    try {
+      const res = await createAdmin({
+        superAdminID: userID,
+        data: {
+          email: email,
+          name: name,
+          phone: phone,
+          password: password,
+        },
+      });
+      if (!res.error) {
+        NotificationAlert("Admin Created successfully", "success");
+        setCreateAdminFields({
+          email: "",
+          name: "",
+          phone: "",
+          password: "",
+          confirmpass: "",
+        });
+        navigate('/dashboard/admin');
       }
-    } else {
-      NotificationAlert("All Fields Required");
+      if (res.error) {
+        NotificationAlert(res.error.data.message);
+
+      }
+    } catch (error) {
+      NotificationAlert("User Already Exists With This Email");
     }
   };
   return (
@@ -114,6 +112,16 @@ const CreateAdmin = () => {
                     placeholder="Email"
                     name="email"
                     value={email}
+                    onChange={handleFields}
+                  />
+                </label>
+                <label className={style.label}>
+                  <h6>Phone*</h6>
+                  <input
+                    type="number"
+                    placeholder="Phone Number"
+                    name="phone"
+                    value={phone}
                     onChange={handleFields}
                   />
                 </label>

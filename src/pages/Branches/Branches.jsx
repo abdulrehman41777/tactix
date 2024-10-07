@@ -17,6 +17,7 @@ import AssignBranch from "../../Components/AssignBranch/AssignBranch";
 import { FcInvite } from "react-icons/fc";
 import { RxUpdate } from "react-icons/rx";
 import { MdRemoveRedEye } from "react-icons/md";
+import Available from "../../Components/cards/Available";
 
 const Branches = () => {
   const [itemOffset, setItemOffset] = useState(0);
@@ -83,8 +84,13 @@ const Branches = () => {
                 <BsThreeDots className={style.icon} />
               </div>
             </div>
+            {(role === "SuperAdmin" && (All_branches?.length === 0 || All_branches === undefined)) ?
+              <Available message={"No Branches Available"} />
+              :
+              (branchesByAdminData?.length === 0) &&
+              <Available message={"No Branches Available"} />}
             <div className={style.table_div}>
-              {role === "SuperAdmin" ? (
+              {(role === "SuperAdmin" && (All_branches?.length !== 0 && All_branches !== undefined)) ? (
                 <table className={`${style.table_container}`}>
                   <thead className={`${style.table_header}`}>
                     <tr>
@@ -140,7 +146,7 @@ const Branches = () => {
                       ))}
                   </tbody>
                 </table>
-              ) : (
+              ) : (branchesByAdminData?.length !== 0 && branchesByAdminData !== undefined) ? (
                 <table className={`${style.table_container}`}>
                   <thead className={`${style.table_header}`}>
                     <tr>
@@ -174,7 +180,8 @@ const Branches = () => {
                       ))}
                   </tbody>
                 </table>
-              )}
+              )
+                : null}
             </div>
           </div>
           {All_branches?.length >= 6 && (

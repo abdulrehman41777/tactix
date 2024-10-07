@@ -40,7 +40,7 @@ const Parcel = () => {
   } else if (role === "User") {
     Data = getParcelsApi?.data?.parcels;
   }
-
+  console.log(Data)
   // pagination
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Data?.length / 6);
@@ -93,7 +93,7 @@ const Parcel = () => {
               </div>
             </div>
             {checkAssign === "all" ? (
-              Data?.length === 0 ? (
+              (Data?.length === 0 || Data === undefined) ? (
                 <Available message={"No Parcel Available"} />
               ) : (
                 <div className={`row ${style.card_wrapper}`}>
