@@ -8,7 +8,6 @@ import AllRiders from "../pages/All-Rider/All_Rider";
 import Parcel from "../pages/Parcel/Parcel";
 import CreateParcel from "../pages/CreateParcel/CreateParcel";
 import AllGroups from "../pages/AllGroups/AllGroups";
-// import CreateUser from "../pages/CreateCustomer/CreateCustomer";
 import CreateCustomer from "../pages/CreateCustomer/CreateCustomer";
 import CustomerProfile from "../pages/CustomerProfile/CustomerProfile";
 import CreateCustomerOrder from "../pages/CreateCustomerOrder/CreateCustomerOrder";
