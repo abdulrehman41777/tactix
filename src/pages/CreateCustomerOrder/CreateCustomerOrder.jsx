@@ -45,6 +45,7 @@ const CreateCustomerOrder = () => {
     isDamaged: false,
   });
 
+
   const {
     parcelName,
     weight,
