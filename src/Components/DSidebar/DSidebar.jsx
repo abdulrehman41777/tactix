@@ -18,6 +18,9 @@ import {
 } from "react-icons/md";
 import { ImTruck } from "react-icons/im";
 import { useState } from "react";
+import { GrUserAdmin } from "react-icons/gr";
+import { IoMdPersonAdd } from "react-icons/io";
+
 
 const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   const selector = useSelector((state) => state?.userData);
@@ -46,12 +49,12 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     {
       path: "/dashboard/create-admin",
       name: "Create Admin",
-      icon: <BiGitBranch />,
+      icon: <IoMdPersonAdd />,
     },
     {
       path: "/dashboard/All-admin",
       name: "All Admin",
-      icon: <BiGitBranch />,
+      icon: <GrUserAdmin />,
     },
     {
       path: "/dashboard/profile",

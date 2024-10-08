@@ -24,7 +24,7 @@ const CreateCustomer = () => {
   const navigate = useNavigate();
 
   // State to hold input values for From, To, and Price
-  const [locations, setLocations] = useState([{ from: "", to: "", price: "" }]);
+  const [locations, setLocations] = useState([{ from: "", to: "", price: "", shipmentType: [] }]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,13 +34,23 @@ const CreateCustomer = () => {
   // Handle input change for locations
   const handleLocationChange = (index, e) => {
     const newLocations = [...locations];
-    newLocations[index][e.target.name] = e.target.value;
+
+    if (e.target.name === "shipmentType") {
+      // Ensure shipmentType is an array
+      newLocations[index][e.target.name] = [e.target.value];
+    } else {
+      // Update other fields as strings
+      newLocations[index][e.target.name] = e.target.value;
+    }
+
     setLocations(newLocations);
   };
 
+  console.log(locations)
+
   // Add a new set of location fields
   const handleAdd = () => {
-    setLocations([...locations, { from: "", to: "", price: "" }]);
+    setLocations([...locations, { from: "", to: "", price: "", shipmentType: [] }]);
   };
 
   // Remove a set of location fields
@@ -74,9 +84,9 @@ const CreateCustomer = () => {
 
     // Validate all but the last location set
     locations.slice(0, -1).forEach((location, index) => {
-      if (!location.from || !location.to || !location.price) {
+      if (!location.from || !location.to || !location.price || location.shipmentType.length === 0) {
         newErrors[`location${index}`] =
-          "All location fields (From, To, Price) are required.";
+          "All location fields (From, To, Price, shipmentType) are required.";
         valid = false;
       }
     });
@@ -90,11 +100,9 @@ const CreateCustomer = () => {
   // Handle form submission
   const handleSubmit = async () => {
     if (!validateForm()) {
-      // If validation fails, return early
       return;
     }
 
-    // Filter out empty location fields (those with empty from, to, and price)
     const filteredLocations = locations.filter(
       (location) =>
         location.from.trim() || location.to.trim() || location.price.trim()
@@ -122,7 +130,7 @@ const CreateCustomer = () => {
       });
 
       if (!res.error) {
-        setLocations([{ from: "", to: "", price: "" }]);
+        setLocations([{ from: "", to: "", price: "", shipmentType: [] }]);
         setName("");
         setEmail("");
         setPassword("");
@@ -133,6 +141,8 @@ const CreateCustomer = () => {
       console.log(error);
     }
   };
+
+  const rateList = ["Premium", "Express", "Economy", "Others"]
 
   return (
     <div className={style.create_wrapper}>
@@ -229,6 +239,20 @@ const CreateCustomer = () => {
                           onChange={(e) => handleLocationChange(index, e)}
                           placeholder="Price"
                         />
+                      </div>
+                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                        <select
+                          name="shipmentType"
+                          value={location.shipmentType}
+                          onChange={(e) => handleLocationChange(index, e)}
+                        >
+                          <option value=""> Select Shipment Type </option>
+                          {rateList?.map((item, i) => (
+                            <option value={item} key={i}>
+                              {item}
+                            </option>
+                          ))}
+                        </select>
                       </div>
 
                       {index === locations.length - 1 ? (

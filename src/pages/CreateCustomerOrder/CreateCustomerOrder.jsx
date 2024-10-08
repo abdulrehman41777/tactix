@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useGetSingleUserByIDQuery } from "../../redux/Auth/auth";
 import { useParams } from "react-router-dom";
 import { useCreate_User_ParcelMutation } from "../../redux/Parcel/Parcel";
+import exportFromJSON from "export-from-json";
 
 const CreateCustomerOrder = () => {
   const selector = useSelector((state) => state?.userData);
@@ -22,6 +23,8 @@ const CreateCustomerOrder = () => {
   const rateList = GetUserById?.data?.rateList?.rateList;
 
   const [rateListID, setRateListID] = useState("");
+
+
   const [formData, setFormData] = useState({
     parcelName: "",
     weight: "",
@@ -29,6 +32,7 @@ const CreateCustomerOrder = () => {
     recieverPhone: "",
     recieverEmail: "",
     reciverAddress: "",
+    CodCharges: "",
     ReciverPostCode: "",
     SenderPhone: "",
     SenderPostCode: "",
@@ -50,12 +54,15 @@ const CreateCustomerOrder = () => {
     reciverAddress,
     ReciverPostCode,
     SenderPhone,
+    CodCharges,
     SenderPostCode,
     SenderAddress,
     CodAmount,
     Dimension,
     isDamaged,
   } = formData;
+
+  console.log(formData)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -114,6 +121,7 @@ const CreateCustomerOrder = () => {
       });
       if (!res.error) {
         navigate(-1);
+        NotificationAlert("Parcel Created Successfully", "success");
       }
     } catch (error) {
       NotificationAlert("Something Went Wrong!");
@@ -152,7 +160,7 @@ const CreateCustomerOrder = () => {
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Weight</label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Weight"
                         name="weight"
                         value={weight}
@@ -162,7 +170,7 @@ const CreateCustomerOrder = () => {
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>
-                        Solid or Liquid
+                        Fragile or Non-Fragile
                       </label>
                       <select
                         name="Solid_Liquid"
@@ -170,15 +178,15 @@ const CreateCustomerOrder = () => {
                         onChange={handleChange}
                       >
                         <option value=""> Select One </option>
-                        <option value="Solid"> Solid </option>
-                        <option value="Liquid"> Liquid </option>
+                        <option value="Fargile"> Fargile </option>
+                        <option value="Non-Fragile"> Non-Fragile </option>
                       </select>
                     </div>
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Width</label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Width"
                         name="width"
                         value={Dimension.width}
@@ -189,7 +197,7 @@ const CreateCustomerOrder = () => {
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Height</label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Height"
                         name="height"
                         value={Dimension.height}
@@ -200,7 +208,7 @@ const CreateCustomerOrder = () => {
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Reciever Phone</label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Reciever Phone"
                         name="recieverPhone"
                         value={recieverPhone}
@@ -237,7 +245,7 @@ const CreateCustomerOrder = () => {
                         Reciver Post Code
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Reciver Post Code"
                         name="ReciverPostCode"
                         value={ReciverPostCode}
@@ -248,7 +256,7 @@ const CreateCustomerOrder = () => {
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Sender Phone</label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Sender Phone"
                         name="SenderPhone"
                         value={SenderPhone}
@@ -272,13 +280,27 @@ const CreateCustomerOrder = () => {
                         Sender Post Code
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Sender Post Code"
                         name="SenderPostCode"
                         value={SenderPostCode}
                         onChange={handleChange}
                       />
                     </div>
+                    {CodAmount &&
+                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                        <label style={{ color: "#a3b1c2" }}>
+                          COD Charges
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="Sender Post Code"
+                          name="CodCharges"
+                          value={CodCharges}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    }
 
                     <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
                       <label className={style.cyberpunk_checkbox_label}>

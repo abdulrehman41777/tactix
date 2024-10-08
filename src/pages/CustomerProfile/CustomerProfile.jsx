@@ -25,6 +25,7 @@ import {
   useGetSingleParcelsQuery,
 } from "../../redux/Parcel/Parcel";
 import { useNavigate, useParams } from "react-router-dom";
+import exportFromJSON from "export-from-json";
 
 const CustomerProfile = () => {
   const selector = useSelector((state) => state?.userData);
@@ -41,6 +42,40 @@ const CustomerProfile = () => {
   const parcels = useGet_User_ParcelQuery(userId);
   const allParcels = parcels?.data?.findUserParcel;
 
+  const [filterItems, setFilterItems] = useState([{
+    parcelName: "Parcel 1",
+    CodAmount: "yes",
+    weight: 2.5,
+    Solid_Liquid: "Solid",
+    status: "pending",
+    height: 15,
+    width: 10,
+    recieverPhone: "1234567890",
+    recieverEmail: "receiver1@example.com",
+    reciverAddress: "123 Receiver St",
+    ReciverPostCode: "12345",
+    SenderPhone: "1231231234",
+    SenderAddress: "123 Sender St",
+    SenderPostCode: "54321",
+    isDamaged: "no"
+  },
+  {
+    parcelName: "Parcel 2",
+    CodAmount: "no",
+    weight: 1,
+    Solid_Liquid: "Liquid",
+    status: "pending",
+    height: 20,
+    width: 12,
+    recieverPhone: "9876543210",
+    recieverEmail: "receiver2@example.com",
+    reciverAddress: "456 Receiver Rd",
+    ReciverPostCode: "67890",
+    SenderPhone: "9879879876",
+    SenderAddress: "456 Sender Rd",
+    SenderPostCode: "98765",
+    isDamaged: "no"
+  }]);
   const [bulkFile, setBulkFile] = useState("");
   const [isUpload, setIsUpload] = useState(0);
   const [bulkData, setBulkData] = useState([]);
@@ -131,6 +166,13 @@ const CustomerProfile = () => {
     }
   }, [isView, parcelData]);
 
+  const exportFile = () => {
+    const data = filterItems
+    const fileName = 'Sample File'
+    const exportType = exportFromJSON.types.csv
+    exportFromJSON({ data, fileName, exportType })
+  }
+
   return (
     <div>
       <Dlayout pageName="Customer Profile">
@@ -158,18 +200,6 @@ const CustomerProfile = () => {
                     alignItems: "center",
                   }}
                 >
-                  {/* <div>
-                  <h5>17</h5>
-                  <p>Posts</p>
-                </div>
-                <div>
-                  <h5>9.7k</h5>
-                  <p>Followers</p>
-                </div>
-                <div>
-                  <h5>274</h5>
-                  <p>Following</p>
-                </div> */}
                   <div className="d-flex gap-4">
                     <button
                       className={`${style_table.status_btn_paid}`}
@@ -189,6 +219,13 @@ const CustomerProfile = () => {
                       disabled={bulkParcelLoading}
                     >
                       Create Bulk Order
+                    </button>
+                    <button
+                      className={`${style_table.status_btn_paid}`}
+                      style={{ padding: "0.4rem 0.5rem" }}
+                      onClick={exportFile}
+                    >
+                      Sample File
                     </button>
                   </div>
                 </div>
