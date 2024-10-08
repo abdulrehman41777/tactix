@@ -5,6 +5,7 @@ import YoursOrders from "../pages/YoursOrders/YoursOrders";
 import Main from "../pages/Main/Main";
 import CreateParcel from "../pages/CreateParcel/CreateParcel";
 import Parcel from "../pages/Parcel/Parcel";
+import { Navigate } from "react-router-dom";
 
 const user = [
   {
@@ -12,7 +13,7 @@ const user = [
     element: <Main />,
   },
   {
-    path: "/dashboard/",
+    path: "/dashboard/main",
     element: <Home />,
   },
   {
@@ -30,6 +31,10 @@ const user = [
   {
     path: "/dashboard/create-orders",
     element: <CreateParcel />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/dashboard/main" />,
   },
 ];
 

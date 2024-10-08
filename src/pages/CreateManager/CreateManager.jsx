@@ -41,16 +41,17 @@ const CreateManager = () => {
 
   const handleCreateManagers = async (e) => {
     e.preventDefault();
-    if (!validateEmail) {
-      return NotificationAlert("Invalid Email");
+
+
+    if (!email && !name && !password && !confirmpass && !phone) {
+      return NotificationAlert("All Fields Required");
     }
     if (password !== confirmpass) {
       return NotificationAlert("Password Must Be Same");
     }
-    if (!email && !name && !password && !confirmpass && !phone) {
-      return NotificationAlert("All Fields Required");
+    if (!validateEmail) {
+      return NotificationAlert("Invalid Email");
     }
-
     try {
       const res = await createManager({
         adminID: id,

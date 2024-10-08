@@ -3,6 +3,7 @@ import Home from "../pages/home/Home";
 import Profile from "../pages/profile/Profile";
 import Main from "../pages/Main/Main";
 import Rider_Parcel from "../pages/Rider_Parcel/Rider_Parcel";
+import { Navigate } from "react-router-dom";
 
 const rider = [
   {
@@ -10,7 +11,7 @@ const rider = [
     element: <Main />,
   },
   {
-    path: "/dashboard/",
+    path: "/dashboard/main",
     element: <Home />,
   },
   {
@@ -21,6 +22,10 @@ const rider = [
   {
     path: "/dashboard/profile",
     element: <Profile />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/dashboard/main" />,
   },
 ];
 

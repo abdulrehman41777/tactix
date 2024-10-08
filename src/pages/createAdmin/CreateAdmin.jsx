@@ -41,17 +41,17 @@ const CreateAdmin = () => {
 
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
+
+
+    if (!email && !name && !password && !confirmpass && !phone) {
+      return NotificationAlert("All Fields Required");
+    }
     if (!validateEmail) {
       return NotificationAlert("Invalid Email");
     }
     if (password !== confirmpass) {
       return NotificationAlert("Password Must Be Same");
     }
-    if (!email && !name && !password && !confirmpass) {
-
-      return NotificationAlert("All Fields Required");
-    }
-
     try {
       const res = await createAdmin({
         superAdminID: userID,
