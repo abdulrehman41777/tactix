@@ -28,6 +28,7 @@ const CreateCustomer = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
 
   // Handle input change for locations
@@ -66,6 +67,10 @@ const CreateCustomer = () => {
       newErrors.password = "Password is required.";
       valid = false;
     }
+    if (!phone.trim()) {
+      newErrors.password = "Phone is required.";
+      valid = false;
+    }
 
     // Validate all but the last location set
     locations.slice(0, -1).forEach((location, index) => {
@@ -99,6 +104,7 @@ const CreateCustomer = () => {
     const formData = {
       name,
       email,
+      phone,
       password,
       rateList: filteredLocations,
     };
@@ -166,6 +172,17 @@ const CreateCustomer = () => {
                       />
                       {errors.email && (
                         <small className="text-danger">{errors.email}</small>
+                      )}
+                    </div>
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Phone</label>
+                      <input
+                        type="number"
+                        placeholder="Phone Number"
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                      {errors.phone && (
+                        <small className="text-danger">{errors.phone}</small>
                       )}
                     </div>
                     <div className={`col-sm-4 gap-0 ${style.label}`}>

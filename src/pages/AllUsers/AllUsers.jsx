@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useNavigate } from "react-router-dom";
 import { useGetAllUserByBranchQuery } from "../../redux/Auth/auth";
+import Available from "../../Components/cards/Available";
 const AllUsers = () => {
   const [filter, setFilter] = useState("all");
   const [itemOffset, setItemOffset] = useState(0);
@@ -20,11 +21,12 @@ const AllUsers = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
   const role = selector?.data?.user?.role?.[0];
-  console.log(selector);
 
   const allUsersApi = useGetAllUserByBranchQuery(id);
   const isLoading = allUsersApi?.isLoading;
   const all_User = allUsersApi?.data?.data;
+
+  console.log(all_User)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
@@ -55,10 +57,13 @@ const AllUsers = () => {
                 <BsThreeDots className={style.icon} title="All User's" />
               </div>
             </div>
+            {(all_User?.length === 0) &&
+              <Available message={"No Users Available"} />
+            }
             <div className={style.table_div}>
               {isLoading ? (
                 <ListLoader />
-              ) : (
+              ) : all_User?.length !== 0 ? (
                 <table className={`${style.table_container}`}>
                   <thead className={`${style.table_header}`}>
                     <tr>
@@ -101,7 +106,7 @@ const AllUsers = () => {
                       ))}
                   </tbody>
                 </table>
-              )}
+              ) : null}
             </div>
           </div>
           {all_User?.length >= 6 && (

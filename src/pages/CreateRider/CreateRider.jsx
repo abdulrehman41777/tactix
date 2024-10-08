@@ -15,6 +15,7 @@ const CreateUser = () => {
     email: "",
     name: "",
     password: "",
+    phone: "",
     RiderGroupId: "",
     branchID: ""
   });
@@ -26,7 +27,7 @@ const CreateUser = () => {
   const navigate = useNavigate();
   const { id: riderGroupID } = useParams()
 
-  const { email, name, password, RiderGroupId } = createRiderFields;
+  const { email, name, password, phone, RiderGroupId } = createRiderFields;
 
   // Save Data in state
   useEffect(() => {
@@ -110,6 +111,16 @@ const CreateUser = () => {
                     placeholder="Email"
                     name="email"
                     value={email}
+                    onChange={handleFields}
+                  />
+                </label>
+                <label className={style.label}>
+                  <h6>Phone*</h6>
+                  <input
+                    type="number"
+                    placeholder="Phone Number"
+                    name="phone"
+                    value={phone}
                     onChange={handleFields}
                   />
                 </label>

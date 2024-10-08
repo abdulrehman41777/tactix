@@ -32,26 +32,22 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (validateEmail) {
-      try {
-        const res = await login(loginFields);
-        if (!res.error) {
-          NotificationAlert("Login successfully", "success");
-          dispatch(authUser(res?.data));
-          navigate("/dashboard/main");
-          setLoginFields({
-            email: "",
-            password: "",
-          });
-        } else {
-          NotificationAlert("Invalid Credentials");
-        }
-      } catch (error) {
-        console.log(error);
-        NotificationAlert("Internal Server Error");
+    try {
+      const res = await login(loginFields);
+      if (!res.error) {
+        NotificationAlert("Login successfully", "success");
+        dispatch(authUser(res?.data));
+        navigate("/dashboard/main");
+        setLoginFields({
+          email: "",
+          password: "",
+        });
+      } else {
+        NotificationAlert("Invalid Credentials");
       }
-    } else {
-      NotificationAlert("Invalid email");
+    } catch (error) {
+      console.log(error);
+      NotificationAlert("Internal Server Error");
     }
   };
 

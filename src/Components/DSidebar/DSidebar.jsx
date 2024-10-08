@@ -78,6 +78,11 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       name: "All Groups",
       icon: <BsPeopleFill />,
     },
+    {
+      path: "/dashboard/create-manager",
+      name: "Create Manager",
+      icon: <BsPeopleFill />,
+    },
 
     {
       path: "/dashboard/parcel",

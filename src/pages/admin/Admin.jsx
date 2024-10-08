@@ -22,8 +22,6 @@ const Admin = () => {
   // All Managers for Admin branch
   const All_Admins = useAll_AdminsQuery(id, { skip: !id });
   const isLoading = All_Admins?.isLoading;
-  console.log(All_Admins)
-  // console.log(Manager_Branch_API?.data?.managers, "Manager_Branch_API.data")
 
   const Manager_Branch = All_Admins?.data?.user?.filter(
     (item) => item.role[0] === "Manager"
@@ -39,7 +37,7 @@ const Admin = () => {
   const handlePageClick = (event) => {
     const newOffset =
       (event.selected * 6) %
-      Manager_Branch_API?.data?.createdRoles?.filter((item) =>
+      All_Admins?.data?.createdRoles?.filter((item) =>
         item?.name?.toLowerCase()?.includes(search?.toLowerCase())
       )?.length;
     setItemOffset(newOffset);

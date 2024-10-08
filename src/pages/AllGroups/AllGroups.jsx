@@ -14,6 +14,7 @@ import {
 } from "../../redux/Manager/manager";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
+import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 
 const AllGroups = () => {
   const [itemOffset, setItemOffset] = useState(0);
@@ -28,7 +29,7 @@ const AllGroups = () => {
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const userID = selector?.data?.user?._id;
-  const branchID = selector?.data;
+  const branchID = selector?.data?.user?.branchID;
 
   const navigate = useNavigate();
 
@@ -38,8 +39,6 @@ const AllGroups = () => {
   // Get Data From Branch
   const location = useLocation();
   const data = location.state;
-
-  console.log(data?.name)
 
   // Get Group By Manager
   const Get_Group_by_manager = useGetGroupQuery(userID, {
@@ -87,6 +86,7 @@ const AllGroups = () => {
 
       if (!res.error) {
         setCreateGroup((prev) => ({ ...prev, isOpen: false, groupname: "" }));
+        NotificationAlert("Group created successfully", "success")
       }
     } catch (error) {
       console.log(error);

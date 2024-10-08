@@ -3,7 +3,7 @@ import API_BASE_URL from "../../../config";
 
 const auth = createApi({
   reducerPath: "auth",
-  tagTypes: ["auth", "update","createUser"],
+  tagTypes: ["auth", "update", "createUser"],
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -58,7 +58,6 @@ const auth = createApi({
     }),
     getAllUserByBranch: builder.query({
       query: (branchId) => {
-        console.log(branchId)
         return {
           url: `/auth/get_branch_user/${branchId}`,
           method: "GET",

@@ -15,19 +15,18 @@ const CreateManager = () => {
   const [createAdminFields, setCreateAdminFields] = useState({
     email: "",
     name: "",
+    phone: "",
     password: "",
     confirmpass: "",
   });
 
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
-
-
-  const [branchID, setBranchID] = useState('');
+  const branchID = selector?.data?.user?.branchID;
 
   const navigate = useNavigate();
 
-  const { email, name, password, confirmpass } = createAdminFields;
+  const { email, name, phone, password, confirmpass } = createAdminFields;
 
   const validateEmail = EmailValidator.validate(email);
 
@@ -38,67 +37,45 @@ const CreateManager = () => {
     });
   };
 
-
-  const role = selector?.data?.user?.role[0];
-  const userID = selector?.data?.user?._id;
-
-
-  const all_Branches_API = useBranchesByAdminQuery(userID, { skip: !userID });
-  const All_branches = all_Branches_API?.data?.findAdminBranches;
-
-
-  const handleChange = (e) => {
-    setBranchID(e.target.value)
-  };
-
   const [createManager, { isLoading }] = useCreate_ManagerMutation();
 
-  const handleCreateAdmin = async (e) => {
+  const handleCreateManagers = async (e) => {
     e.preventDefault();
-    if (email && name && password && confirmpass) {
-      if (password === confirmpass) {
-        if (validateEmail) {
-          try {
-            const res = await createManager({
-              adminID: id,
-              data: {
-                branchID: branchID,
-                email: email,
-                name: name,
-                password: password,
-              },
-            });
+    if (!validateEmail) {
+      return NotificationAlert("Invalid Email");
+    }
+    if (password !== confirmpass) {
+      return NotificationAlert("Password Must Be Same");
+    }
+    if (!email && !name && !password && !confirmpass && !phone) {
+      return NotificationAlert("All Fields Required");
+    }
 
-            console.log(res.data)
-            if (!res.error) {
-              NotificationAlert("Manager Created successfully", "success");
-              setCreateAdminFields({
-                email: "",
-                name: "",
-                password: "",
-                confirmpass: "",
-              });
-              navigate("/dashboard/manager")
-            } else if (
-              res.error.data.errors.find((err) => err.path === "name")
-            ) {
-              NotificationAlert("Name must be at least 5 characters");
-            } else if (
-              res.error.data.errors.find((err) => err.path === "password")
-            ) {
-              NotificationAlert("Password Must Contain Atleast 8 Chars");
-            }
-          } catch (error) {
-            NotificationAlert("User Already Exists With This Email");
-          }
-        } else {
-          NotificationAlert("Invalid Email");
-        }
-      } else {
-        NotificationAlert("Password Must Be Same");
+    try {
+      const res = await createManager({
+        adminID: id,
+        data: {
+          branchID: branchID,
+          email: email,
+          phone: phone,
+          name: name,
+          password: password,
+        },
+      });
+
+      console.log(res.data)
+      if (!res.error) {
+        NotificationAlert("Manager Created successfully", "success");
+        setCreateAdminFields({
+          email: "",
+          name: "",
+          password: "",
+          confirmpass: "",
+        });
+        navigate("/dashboard/manager")
       }
-    } else {
-      NotificationAlert("All Fields Required");
+    } catch (error) {
+      NotificationAlert("User Already Exists With This Email");
     }
   };
 
@@ -116,7 +93,7 @@ const CreateManager = () => {
               <p>Create A New Manager</p>
             </div>
             <div className={style.form_wrapper}>
-              <form className={style.form} onSubmit={handleCreateAdmin}>
+              <form className={style.form} onSubmit={handleCreateManagers}>
                 <label className={style.label}>
                   <h6>Name*</h6>
                   <input
@@ -137,26 +114,16 @@ const CreateManager = () => {
                     onChange={handleFields}
                   />
                 </label>
-
-
                 <label className={style.label}>
-                  <h6>Select Branch*</h6>
-                  <select
-                    value={branchID}
-                    onChange={handleChange}
-                    className="text-dark bg-light w-100"
-                  >
-                    <option value="" disabled className="text-dark">
-                      Select Branch
-                    </option>
-                    {All_branches?.map((item) => (
-                      <option value={item?._id} className="text-dark" key={item?._id}>
-                        {item?.branch_name}
-                      </option>
-                    ))}
-                  </select>
+                  <h6>Phone*</h6>
+                  <input
+                    type="number"
+                    placeholder="Phone number"
+                    name="phone"
+                    value={phone}
+                    onChange={handleFields}
+                  />
                 </label>
-
 
                 <label className={style.label}>
                   <h6>Password*</h6>

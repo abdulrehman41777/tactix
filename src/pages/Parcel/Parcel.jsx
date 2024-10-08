@@ -53,7 +53,7 @@ const Parcel = () => {
     <div>
       <Dlayout pageName="Parcels" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          {(role === "Admin" || role === "SuperAdmin") ? null :
+          {/* {(role === "Admin" || role === "SuperAdmin") ? null :
             <div className="d-flex justify-content-end gap-5">
 
               <h4
@@ -66,7 +66,7 @@ const Parcel = () => {
                 Add Parcel Price
               </h4>
             </div>
-          }
+          } */}
           {role === "Manager" ? (
             <div className="d-flex justify-content-end pb-3">
               <select

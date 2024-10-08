@@ -1,6 +1,5 @@
 import Home from "../pages/home/Home";
 import Profile from "../pages/profile/Profile";
-import Admin from "../pages/admin/Admin";
 import { Navigate } from "react-router-dom";
 import CreateManager from "../pages/CreateManager/CreateManager";
 import Main from "../pages/Main/Main";
@@ -9,6 +8,7 @@ import AllRiders from "../pages/All-Rider/All_Rider";
 import Parcel from "../pages/Parcel/Parcel";
 import AllGroups from "../pages/AllGroups/AllGroups";
 import CustomerProfile from "../pages/CustomerProfile/CustomerProfile";
+import Managers from "../pages/Managers/Managers";
 
 const admin = [
   {
@@ -21,7 +21,7 @@ const admin = [
   },
   {
     path: "/dashboard/manager",
-    element: <Admin />, // working
+    element: <Managers />, // working
   },
   {
     path: "/dashboard/create-manager",
