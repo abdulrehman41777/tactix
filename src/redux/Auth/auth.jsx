@@ -38,7 +38,7 @@ const auth = createApi({
     Update_Profile: builder.mutation({
       query: ({ userID, data }) => {
         return {
-          url: `/api/user/update-profile/${userID}`,
+          url: `/auth/update-role/${userID}`,
           method: "PATCH",
           body: data,
         };

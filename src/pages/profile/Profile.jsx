@@ -19,20 +19,21 @@ const Profile = () => {
   const User_Data = selector?.data?.user;
   const userID = User_Data?._id;
   const Profile_Img = User_Data?.profileImage;
-  console.log(User_Data?.password);
   const disPatch = useDispatch();
 
-  const [isPassOne, setIsPassOne] = useState(false);
+  console.log(Profile_Img)
+
   const [isPassTwo, setIsPassTwo] = useState(false);
   const [confirmPass, setConfirmPass] = useState(User_Data?.password);
   const [updateFields, setUpdateFields] = useState({
     name: User_Data?.name,
     email: User_Data?.email,
+    phone: User_Data?.phone,
     profileImage: "",
     password: User_Data?.password,
   });
 
-  const { name, email, password, profileImage } = updateFields;
+  const { name, email, password, phone, profileImage } = updateFields;
 
   const handleUpdateProfile = (e) => {
     setUpdateFields({ ...updateFields, [e.target.name]: e.target.value });
@@ -51,30 +52,29 @@ const Profile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (updateFields.password === confirmPass) {
-      try {
-        const formData = new FormData();
-        formData.append("email", email);
-        formData.append("name", name);
-        formData.append("password", password);
-        formData.append("profileImage", profileImage);
-        const res = await update_Profile_API({
-          userID,
-          data: formData,
-        });
-        if (!res.error) {
-          NotificationAlert("Profile updated successfully", "success");
-          disPatch(logout());
-        } else {
-          NotificationAlert("Error While updating profile");
-        }
-      } catch (error) {
-        NotificationAlert("Error");
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("password", password);
+      formData.append("phone", phone);
+      formData.append("profileImage", profileImage);
+      const res = await update_Profile_API({
+        userID,
+        data: formData,
+      });
+      console.log(res?.data)
+      if (!res.error) {
+        NotificationAlert("Profile updated successfully", "success");
+        // dispatch(authUser(res?.data));
+        // disPatch(logout());
+      } else {
+        NotificationAlert("Error While updating profile");
       }
-    } else {
-      NotificationAlert("Password Should Be Same");
+    } catch (error) {
+      NotificationAlert("Error");
     }
-  };
+  }
 
   return (
     <div>
@@ -179,35 +179,22 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className={style.update_profile_fields_box_wrapper}>
-                  <h6>Password</h6>
+                  <h6>Phone Number</h6>
                   <div className={style.update_profile_fields_box}>
                     <RiLockPasswordFill
                       className={style.update_profile_fields_box_icon}
                     />
                     <input
-                      type={isPassOne ? "text" : "password"}
-                      name="password"
+                      type={"number"}
+                      name="phone"
                       onChange={handleUpdateProfile}
                       placeholder="Enter Your Password"
-                      value={password}
+                      value={phone}
                     />
-                    {isPassOne ? (
-                      <AiFillEye
-                        className={style.update_profile_fields_box_icon}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setIsPassOne(false)}
-                      />
-                    ) : (
-                      <AiFillEyeInvisible
-                        className={style.update_profile_fields_box_icon}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setIsPassOne(true)}
-                      />
-                    )}
                   </div>
                 </div>
                 <div className={style.update_profile_fields_box_wrapper}>
-                  <h6>Confirm Password</h6>
+                  <h6>Password</h6>
                   <div className={style.update_profile_fields_box}>
                     <RiLockPasswordFill
                       className={style.update_profile_fields_box_icon}

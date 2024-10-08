@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import style from "./signup.module.css";
 import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import {
   useAll_branchesQuery,
   useBranchesByAdminQuery,
 } from "../../redux/Branch/Branch";
-import { useCreateUserMutation } from "../../redux/Auth/auth";
+import { useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
 import { MdCancel } from "react-icons/md";
 
 const CreateCustomer = () => {
@@ -23,13 +23,24 @@ const CreateCustomer = () => {
 
   const navigate = useNavigate();
 
+  // Get Data From Branch
+  const location = useLocation();
+  const data = location.state;
+
   // State to hold input values for From, To, and Price
-  const [locations, setLocations] = useState([{ from: "", to: "", price: "", shipmentType: [] }]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [locations, setLocations] = useState([{ from: "", to: "", price: null, shipmentType: [] }]);
+  const [name, setName] = useState(data?.userData?.name || "");
+  const [email, setEmail] = useState(data?.userData?.email || "");
+  const [password, setPassword] = useState(data?.userData?.password || "");
+  const [phone, setPhone] = useState(data?.userData?.phone || "");
   const [errors, setErrors] = useState({});
+  console.log(locations)
+  useEffect(() => {
+    if (data?.type === "update") {
+      setLocations(data?.userData?.rateList?.rateList?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
+    }
+  }, []);
+
 
   // Handle input change for locations
   const handleLocationChange = (index, e) => {
@@ -38,15 +49,16 @@ const CreateCustomer = () => {
     if (e.target.name === "shipmentType") {
       // Ensure shipmentType is an array
       newLocations[index][e.target.name] = [e.target.value];
-    } else {
+    } else if (e.target.name === "price") {
+      newLocations[index][e.target.name] = Number(e.target.value);
+    }
+    else {
       // Update other fields as strings
       newLocations[index][e.target.name] = e.target.value;
     }
 
     setLocations(newLocations);
   };
-
-  console.log(locations)
 
   // Add a new set of location fields
   const handleAdd = () => {
@@ -97,6 +109,9 @@ const CreateCustomer = () => {
 
   const [createUser, { isLoading }] = useCreateUserMutation();
 
+  const [updateRateList, { isLoading: updateRateListLoading }] = useUpdate_ProfileMutation();
+
+
   // Handle form submission
   const handleSubmit = async () => {
     if (!validateForm()) {
@@ -107,7 +122,7 @@ const CreateCustomer = () => {
       (location) =>
         location.from.trim() || location.to.trim() || location.price.trim()
     );
-
+    console.log(filteredLocations)
     // Prepare data to send
     const formData = {
       name,
@@ -117,32 +132,50 @@ const CreateCustomer = () => {
       rateList: filteredLocations,
     };
 
-    // Here, you can use the formData to send to an API, e.g.,
-    // fetch('/api/endpoint', { method: 'POST', body: JSON.stringify(formData) })
-
-    // console.log("Form Data to Submit:", formData);
+    console.log("filteredLocations", filteredLocations);
 
     try {
-      const res = await createUser({
-        BranchId: id,
-        managerID: manager_id,
-        data: formData,
-      });
+      if (data.type === "update") {
+        const res = await updateRateList({
+          userID: data?.userData?._id,
+          data: { rateList: filteredLocations },
+        });
 
-      if (!res.error) {
-        setLocations([{ from: "", to: "", price: "", shipmentType: [] }]);
-        setName("");
-        setEmail("");
-        setPassword("");
-        navigate(-1)
+        if (!res.error) {
+          navigate(-1)
+        } else {
+          console.log(res)
+        }
+
+      } else {
+        const res = await createUser({
+          BranchId: id,
+          managerID: manager_id,
+          data: formData,
+        });
+
+        if (!res.error) {
+          setLocations([{ from: "", to: "", price: "", shipmentType: [] }]);
+          setName("");
+          setEmail("");
+          setPassword("");
+          navigate(-1)
+        } else {
+          console.log(res)
+        }
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
   };
 
+
+
+
+
   const rateList = ["Premium", "Express", "Economy", "Others"]
+
+
 
   return (
     <div className={style.create_wrapper}>
@@ -155,52 +188,64 @@ const CreateCustomer = () => {
           // className={style.login_box_inner_wrapper}
           >
             <div className={style.login_box_head}>
-              <h1>Create Customer</h1>
-              <p>Create A New Customer</p>
+              {data.type === "update" ?
+                <h1>Update Customer</h1>
+                :
+                <h1>Create Customer</h1>
+              }
+              {data.type === "update" ?
+                null
+                :
+                <p>Create A New Customer</p>
+              }
             </div>
             <div className={style.form_wrapper}>
               <div className="d-flex flex-column justify-content-center align-items-center gap-3">
                 <div className="d-flex flex-column w-100 gap-3">
                   <div className="row g-3">
-                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                    <div className={`col-sm-3 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Name</label>
                       <input
                         type="text"
                         placeholder="Name"
                         onChange={(e) => setName(e.target.value)}
+                        value={name}
                       />
                       {errors.name && (
                         <small className="text-danger">{errors.name}</small>
                       )}
                     </div>
-                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                    <div className={`col-sm-3 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Email</label>
                       <input
                         type="text"
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                       />
                       {errors.email && (
                         <small className="text-danger">{errors.email}</small>
                       )}
                     </div>
-                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                    <div className={`col-sm-3 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Phone</label>
                       <input
                         type="number"
                         placeholder="Phone Number"
                         onChange={(e) => setPhone(e.target.value)}
+                        value={phone}
                       />
                       {errors.phone && (
                         <small className="text-danger">{errors.phone}</small>
                       )}
                     </div>
-                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                    <div className={`col-sm-3 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Password</label>
                       <input
                         type="text"
                         placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                       />
                       {errors.password && (
                         <small className="text-danger">{errors.password}</small>
@@ -213,7 +258,7 @@ const CreateCustomer = () => {
                 {locations.map((location, index) => (
                   <div className="d-flex flex-column w-100 gap-3">
                     <div className="row g-3">
-                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <div className={`col-sm-3 gap-0 ${style.label}`}>
                         <input
                           type="text"
                           name="from"
@@ -222,7 +267,7 @@ const CreateCustomer = () => {
                           placeholder="From"
                         />
                       </div>
-                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <div className={`col-sm-3 gap-0 ${style.label}`}>
                         <input
                           type="text"
                           name="to"
@@ -240,7 +285,7 @@ const CreateCustomer = () => {
                           placeholder="Price"
                         />
                       </div>
-                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <div className={`col-sm-2 gap-0 ${style.label}`}>
                         <select
                           name="shipmentType"
                           value={location.shipmentType}
@@ -286,14 +331,24 @@ const CreateCustomer = () => {
                 ))}
 
                 <div className="d-flex justify-content-center">
-                  <button
-                    name="Create Product"
-                    className="btn p-3 rounded"
-                    onClick={handleSubmit}
-                    style={{ background: '#D8788C' }}
-                  >
-                    Create Customer
-                  </button>
+                  {data?.type === "update" ?
+                    <button
+                      name="Create Product"
+                      className="btn p-3 rounded text-white"
+                      onClick={handleSubmit}
+                      style={{ background: '#D8788C' }}
+                    >
+                      Update Customer
+                    </button>
+                    :
+                    <button
+                      name="Create Product"
+                      className="btn p-3 rounded text-white"
+                      onClick={handleSubmit}
+                      style={{ background: '#D8788C' }}
+                    >
+                      Create Customer
+                    </button>}
                 </div>
               </div>
             </div>

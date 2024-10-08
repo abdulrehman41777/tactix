@@ -26,8 +26,6 @@ const AllUsers = () => {
   const isLoading = allUsersApi?.isLoading;
   const all_User = allUsersApi?.data?.data;
 
-  console.log(all_User)
-
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(all_User?.length / 6);
   const handlePageClick = (event) => {
@@ -91,16 +89,22 @@ const AllUsers = () => {
                           <td>{user?.email}</td>
                           <td>{user?.password}</td>
                           <td>
-                            <button
-                              className={style.status_btn_paid}
-                              onClick={() =>
-                                navigate(
-                                  `/dashboard/all-user/customer-profile/${user?._id}`
-                                )
+                            <div className="d-flex gap-2">
+                              <button
+                                className={style.status_btn_paid}
+                                onClick={() => navigate(`/dashboard/all-user/customer-profile/${user?._id}`)}
+                              >
+                                View
+                              </button>
+                              {role === "Manager" &&
+                                <button
+                                  className={style.status_btn_paid}
+                                  onClick={() => navigate(`/dashboard/create-customer`, { state: { userData: user, type: "update" } })}
+                                >
+                                  Update RateList
+                                </button>
                               }
-                            >
-                              View
-                            </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
