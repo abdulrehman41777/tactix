@@ -12,7 +12,7 @@ import speedImg from "../../assets/main/speed.png";
 import trackImg from "../../assets/main/track.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Footer from "../../Components/Footer/Footer";
-import Navbar from "../../Components/Navbar/navbar";
+// import Navbar from "../../Components/Navbar/navbar";
 import qualityImg from "../../assets/main/quality.png";
 import supportImg from "../../assets/main/support.png";
 import contactImg from "../../assets/main/contact.png";
@@ -60,7 +60,7 @@ const Main = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {/* Hero... */}
       <section className="container py-5" style={{ marginTop: "90px" }}>
         <div className="row">
