@@ -77,7 +77,7 @@ const Parcel = () => {
                 <BsThreeDots className={style.icon} />
               </div>
             </div>
-            {checkAssign === "all" ? (
+            {checkAssign === "all" && (
               (
                 <div className={`row ${style.card_wrapper}`}>
                   {
@@ -97,26 +97,29 @@ const Parcel = () => {
                   }
                 </div>
               )
-            ) : Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")
-              ?.length === 0 ? (
-              <Available message={"No Parcel Available"} />
-            ) : (
-              <div className={`row ${style.card_wrapper}`}>
-                {getParcelsLoading ? (
-                  <ListLoader />
-                ) : (
-                  Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")
-                    ?.slice(itemOffset, endOffset)
-                    ?.map((data, index) => (
-                      <Assigned_Parcel
-                        data={data}
-                        key={index}
-                        setGetReceipt={setGetReceipt}
-                      />
-                    ))
-                )}
-              </div>
             )}
+
+            {checkAssign === "Order Assigned" &&
+              <div className={`row ${style.card_wrapper}`}>
+                {getParcelsLoading ?
+                  <ListLoader />
+                  : (Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")?.length === 0) ?
+                    <Available message={"No Parcel Available"} /> :
+                    (
+                      Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")
+                        ?.slice(itemOffset, endOffset)
+                        ?.map((data, index) => (
+                          <ShipmentCard
+                            data={data}
+                            key={index}
+                            setGetReceipt={setGetReceipt}
+                          />
+                        ))
+                    )}
+              </div>
+            }
+
+
           </div>
           {Data?.length >= 6 && (
             <ReactPaginate

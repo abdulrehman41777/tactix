@@ -55,7 +55,11 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
         </div>
         <button className={styles.status_btn_progress}>
           <span className={`${styles.pending_btn_circle} mx-1`}></span>
-          {(data?.assignment !== null && data?.assignment) ? data?.assignment?.Status[0] : data?.status}
+          {(data?.assignment !== null && data?.assignment) ?
+            data?.assignment?.Status[0] === "Shipment Sorted at Delivery Facility" ?
+              "Shipment Sorted" : data?.assignment?.Status[0]
+            : data?.status
+          }
         </button>
         <small className={styles.order_name}>{data?.parcelName}</small>
       </div>
