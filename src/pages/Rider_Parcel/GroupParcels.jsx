@@ -13,7 +13,7 @@ import AddWeightPrice from "../../Components/AddWeightPrice/AddWeightPrice";
 import UpdateWeightPrice from "../../Components/AddWeightPrice/UpdateWeightPrice";
 import Available from "../../Components/cards/Available";
 import Receipt from "../../Components/ReceiptCard/Receipt";
-import Rider_Parcel_Card from "../../Components/Rider_Parcel_Card/Rider_Parcel_Card";
+import Group_Parcel_Card from "../../Components/Rider_Parcel_Card/Group_Parcel_Card";
 
 const GroupParcels = () => {
     const [getReceipt, setGetReceipt] = useState(false);
@@ -54,7 +54,7 @@ const GroupParcels = () => {
                                 ) : (
                                     Rider_Parcel?.slice(itemOffset, endOffset)?.map(
                                         (data, index) => (
-                                            <Rider_Parcel_Card
+                                            <Group_Parcel_Card
                                                 data={data}
                                                 key={index}
                                                 setGetReceipt={setGetReceipt}
