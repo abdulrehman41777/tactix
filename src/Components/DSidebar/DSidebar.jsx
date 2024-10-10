@@ -27,6 +27,8 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   const dispatch = useDispatch();
   const role = selector?.data?.user?.role[0];
 
+  const branchID = selector?.data?.user.branchID
+
 
   const superAdmin = [
     {
@@ -63,6 +65,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
 
   ];
+
   const admin = [
     {
       path: "/dashboard/main",
@@ -103,6 +106,20 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <CgProfile />,
     },
   ];
+
+  const unAssignedAdmin = [
+    {
+      path: "/dashboard/main",
+      name: "Main Dashboard",
+      icon: <AiFillHome />,
+    },
+    {
+      path: "/dashboard/profile",
+      name: "Profile",
+      icon: <CgProfile />,
+    },
+  ]
+
   const manager = [
     {
       path: "/dashboard",
@@ -179,7 +196,11 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   if (role === "SuperAdmin") {
     sideLinks = superAdmin;
   } else if (role === "Admin") {
-    sideLinks = admin;
+    if (branchID && branchID !== null) {
+      sideLinks = admin;
+    } else {
+      sideLinks = unAssignedAdmin
+    }
   } else if (role === "Manager") {
     sideLinks = manager;
   } else if (role === "User") {
@@ -205,21 +226,23 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       </div>
       <div>
         <ul className={style.sidebar_ul}>
-          {sideLinks?.map((item, index) => (
-            <li key={index}>
-              <NavLink
-                to={item?.path}
-                className={({ isActive }) =>
-                  isActive ? `${style.li_active}` : `${style.li}`
-                }
-              >
-                <div className={style.inner_link}>
-                  {item?.icon}
-                  <p>{item?.name}</p>
-                </div>
-              </NavLink>
-            </li>
-          ))}
+
+          {
+            sideLinks?.map((item, index) => (
+              <li key={index}>
+                <NavLink
+                  to={item?.path}
+                  className={({ isActive }) =>
+                    isActive ? `${style.li_active}` : `${style.li}`
+                  }
+                >
+                  <div className={style.inner_link}>
+                    {item?.icon}
+                    <p>{item?.name}</p>
+                  </div>
+                </NavLink>
+              </li>
+            ))}
 
           <li onClick={() => dispatch(logout())}>
             <NavLink
