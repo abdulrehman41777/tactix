@@ -90,7 +90,7 @@ const Dlayout = ({ children, pageName, search, setSearch }) => {
           {children}
           <div className={style.footer_warpper}>
             <p className={style.footer_title}>
-              © 2023 Tachyon. All Rights Reserved.
+              © 2023 Tactix. All Rights Reserved.
             </p>
             <div className={style.footer_links}>
               <p>Support</p>

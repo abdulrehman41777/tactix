@@ -11,7 +11,7 @@ const HeadNav = () => {
         <nav className="navbar navbar-expand-lg py-3 fixed-top">
             <div className="container">
                 <a className="navbar-brand" href="#">
-                    <img src={logo} alt="tachyon logo" className={styles.nav_logo} />
+                    <img src={logo} alt="Tactix logo" className={styles.nav_logo} />
                 </a>
                 <button
                     className="navbar-toggler"

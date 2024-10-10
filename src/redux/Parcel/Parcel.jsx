@@ -104,9 +104,9 @@ const percel = createApi({
       },
     }),
     assign_Parcel: builder.mutation({
-      query: ({ branchID, riderGroupID, riderID, data }) => {
+      query: ({ branchID, riderGroupID, data }) => {
         return {
-          url: `parcel/${branchID}/${riderGroupID}/assign-parcels/${riderID}`,
+          url: `parcel/${branchID}/${riderGroupID}/assign-parcels`,
           method: "POST",
           body: data,
         };

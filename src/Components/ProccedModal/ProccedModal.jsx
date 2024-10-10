@@ -38,7 +38,6 @@ const ProccedModal = ({
       const res = await assign_parcel({
         branchID: branchID,
         riderGroupID: group,
-        riderID: rider,
         data: {
           assignedFromManager: id,
           customerID: customerID,
@@ -85,7 +84,7 @@ const ProccedModal = ({
               </option>
             ))}
           </select>
-          {All_Rider && (
+          {/* {All_Rider && (
             <select
               name="rider"
               className="text-dark bg-light"
@@ -101,7 +100,7 @@ const ProccedModal = ({
                 </option>
               ))}
             </select>
-          )}
+          )} */}
           {isLoading ? (
             <button className="modal_sumbit_btn mt-3" disabled>
               Submiting
