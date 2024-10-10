@@ -8,13 +8,11 @@ import { useSelector } from "react-redux";
 import { useGetSingleUserByIDQuery } from "../../redux/Auth/auth";
 import { useParams } from "react-router-dom";
 import { useCreate_User_ParcelMutation } from "../../redux/Parcel/Parcel";
-import exportFromJSON from "export-from-json";
 
 const CreateCustomerOrder = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
   const manager_id = selector?.data?.user?._id;
-  // console.log(selector);
 
   const { userId: userId, branchId } = useParams();
   const navigate = useNavigate();
@@ -61,8 +59,6 @@ const CreateCustomerOrder = () => {
     Dimension,
     isDamaged,
   } = formData;
-
-  console.log(formData)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

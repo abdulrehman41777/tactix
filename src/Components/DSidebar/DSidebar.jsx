@@ -135,7 +135,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   ];
   const user = [
     {
-      path: "/dashboard/",
+      path: "/dashboard/main",
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },
@@ -149,11 +149,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       path: "/dashboard/create-orders",
       name: "Add Parcel",
       icon: <MdOutlineAddCircle />,
-    },
-    {
-      path: "/dashboard/parcel",
-      name: "Your Parcel",
-      icon: <BsBox2Fill />,
     },
     {
       path: "/dashboard/profile",

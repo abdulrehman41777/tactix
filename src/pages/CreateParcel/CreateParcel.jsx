@@ -2,338 +2,357 @@ import React, { useState } from "react";
 import { Container } from "react-bootstrap";
 import style from "./createparcel.module.css";
 import { IoIosArrowBack } from "react-icons/io";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-
+import { useNavigate } from "react-router";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
-import * as EmailValidator from "email-validator";
-import { useCreateParcelMutation } from "../../redux/Parcel/Parcel";
-import {
-  useAll_branchesQuery,
-  useBranch_With_idQuery,
-} from "../../redux/Branch/Branch";
-import {
-  useAll_CityQuery,
-  useAll_StateQuery,
-  useAll_countryQuery,
-} from "../../redux/Country/country";
+import { useGetSingleUserByIDQuery } from "../../redux/Auth/auth";
+import { useParams } from "react-router-dom";
+import { useCreate_User_ParcelMutation } from "../../redux/Parcel/Parcel";
 
 const CreateParcel = () => {
-  const [branchID, setBranchID] = useState("");
-  const [CountryID, setCountryID] = useState("");
-
-  const [StateID, setStateID] = useState("");
-  const [CityID, setCityID] = useState("");
-
-  const location = useLocation();
-  const userEmail = location?.state?.email;
-
-  // User Data
   const selector = useSelector((state) => state?.userData);
+  const branchID = selector?.data?.user?.BranchID;
   const userID = selector?.data?.user?._id;
-  const role = selector?.data?.user?.role[0];
-
-  const [percelFields, setPercelFields] = useState({
-    parcelName: "",
-    weight: "",
-    customerPhone: "",
-    recieverPhone: "",
-    customerEmail: role === "Manager" ? userEmail : "",
-    recieverEmail: "",
-    fromAddress: "",
-    toAddress: "",
-  });
-
-  // All Country API
-  const All_Country_API = useAll_countryQuery();
-  const All_Country = All_Country_API?.data?.countries;
-
-  // All State API
-  const All_State_API = useAll_StateQuery(CountryID, { skip: !CountryID });
-  const All_State = All_State_API?.data?.states;
-
-  // All City API
-  const All_City_API = useAll_CityQuery(StateID, { skip: !StateID });
-  const All_City = All_City_API?.data?.cities;
-
-  //All Branch API
-  const All_Branch_API = useBranch_With_idQuery(CityID, { skip: !CityID });
-  const All_branches = All_Branch_API?.data?.branches;
-
+  console.log(branchID)
+  // const { userId: userId, branchId } = useParams();
   const navigate = useNavigate();
 
-  const CustomerEmail = EmailValidator.validate(percelFields.customerEmail);
-  const ReciverEmail = EmailValidator.validate(percelFields.recieverEmail);
+  const GetUserById = useGetSingleUserByIDQuery(userID);
+  const rateList = GetUserById?.data?.rateList?.rateList;
 
-  const handleFields = (e) => {
-    setPercelFields({
-      ...percelFields,
-      [e.target.name]: e.target.value,
-    });
+  const [rateListID, setRateListID] = useState("");
+
+
+  const [formData, setFormData] = useState({
+    parcelName: "",
+    weight: "",
+    Solid_Liquid: "",
+    recieverPhone: "",
+    recieverEmail: "",
+    reciverAddress: "",
+    CodCharges: "",
+    ReciverPostCode: "",
+    SenderPhone: "",
+    SenderPostCode: "",
+    SenderAddress: "",
+    CodAmount: false,
+    Dimension: {
+      width: "",
+      height: "",
+    },
+    isDamaged: false,
+  });
+
+  const {
+    parcelName,
+    weight,
+    Solid_Liquid,
+    recieverPhone,
+    recieverEmail,
+    reciverAddress,
+    ReciverPostCode,
+    SenderPhone,
+    CodCharges,
+    SenderPostCode,
+    SenderAddress,
+    CodAmount,
+    Dimension,
+    isDamaged,
+  } = formData;
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (name === "width" || name === "height") {
+      setFormData((prevData) => ({
+        ...prevData,
+        Dimension: {
+          ...prevData.Dimension,
+          [name]: value,
+        },
+      }));
+    } else if (type === "checkbox") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else if (name === "Solid_Liquid") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: [value],
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
-  const [createParcel, { isLoading }] = useCreateParcelMutation();
+  const [createUserParcelApi, { isLoading }] = useCreate_User_ParcelMutation();
 
-  const handleCreateParcel = async (e) => {
-    e.preventDefault();
-    if (
-      percelFields.parcelName &&
-      percelFields.weight &&
-      percelFields.customerPhone &&
-      percelFields.customerEmail &&
-      percelFields.recieverEmail &&
-      percelFields.recieverPhone &&
-      percelFields.fromAddress &&
-      percelFields.toAddress &&
-      branchID &&
-      CountryID &&
-      StateID &&
-      CityID
-    ) {
-      if (CustomerEmail || ReciverEmail) {
-        try {
-          const res = await createParcel({
-            parcelName: percelFields.parcelName,
-            weight: percelFields.weight,
-            toCity: CityID,
-            toCountry: CountryID,
-            customerPhone: percelFields.customerPhone,
-            recieverPhone: percelFields.recieverPhone,
-            customerEmail: percelFields.customerEmail,
-            recieverEmail: percelFields.recieverEmail,
-            fromAddress: percelFields.fromAddress,
-            toAddress: percelFields.toAddress,
-            customerID: userID,
-            branchID: branchID,
-          });
-
-          if (!res.error) {
-            NotificationAlert("Parcel Created successfully", "success");
-            setPercelFields({
-              parcelName: "",
-              weight: "",
-              customerPhone: "",
-              recieverPhone: "",
-              customerEmail: "",
-              recieverEmail: "",
-              fromAddress: "",
-              toAddress: "",
-            });
-            navigate("/dashboard/");
-          } else {
-            console.log(res.error, "err message from parcel create");
-            NotificationAlert("Unable to craete parcel try later", "warning");
-          }
-        } catch (error) {
-          console.log(error, "went wrong err");
-          NotificationAlert("Something went wrong! try again or later");
-        }
-      } else {
-        NotificationAlert("Invalid Email");
+  const handleSubmit = async () => {
+    try {
+      if (
+        parcelName === "" ||
+        weight === "" ||
+        Solid_Liquid === "" ||
+        recieverPhone === "" ||
+        recieverEmail === "" ||
+        reciverAddress === "" ||
+        ReciverPostCode === "" ||
+        SenderPhone === "" ||
+        SenderPostCode === "" ||
+        Dimension.width === "" ||
+        Dimension.height === "" ||
+        rateListID === ""
+      ) {
+        return NotificationAlert("All Field Rquired");
       }
-    } else {
-      NotificationAlert("All Fields Required");
+      const res = await createUserParcelApi({
+        userId: userID,
+        BranchId: branchID,
+        rateListID: rateListID,
+        data: formData,
+      });
+      if (!res.error) {
+        navigate(-1);
+        NotificationAlert("Parcel Created Successfully", "success");
+      }
+    } catch (error) {
+      NotificationAlert("Something Went Wrong!");
     }
   };
 
   return (
     <div className={style.create_wrapper}>
       <Container className={style.login_warpper}>
-        <p className={style.back} onClick={() => navigate("/dashboard/")}>
+        <p className={style.back} onClick={() => navigate(-1)}>
           <IoIosArrowBack /> Back To Main
         </p>
         <div className={style.login_box_wrapper}>
-          <div className={style.login_box_inner_wrapper}>
+          <div
+          // className={style.login_box_inner_wrapper}
+          >
             <div className={style.login_box_head}>
-              <h1>Create Parcel</h1>
-              <p>Create A New Parcel</p>
+              <h1>Create Order</h1>
+              <p>Create A New Order</p>
             </div>
             <div className={style.form_wrapper}>
-              <form className={style.form} onSubmit={handleCreateParcel}>
-                <label className={style.label}>
-                  <div className={`${style.inner_input_fields} d-flex gap-4`}>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>Your Name*</h6>
-
+              <div className="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div className="d-flex flex-column w-100 gap-3">
+                  <div className="row g-3">
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Parcel Name</label>
                       <input
                         type="text"
-                        placeholder="Your Name"
+                        placeholder="Parcel Name"
                         name="parcelName"
-                        value={percelFields.parcelName}
-                        onChange={handleFields}
+                        value={parcelName}
+                        onChange={handleChange}
                       />
                     </div>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>Package Weight*</h6>
 
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Weight</label>
                       <input
                         type="number"
-                        placeholder="Package Weight"
+                        placeholder="Weight"
                         name="weight"
-                        value={percelFields.weight}
-                        onChange={handleFields}
+                        value={weight}
+                        onChange={handleChange}
                       />
                     </div>
-                  </div>
-                </label>
-                <label className={style.label}>
-                  <div className={`${style.inner_input_fields} d-flex gap-4`}>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>Your Email*</h6>
-                      {role === "Manager" ? (
-                        <input
-                          type="email"
-                          placeholder="Your Email"
-                          name="customerEmail"
-                          value={userEmail}
-                          onChange={handleFields}
-                          disabled
-                        />
-                      ) : (
-                        <input
-                          type="email"
-                          placeholder="Your Email"
-                          name="customerEmail"
-                          value={percelFields.customerEmail}
-                          onChange={handleFields}
-                        />
-                      )}
-                    </div>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>Receiver Email*</h6>
 
-                      <input
-                        type="email"
-                        placeholder="Reciever Email"
-                        name="recieverEmail"
-                        value={percelFields.recieverEmail}
-                        onChange={handleFields}
-                      />
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Fragile or Non-Fragile
+                      </label>
+                      <select
+                        name="Solid_Liquid"
+                        value={Solid_Liquid}
+                        onChange={handleChange}
+                      >
+                        <option value=""> Select One </option>
+                        <option value="Fargile"> Fargile </option>
+                        <option value="Non-Fragile"> Non-Fragile </option>
+                      </select>
                     </div>
-                  </div>
-                </label>
-                <label className={style.label}>
-                  <div className={`${style.inner_input_fields} d-flex gap-4`}>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>Your Phone*</h6>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Width</label>
                       <input
                         type="number"
-                        placeholder="Your Phone"
-                        name="customerPhone"
-                        value={percelFields.customerPhone}
-                        onChange={handleFields}
+                        placeholder="Width"
+                        name="width"
+                        value={Dimension.width}
+                        onChange={handleChange}
                       />
                     </div>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>Reciever Phone*</h6>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Height</label>
+                      <input
+                        type="number"
+                        placeholder="Height"
+                        name="height"
+                        value={Dimension.height}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Reciever Phone</label>
                       <input
                         type="number"
                         placeholder="Reciever Phone"
                         name="recieverPhone"
-                        value={percelFields.recieverPhone}
-                        onChange={handleFields}
+                        value={recieverPhone}
+                        onChange={handleChange}
                       />
                     </div>
-                  </div>
-                </label>
-                <label className={style.label}>
-                  <div className={`${style.inner_input_fields} d-flex gap-4`}>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>To Country*</h6>
-                      <select
-                        value={CountryID}
-                        onChange={(e) => setCountryID(e.target.value)}
-                      >
-                        <option value="default">Select country</option>
-                        {All_Country?.map((item) => (
-                          <option value={item._id} key={item._id}>
-                            {item.country}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>To State*</h6>
-                      <select
-                        value={StateID}
-                        onChange={(e) => setStateID(e.target.value)}
-                      >
-                        <option value="default">Select State</option>
-                        {All_State?.map((item) => (
-                          <option value={item._id} key={item._id}>
-                            {item.state}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </label>
-                <label className={style.label}>
-                  <div className={`${style.inner_input_fields} d-flex gap-4`}>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>To City*</h6>
-                      <select
-                        value={CityID}
-                        onChange={(e) => setCityID(e.target.value)}
-                      >
-                        <option value="default">Select City</option>
-                        {All_City?.map((item) => (
-                          <option value={item._id} key={item._id}>
-                            {item.city}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>To Branch*</h6>
-                      <select
-                        value={branchID}
-                        onChange={(e) => setBranchID(e.target.value)}
-                      >
-                        <option value="default">Select branch</option>
-                        {All_branches?.map((item) => (
-                          <option value={item._id} key={item._id}>
-                            {item.branch_name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </label>
 
-                <label className={style.label}>
-                  <div className={`${style.inner_input_fields} d-flex gap-4`}>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>From Address*</h6>
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Reciever Email</label>
                       <input
                         type="text"
-                        placeholder="From Address"
-                        name="fromAddress"
-                        value={percelFields.fromAddress}
-                        onChange={handleFields}
+                        placeholder="Reciever Email"
+                        name="recieverEmail"
+                        value={recieverEmail}
+                        onChange={handleChange}
                       />
                     </div>
-                    <div className="d-flex gap-2 w-100 flex-column">
-                      <h6>To Address*</h6>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Reciver Address
+                      </label>
                       <input
                         type="text"
-                        placeholder="To Address"
-                        name="toAddress"
-                        value={percelFields.toAddress}
-                        onChange={handleFields}
+                        placeholder="Reciver Address"
+                        name="reciverAddress"
+                        value={reciverAddress}
+                        onChange={handleChange}
                       />
                     </div>
-                  </div>
-                </label>
 
-                {isLoading ? (
-                  <button className={style.signin_btn} disabled>
-                    Creating..
-                  </button>
-                ) : (
-                  <button className={style.signin_btn}>Create Order</button>
-                )}
-              </form>
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Reciver Post Code
+                      </label>
+                      <input
+                        type="number"
+                        placeholder="Reciver Post Code"
+                        name="ReciverPostCode"
+                        value={ReciverPostCode}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Sender Phone</label>
+                      <input
+                        type="number"
+                        placeholder="Sender Phone"
+                        name="SenderPhone"
+                        value={SenderPhone}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Sender Address</label>
+                      <input
+                        type="text"
+                        placeholder="Sender Address"
+                        name="SenderAddress"
+                        value={SenderAddress}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Sender Post Code
+                      </label>
+                      <input
+                        type="number"
+                        placeholder="Sender Post Code"
+                        name="SenderPostCode"
+                        value={SenderPostCode}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    {CodAmount &&
+                      <div className={`col-sm-4 gap-0 ${style.label}`}>
+                        <label style={{ color: "#a3b1c2" }}>
+                          COD Charges
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="Sender Post Code"
+                          name="CodCharges"
+                          value={CodCharges}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    }
+
+                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
+                      <label className={style.cyberpunk_checkbox_label}>
+                        <input
+                          type="checkbox"
+                          name="isDamaged"
+                          checked={isDamaged}
+                          onChange={handleChange}
+                          className={style.cyberpunk_checkbox}
+                        />
+                        is Damaged?
+                      </label>
+                    </div>
+
+                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
+                      <label className={style.cyberpunk_checkbox_label}>
+                        <input
+                          type="checkbox"
+                          name="CodAmount"
+                          checked={CodAmount}
+                          onChange={handleChange}
+                          className={style.cyberpunk_checkbox}
+                        />
+                        Cash on Delivery
+                      </label>
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Rate List</label>
+                      <select
+                        name="rateListID"
+                        value={rateListID}
+                        onChange={(e) => setRateListID(e.target.value)}
+                      >
+                        <option value=""> Select One </option>
+                        {rateList?.map((item) => (
+                          <option value={item._id} key={item._id}>
+                            {" "}
+                            {item.from},{item.to},{item.price}{" "}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  name="Create Product"
+                  className="btn p-3 py-2 rounded"
+                  onClick={handleSubmit}
+                  style={{ background: "#D8788C", color: "#FFFFFF" }}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Create Order"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
