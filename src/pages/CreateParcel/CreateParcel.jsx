@@ -13,8 +13,7 @@ const CreateParcel = () => {
   const selector = useSelector((state) => state?.userData);
   const branchID = selector?.data?.user?.BranchID;
   const userID = selector?.data?.user?._id;
-  console.log(branchID)
-  // const { userId: userId, branchId } = useParams();
+
   const navigate = useNavigate();
 
   const GetUserById = useGetSingleUserByIDQuery(userID);

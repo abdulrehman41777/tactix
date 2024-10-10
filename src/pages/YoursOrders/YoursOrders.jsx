@@ -19,72 +19,8 @@ const YoursOrders = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
 
-  const userData = [
-    {
-      NAME: "Ups",
-      STATUS: true,
-      DATE: "2023-09-27",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Computer",
-      STATUS: false,
-      DATE: "2023-09-26",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Mouse",
-      STATUS: true,
-      DATE: "2023-09-25",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "HeadPhone",
-      STATUS: true,
-      DATE: "2023-09-24",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Keyboard",
-      STATUS: false,
-      DATE: "2023-09-23",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Vape",
-      STATUS: true,
-      DATE: "2023-09-27",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Monitor",
-      STATUS: false,
-      DATE: "2023-09-26",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Keyboard",
-      STATUS: false,
-      DATE: "2023-09-23",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Vape",
-      STATUS: true,
-      DATE: "2023-09-27",
-      orderID: "#321nb32n1b",
-    },
-    {
-      NAME: "Monitor",
-      STATUS: false,
-      DATE: "2023-09-26",
-      orderID: "#321nb32n1b",
-    },
-  ];
-
   const getUserParcels = useGet_User_ParcelQuery(id, { skip: !id })
   const getUserParcelData = getUserParcels?.data?.findUserParcel
-  console.log(getUserParcelData)
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(getUserParcelData?.length / 6);
@@ -104,7 +40,7 @@ const YoursOrders = () => {
                 <thead className={`${style.table_header}`}>
                   <tr>
                     <th>NAME</th>
-                    <th>Order No.</th>
+                    <th>#Orderid</th>
                     <th>STATUS</th>
                     <th>DATE</th>
                   </tr>

@@ -34,7 +34,7 @@ const CreateCustomer = () => {
   const [password, setPassword] = useState(data?.userData?.password || "");
   const [phone, setPhone] = useState(data?.userData?.phone || "");
   const [errors, setErrors] = useState({});
-  console.log(locations)
+
   useEffect(() => {
     if (data?.type === "update") {
       setLocations(data?.userData?.rateList?.rateList?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));

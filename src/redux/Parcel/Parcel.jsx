@@ -132,6 +132,24 @@ const percel = createApi({
       },
       invalidatesTags: ["transfer_parcel"],
     }),
+    get_Group_Parcel: builder.query({
+      query: (riderGroupID) => {
+        return {
+          url: `/parcel/get-parcels-rider-group/${riderGroupID}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["transfer_parcel", "update_assign_parcel", "assign_parcel"],
+    }),
+    get_Rider_Parcel: builder.query({
+      query: ({ riderID, history }) => {
+        return {
+          url: `/assignments/get-rider-assignments/${riderID}?isHistory=${history}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["transfer_parcel", "update_assign_parcel", "assign_parcel"],
+    }),
   }),
 });
 
@@ -148,7 +166,9 @@ export const {
   useGetSingleParcelsQuery,
   useAssign_ParcelMutation,
   useUpdate_assign_ParcelMutation,
-  useTransfer_ParcelMutation
+  useTransfer_ParcelMutation,
+  useGet_Group_ParcelQuery,
+  useGet_Rider_ParcelQuery
 } = percel;
 
 export default percel;
