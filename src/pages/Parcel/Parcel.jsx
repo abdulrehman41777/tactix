@@ -32,7 +32,6 @@ const Parcel = () => {
 
 
   let Data = [];
-
   if (role === "SuperAdmin") {
     Data = getParcelsApi?.data?.parcels;
   } else if (role === "Admin" || role === "Manager") {
@@ -40,6 +39,9 @@ const Parcel = () => {
   } else if (role === "User") {
     Data = getParcelsApi?.data?.parcels;
   }
+
+  console.log(Data)
+
   // pagination
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Data?.length / 6);
@@ -103,10 +105,10 @@ const Parcel = () => {
               <div className={`row ${style.card_wrapper}`}>
                 {getParcelsLoading ?
                   <ListLoader />
-                  : (Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")?.length === 0) ?
+                  : (Data?.filter(item => item?.assignment !== null)?.length === 0) ?
                     <Available message={"No Parcel Available"} /> :
                     (
-                      Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")
+                      Data?.filter(item => item?.assignment !== null)
                         ?.slice(itemOffset, endOffset)
                         ?.map((data, index) => (
                           <ShipmentCard
