@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/dashboard_logo.png";
+import logo from "../../assets/main/logo.png";
 import style from "./Dsidebar.module.css";
 import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill } from "react-icons/ri";
