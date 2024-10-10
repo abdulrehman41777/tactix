@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { useParcel_StatusMutation } from "../../redux/Parcel/Parcel";
+import { useParcel_StatusMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 
 const Update_Status = ({ setAddAdmin, getParcelID }) => {
   const [addStatus, setAddStatus] = useState("");
-  const status = ["Collected", "Shipped", "Delivered", "Cancelled"];
+  const status = ["Out for Delivery", "Delivered", "Undelivered",];
 
-  const [updateStatus, { isLoading }] = useParcel_StatusMutation();
+  const [updateStatus, { isLoading }] = useUpdate_assign_ParcelMutation();
 
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
@@ -15,7 +15,7 @@ const Update_Status = ({ setAddAdmin, getParcelID }) => {
       const res = await updateStatus({
         assignmentID: getParcelID,
         data: {
-          Status: addStatus,
+          status: [addStatus],
         },
       });
       if (!res.error) {

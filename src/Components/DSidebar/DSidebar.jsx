@@ -3,21 +3,17 @@ import logo from "../../assets/main/logo.png";
 import style from "./Dsidebar.module.css";
 import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill } from "react-icons/ri";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { IoIosAddCircle, IoIosPeople, IoMdClose } from "react-icons/io";
-import { GrStatusGoodSmall, GrUserManager } from "react-icons/gr";
+import { NavLink } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { BiGitBranch, BiSolidLogOut, BiWorld } from "react-icons/bi";
+import { BiGitBranch, BiSolidLogOut } from "react-icons/bi";
 import { logout } from "../../redux/features/authState";
-import { BsBox2Fill, BsPeopleFill, BsPersonAdd } from "react-icons/bs";
+import { BsBox2Fill, BsPeopleFill } from "react-icons/bs";
 import {
-  MdAttachMoney,
-  MdDirectionsBike,
   MdOutlineAddCircle,
 } from "react-icons/md";
 import { ImTruck } from "react-icons/im";
-import { useState } from "react";
 import { GrUserAdmin } from "react-icons/gr";
 import { IoMdPersonAdd } from "react-icons/io";
 
@@ -163,8 +159,13 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <AiFillHome />,
     },
     {
+      path: "/dashboard/rider-group-parcel",
+      name: "Group Parcels",
+      icon: <BsBox2Fill />,
+    },
+    {
       path: "/dashboard/rider-parcel",
-      name: "Parcels",
+      name: "Your Parcels",
       icon: <BsBox2Fill />,
     },
     {
