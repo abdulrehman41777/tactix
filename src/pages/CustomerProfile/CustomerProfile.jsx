@@ -134,6 +134,7 @@ const CustomerProfile = () => {
         } else {
           setBulkFile("");
           NotificationAlert("Uplaod Correct Csv");
+          console.log(res.error)
         }
       }
     } catch (error) {

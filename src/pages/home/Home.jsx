@@ -12,10 +12,18 @@ import Task from "../../Components/task/Task";
 import Calender from "../../Components/calender/Calender";
 import Visitors from "../../Components/Visitors/Visitors";
 import PieChart from "../../Components/PieChart/PieChart";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+
+  const selector = useSelector((state) => state?.userData);
+  const userID = selector?.data?.user?._id;
+  const branchName = selector?.data?.user.branchName
+
+  const role = selector?.data?.user?.role[0];
+
   return (
-    <Dlayout pageName={"Main Dashboard"}>
+    <Dlayout pageName={role !== "SuperAdmin" ? branchName : "Main Dashboard"}>
       <div className={style.home_header_wrapper}>
         <div className={style.home_slider_wrapper}>
           <div className={style.home_slider_box}>

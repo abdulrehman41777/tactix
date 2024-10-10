@@ -44,8 +44,6 @@ const AllRiders = () => {
               role === "Manager" ? (
                 <Available
                   message={"No Rider Available"}
-                  to={"/dashboard/create-rider"}
-                  isButton={true}
                   buttonName={"Create Rider"}
                 />
               ) : (

@@ -135,7 +135,7 @@ const CreateCustomer = () => {
     console.log("filteredLocations", filteredLocations);
 
     try {
-      if (data.type === "update") {
+      if (data?.type === "update") {
         const res = await updateRateList({
           userID: data?.userData?._id,
           data: { rateList: filteredLocations },
