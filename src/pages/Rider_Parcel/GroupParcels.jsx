@@ -14,6 +14,7 @@ import UpdateWeightPrice from "../../Components/AddWeightPrice/UpdateWeightPrice
 import Available from "../../Components/cards/Available";
 import Receipt from "../../Components/ReceiptCard/Receipt";
 import Rider_Parcel_Card from "../../Components/Rider_Parcel_Card/Rider_Parcel_Card";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 const GroupParcels = () => {
     const [getReceipt, setGetReceipt] = useState(false);
@@ -41,8 +42,14 @@ const GroupParcels = () => {
                     <div className={`${style.table_wrapper}`}>
                         <div className={style.admin_head}>
                             <h4>Group Parcels</h4>
-                            <div className={style.task_head_dots} title="Group Parcels">
-                                <BsThreeDots className={style.icon} />
+
+                            <div className={style.header_input_wrapper}>
+                                <BiSearchAlt2 />
+                                <input
+                                    type="text"
+                                    placeholder="Search order"
+
+                                />
                             </div>
                         </div>
                         {Rider_Parcel?.length === 0 ? (
