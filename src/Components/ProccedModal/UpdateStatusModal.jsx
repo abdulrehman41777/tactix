@@ -19,7 +19,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
 
     console.log(userID, "groupData")
 
-    const assignArray = ["Delivered", "Transfer", "Collected", "Shipped", "Cancelled", "Return to Depot"]
+    const assignArray = ["Transfer", "Shipment Collected", "In Transit to Origin Facility", "Customs/Terminal Clearance in Origin Country", "Departed from Origin Country", "In Transit to Destination Country", "Arrived at Destination Country", "Customs/Terminal Clearance in Destination Country", "Shipment Sorted at Delivery Facility", "Out for Delivery", "Delivered", "Undelivered", "Return to Sender"]
 
     const handlePackageDetail = (e) => {
         setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
@@ -37,7 +37,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             setReason("")
         }
     }
-    console.log(status)
+
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
         try {

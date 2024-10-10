@@ -40,7 +40,6 @@ const Parcel = () => {
   } else if (role === "User") {
     Data = getParcelsApi?.data?.parcels;
   }
-  console.log(Data)
   // pagination
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Data?.length / 6);
@@ -53,20 +52,6 @@ const Parcel = () => {
     <div>
       <Dlayout pageName="Parcels" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          {/* {(role === "Admin" || role === "SuperAdmin") ? null :
-            <div className="d-flex justify-content-end gap-5">
-
-              <h4
-                className={`f-bold ${style.add_btn_heading} mt-5 pb-4 justify-content-end`}
-                onClick={() => setAddWeight(true)}
-              >
-                <span className={style.add_btn}>
-                  <BiPlus className={style.plus_sambol} />
-                </span>
-                Add Parcel Price
-              </h4>
-            </div>
-          } */}
           {role === "Manager" ? (
             <div className="d-flex justify-content-end pb-3">
               <select
@@ -79,7 +64,7 @@ const Parcel = () => {
                 <option value="all" className="text-light">
                   All
                 </option>
-                <option value="assigned" className="text-light">
+                <option value="Order Assigned" className="text-light">
                   Assigned
                 </option>
               </select>
@@ -93,24 +78,26 @@ const Parcel = () => {
               </div>
             </div>
             {checkAssign === "all" ? (
-              (Data?.length === 0 || Data === undefined) ? (
-                <Available message={"No Parcel Available"} />
-              ) : (
+              (
                 <div className={`row ${style.card_wrapper}`}>
-                  {getParcelsLoading ? (
-                    <ListLoader />
-                  ) : (
-                    Data?.slice(itemOffset, endOffset)?.map((data, index) => (
-                      <ShipmentCard
-                        data={data}
-                        key={index}
-                        setGetReceipt={setGetReceipt}
-                      />
+                  {
+                    getParcelsLoading ? (
+                      <ListLoader />
+                    ) : (Data?.length === 0 || Data === undefined ? (
+                      <Available message={"No Parcel Available"} />
+                    ) : (
+                      Data?.slice(itemOffset, endOffset)?.map((data, index) => (
+                        <ShipmentCard
+                          data={data}
+                          key={index}
+                          setGetReceipt={setGetReceipt}
+                        />
+                      ))
                     ))
-                  )}
+                  }
                 </div>
               )
-            ) : Data?.filter((data) => data?.status[0] === "assigned")
+            ) : Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")
               ?.length === 0 ? (
               <Available message={"No Parcel Available"} />
             ) : (
@@ -118,7 +105,7 @@ const Parcel = () => {
                 {getParcelsLoading ? (
                   <ListLoader />
                 ) : (
-                  Data?.filter((data) => data?.status[0] === "assigned")
+                  Data?.filter(item => item?.assignment?.Status?.[0] === "Order Assigned")
                     ?.slice(itemOffset, endOffset)
                     ?.map((data, index) => (
                       <Assigned_Parcel

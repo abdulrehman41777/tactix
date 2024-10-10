@@ -13,8 +13,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [apidata, setApiData] = useState({});
   const [parcelData, setParcelData] = useState(null)
 
-  console.log(data)
-
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
