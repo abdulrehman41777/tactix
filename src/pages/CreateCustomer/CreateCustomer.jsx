@@ -3,23 +3,15 @@ import { Container } from "react-bootstrap";
 import style from "./signup.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router";
-import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import * as EmailValidator from "email-validator";
-import { useCreate_ManagerMutation } from "../../redux/Manager/manager";
-import {
-  useAll_branchesQuery,
-  useBranchesByAdminQuery,
-} from "../../redux/Branch/Branch";
-import { useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
-import { MdCancel } from "react-icons/md";
+import { useAddBulkRatelistMutation, useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
+import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
+import CreateBulkRate from "../../Components/CreateBulkRate/CreateBulkRate";
 
 const CreateCustomer = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
   const manager_id = selector?.data?.user?._id;
-  // console.log(selector);
 
   const navigate = useNavigate();
 
@@ -34,13 +26,15 @@ const CreateCustomer = () => {
   const [password, setPassword] = useState(data?.userData?.password || "");
   const [phone, setPhone] = useState(data?.userData?.phone || "");
   const [errors, setErrors] = useState({});
+  const [bulkRateList, setBulkRateList] = useState(null);
+  const [uploadBulk, setUploadBulk] = useState(false);
+
 
   useEffect(() => {
     if (data?.type === "update") {
       setLocations(data?.userData?.rateList?.rateList?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
     }
   }, []);
-
 
   // Handle input change for locations
   const handleLocationChange = (index, e) => {
@@ -111,7 +105,6 @@ const CreateCustomer = () => {
 
   const [updateRateList, { isLoading: updateRateListLoading }] = useUpdate_ProfileMutation();
 
-
   // Handle form submission
   const handleSubmit = async () => {
     if (!validateForm()) {
@@ -122,7 +115,6 @@ const CreateCustomer = () => {
       (location) =>
         location.from.trim() || location.to.trim() || location.price.trim()
     );
-    console.log(filteredLocations)
     // Prepare data to send
     const formData = {
       name,
@@ -169,13 +161,20 @@ const CreateCustomer = () => {
     }
   };
 
+  const [addBulkRatelist, { isLoading: bulkLoading }] = useAddBulkRatelistMutation()
 
-
-
+  const handleBulkUpload = async (e) => {
+    try {
+      const res = await addBulkRatelist({
+        data: { file: bulkRateList }
+      })
+      console.log(res)
+    } catch (error) {
+      NotificationAlert("Something went wrong")
+    }
+  }
 
   const rateList = ["Premium", "Express", "Economy", "Others"]
-
-
 
   return (
     <div className={style.create_wrapper}>
@@ -343,21 +342,35 @@ const CreateCustomer = () => {
                       }
                     </button>
                     :
-                    <button
-                      name="Create Product"
-                      className="btn p-3 rounded text-white"
-                      onClick={handleSubmit}
-                      style={{ background: '#D8788C' }}
-                    >
-                      {isLoading ? "Creating" :
-                        "Create Customer"
-                      }
-                    </button>}
+                    <div className="d-flex gap-3">
+                      <button
+                        name="Create Product"
+                        className="btn p-3 rounded text-white"
+                        onClick={handleSubmit}
+                        style={{ background: '#D8788C' }}
+                      >
+                        {isLoading ? "Creating" :
+                          "Create Customer"
+                        }
+                      </button>
+                      <button
+                        name="Bulk Ratelist"
+                        className="btn p-3 rounded text-white"
+                        onClick={() => setUploadBulk(true)}
+                        style={{ background: '#D8788C' }}
+                      >
+                        Bulk Ratelist
+                      </button>
+
+                    </div>
+                  }
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {uploadBulk &&
+          <CreateBulkRate setFile={setBulkRateList} isClose={setUploadBulk} isLoading={bulkLoading} />}
       </Container>
     </div>
   );
