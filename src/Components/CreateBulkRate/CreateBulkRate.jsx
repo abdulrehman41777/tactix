@@ -88,7 +88,6 @@ const CreateBulkRate = ({ isClose, setFile, isLoading, handleBulkUpload, bulkRat
                         </button>
                     </div>
                 </div>
-                {/* } */}
             </div>
         </div>
     )
