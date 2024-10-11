@@ -29,7 +29,6 @@ const CreateCustomer = () => {
   const [bulkRateList, setBulkRateList] = useState(null);
   const [uploadBulk, setUploadBulk] = useState(false);
 
-
   useEffect(() => {
     if (data?.type === "update") {
       setLocations(data?.userData?.rateList?.rateList?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
@@ -163,12 +162,26 @@ const CreateCustomer = () => {
 
   const [addBulkRatelist, { isLoading: bulkLoading }] = useAddBulkRatelistMutation()
 
-  const handleBulkUpload = async (e) => {
+  const handleBulkUpload = async () => {
     try {
+      console.log(bulkRateList)
+      if (!bulkRateList) {
+        NotificationAlert("Please select a file to upload")
+        return
+      }
+      const formData = new FormData();
+      formData.append("file", bulkRateList);
+
       const res = await addBulkRatelist({
-        data: { file: bulkRateList }
+        data: formData
       })
-      console.log(res)
+
+      if (!res.error) {
+        setLocations(res?.data?.validData?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
+        setBulkRateList(null)
+        setUploadBulk(false)
+      }
+
     } catch (error) {
       NotificationAlert("Something went wrong")
     }
@@ -370,7 +383,7 @@ const CreateCustomer = () => {
           </div>
         </div>
         {uploadBulk &&
-          <CreateBulkRate setFile={setBulkRateList} isClose={setUploadBulk} isLoading={bulkLoading} />}
+          <CreateBulkRate setFile={setBulkRateList} isClose={setUploadBulk} isLoading={bulkLoading} bulkRateList={bulkRateList} handleBulkUpload={handleBulkUpload} />}
       </Container>
     </div>
   );

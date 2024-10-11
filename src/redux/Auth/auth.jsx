@@ -76,7 +76,7 @@ const auth = createApi({
       // providesTags: ["createUser"],
     }),
     addBulkRatelist: builder.mutation({
-      query: (data) => {
+      query: ({ data }) => {
         return {
           url: `Auth/bulk-create-ratelist`,
           method: "POST",
