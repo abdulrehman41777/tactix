@@ -1,12 +1,41 @@
 import React, { useState } from 'react'
 import { MdCancel } from "react-icons/md";
 import { FaFileUpload } from "react-icons/fa";
+import exportFromJSON from 'export-from-json';
 
 const CreateBulkRate = ({ isClose, setFile, isLoading, handleBulkUpload, bulkRateList }) => {
+
+    const filterItems = [
+        {
+            to: "USA",
+            from: "UK",
+            price: 200,
+            shipmentType: "Premium",
+        },
+        {
+            to: "PK",
+            from: "Dubai",
+            price: 250,
+            shipmentType: "Economy",
+        },
+        {
+            to: "UK",
+            from: "PK",
+            price: 300,
+            shipmentType: "Express",
+        },
+    ]
 
     const handleClose = () => {
         isClose(false)
         setFile(null)
+    }
+
+    const exportFile = () => {
+        const data = filterItems
+        const fileName = 'Sample File'
+        const exportType = exportFromJSON.types.csv
+        exportFromJSON({ data, fileName, exportType })
     }
 
     return (
@@ -38,17 +67,26 @@ const CreateBulkRate = ({ isClose, setFile, isLoading, handleBulkUpload, bulkRat
                             <input type="file" id="bulkrate" className="d-none" onChange={(e) => setFile(e.target.files[0])} accept=".csv, .xlsx" />
                         </div>
                     </div>
-
-                    <button
-                        name="Create Product"
-                        className="btn p-2 rounded text-white w-100"
-                        style={{ background: '#D8788C' }}
-                        onClick={handleBulkUpload}
-                    >
-                        {isLoading ? "Uploading..." :
-                            "Upload"
-                        }
-                    </button>
+                    <div className='d-flex gap-2'>
+                        <button
+                            name="Create Product"
+                            className="btn p-2 rounded text-white w-100"
+                            style={{ background: '#D8788C' }}
+                            onClick={handleBulkUpload}
+                        >
+                            {isLoading ? "Uploading..." :
+                                "Upload"
+                            }
+                        </button>
+                        <button
+                            name="Create Product"
+                            className="btn p-2 rounded text-white w-100"
+                            style={{ background: '#D8788C' }}
+                            onClick={exportFile}
+                        >
+                            Sample File
+                        </button>
+                    </div>
                 </div>
                 {/* } */}
             </div>

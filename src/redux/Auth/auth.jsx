@@ -84,6 +84,15 @@ const auth = createApi({
         };
       },
     }),
+    updateBulkRatelist: builder.mutation({
+      query: ({ userID, data }) => {
+        return {
+          url: `/Auth/bulk-upload-ratelist/${userID}`,
+          method: "PATCH",
+          body: data
+        };
+      },
+    }),
   }),
 });
 export const {
@@ -94,7 +103,8 @@ export const {
   useCreateUserMutation,
   useGetAllUserByBranchQuery,
   useGetSingleUserByIDQuery,
-  useAddBulkRatelistMutation
+  useAddBulkRatelistMutation,
+  useUpdateBulkRatelistMutation
 } = auth;
 
 export default auth;

@@ -164,7 +164,6 @@ const CreateCustomer = () => {
 
   const handleBulkUpload = async () => {
     try {
-      console.log(bulkRateList)
       if (!bulkRateList) {
         NotificationAlert("Please select a file to upload")
         return
@@ -180,6 +179,7 @@ const CreateCustomer = () => {
         setLocations(res?.data?.validData?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
         setBulkRateList(null)
         setUploadBulk(false)
+        NotificationAlert("file uploaded successfully", "success")
       }
 
     } catch (error) {
@@ -344,16 +344,29 @@ const CreateCustomer = () => {
 
                 <div className="d-flex justify-content-center">
                   {data?.type === "update" ?
-                    <button
-                      name="Create Product"
-                      className="btn p-3 rounded text-white"
-                      onClick={handleSubmit}
-                      style={{ background: '#D8788C' }}
-                    >
-                      {updateRateListLoading ? "Updating" :
-                        "Update Customer"
-                      }
-                    </button>
+                    <div className="d-flex gap-3">
+
+                      <button
+                        name="Create Product"
+                        className="btn p-3 rounded text-white"
+                        onClick={handleSubmit}
+                        style={{ background: '#D8788C' }}
+                      >
+                        {updateRateListLoading ? "Updating" :
+                          "Update Customer"
+                        }
+                      </button>
+                      <button
+                        name="Create Product"
+                        className="btn p-3 rounded text-white"
+                        onClick={() => setUploadBulk(true)}
+
+                        style={{ background: '#D8788C' }}
+                      >
+
+                        Update Bulk RateList
+                      </button>
+                    </div>
                     :
                     <div className="d-flex gap-3">
                       <button
