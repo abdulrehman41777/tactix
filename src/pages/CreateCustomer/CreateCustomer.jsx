@@ -338,7 +338,9 @@ const CreateCustomer = () => {
                       onClick={handleSubmit}
                       style={{ background: '#D8788C' }}
                     >
-                      Update Customer
+                      {updateRateListLoading ? "Updating" :
+                        "Update Customer"
+                      }
                     </button>
                     :
                     <button
@@ -347,7 +349,9 @@ const CreateCustomer = () => {
                       onClick={handleSubmit}
                       style={{ background: '#D8788C' }}
                     >
-                      Create Customer
+                      {isLoading ? "Creating" :
+                        "Create Customer"
+                      }
                     </button>}
                 </div>
               </div>

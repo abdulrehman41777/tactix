@@ -30,6 +30,7 @@ const SingleBranch = () => {
     const getSingleBranchAPI = useGetSingleBranchQuery(id, { skip: !id })
     const getBranchData = getSingleBranchAPI?.data?.findBranch
     const getBranch = getSingleBranchAPI?.data
+    const getBranchLoading = getSingleBranchAPI?.isLoading
 
     useEffect(() => {
         setBranchDetails({
@@ -50,7 +51,11 @@ const SingleBranch = () => {
                             <h2>{getBranchData?.AdminsId?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/admins`, { state: { admins: branchDetails?.branchAdmins, from: "branch", name: getBranchData?.branch_name } })} />
+                            {getBranchLoading ?
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} />
+                                :
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/admins`, { state: { admins: branchDetails?.branchAdmins, from: "branch", name: getBranchData?.branch_name } })} />
+                            }
                         </span>
                     </div>
                     <div className={style.home_slider_box}>
@@ -59,7 +64,11 @@ const SingleBranch = () => {
                             <h2>{getBranch?.parcels?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/parcels`, { state: { parcels: branchDetails?.parcels, from: "branch", name: getBranchData?.branch_name } })} />
+                            {getBranchLoading ?
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} /> :
+
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/parcels`, { state: { parcels: branchDetails?.parcels, from: "branch", name: getBranchData?.branch_name } })} />
+                            }
                         </span>
                     </div>
                     <div className={style.home_slider_box}>
@@ -68,7 +77,10 @@ const SingleBranch = () => {
                             <h2>{getBranch?.riders_group?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/groups`, { state: { groups: branchDetails?.groups, from: "branch", name: getBranchData?.branch_name } })} />
+                            {getBranchLoading ?
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} /> :
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} onClick={() => navigation(`/dashboard/branch/groups`, { state: { groups: branchDetails?.groups, from: "branch", name: getBranchData?.branch_name } })} />
+                            }
                         </span>
                     </div>
                     <div className={style.home_slider_box}>
@@ -77,7 +89,10 @@ const SingleBranch = () => {
                             <h2>{getBranch?.users?.length || "0"}</h2>
                         </div>
                         <span>
-                            <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} />
+                            {getBranchLoading ?
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} /> :
+                                <MdRemoveRedEye color="#D8788C" style={{ cursor: "pointer" }} size={24} />
+                            }
                         </span>
                     </div>
                 </div>

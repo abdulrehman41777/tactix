@@ -43,7 +43,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
     setAssignmentID(assignmentID)
 
   }
-
   return (
     <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
       <div
@@ -51,7 +50,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?._id.slice(-4).toUpperCase()}</span>
+          <span className="ms-2">{data?.assignment?.trackID}</span>
         </div>
         <button className={styles.status_btn_progress}>
           <span className={`${styles.pending_btn_circle} mx-1`}></span>

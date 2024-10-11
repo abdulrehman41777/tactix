@@ -18,9 +18,7 @@ const Group_Parcel_Card = ({ data }) => {
   };
 
   const selector = useSelector((state) => state?.userData);
-  const role = selector?.data?.user?.role[0];
   const riderID = selector?.data?.user?._id;
-
 
   const [acceptJob, { isLoading }] = useAcceptJobMutation();
 
@@ -50,7 +48,6 @@ const Group_Parcel_Card = ({ data }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order</h4>
-          <span className="ms-2">{data?.assignment?.trackID}</span>
         </div>
         <button
           className={styles.status_btn_progress}

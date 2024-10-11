@@ -38,14 +38,7 @@ const BranchAdmins = () => {
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
               <h4>Admin's</h4>
-              <div className={style.task_head_dots}>
-                <button
-                  className="btn text-white"
-                  onClick={() => navigate("/dashboard/create-admin")}
-                >
-                  Add Admin
-                </button>
-              </div>
+
             </div>
             {data?.admins?.length === 0 ? (
               <Available

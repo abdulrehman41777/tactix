@@ -67,7 +67,7 @@ const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
           <input
             type="text"
             placeholder="Branch Name"
-            className="form-control mb-3"
+            className="form-control mb-3 text-black bg-white"
             name="branch_name"
             value={branch_name}
             onChange={handleBranchFields}
@@ -75,7 +75,7 @@ const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
           <input
             type="text"
             placeholder="Branch Address"
-            className="form-control mb-3"
+            className="form-control mb-3 text-black bg-white"
             value={branch_address}
             name="branch_address"
             onChange={handleBranchFields}
@@ -83,7 +83,7 @@ const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
           <input
             type="number"
             placeholder="Contact"
-            className="form-control mb-3"
+            className="form-control mb-3 text-black bg-white"
             value={branch_contact_number}
             name="branch_contact_number"
             onChange={(e) => {
@@ -94,11 +94,11 @@ const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
             maxLength="11"
           />
           {isLoading ? (
-            <button className="modal_sumbit_btn mt-3 text-dark" disabled>
+            <button className="modal_sumbit_btn mt-3 text-white" disabled>
               Updating...
             </button>
           ) : (
-            <button className="modal_sumbit_btn mt-3 text-dark">Update</button>
+            <button className="modal_sumbit_btn mt-3 text-white">Update</button>
           )}
         </form>
       </div>

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useUpdate_ProfileMutation } from "../../redux/Auth/auth";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
-import { logout } from "../../redux/features/authState";
+import { authUser, logout } from "../../redux/features/authState";
 
 const Profile = () => {
   const selector = useSelector((state) => state?.userData);
@@ -50,6 +50,8 @@ const Profile = () => {
     }));
   };
 
+  const dispatch = useDispatch()
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -63,15 +65,16 @@ const Profile = () => {
         userID,
         data: formData,
       });
-      console.log(res?.data)
+      console.log(res?.data?.user)
       if (!res.error) {
         NotificationAlert("Profile updated successfully", "success");
-        // dispatch(authUser(res?.data));
+        // dispatch(authUser(res?.data?.user));
         // disPatch(logout());
       } else {
         NotificationAlert("Error While updating profile");
       }
     } catch (error) {
+      console.log(error)
       NotificationAlert("Error");
     }
   }
@@ -188,7 +191,7 @@ const Profile = () => {
                       type={"number"}
                       name="phone"
                       onChange={handleUpdateProfile}
-                      placeholder="Enter Your Password"
+                      placeholder="Enter Your Phone"
                       value={phone}
                     />
                   </div>

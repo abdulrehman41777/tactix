@@ -37,6 +37,7 @@ const GroupParcels = () => {
         setItemOffset(newOffset);
     };
 
+
     return (
         <div>
             <Dlayout pageName="Group Parcels" search={search} setSearch={setSearch}>

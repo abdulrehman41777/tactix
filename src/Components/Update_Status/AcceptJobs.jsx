@@ -54,7 +54,7 @@ const AcceptJobs = ({ isClose, data, HandleAcceptJob, AcceptLoading }) => {
                             <>
                                 <input
                                     type="number"
-                                    placeholder="Search order"
+                                    placeholder="Enter Tracking ID"
                                     className={style.header_input_wrapper}
                                     style={{ width: "80%" }}
                                     onChange={(e) => setTrackID(e.target.value)}

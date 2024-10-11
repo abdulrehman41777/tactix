@@ -7,12 +7,10 @@ import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import ShipmentCard from "../../Components/ShipmentCard/ShipmentCard";
-import { BiPlus } from "react-icons/bi";
 import AddWeightPrice from "../../Components/AddWeightPrice/AddWeightPrice";
 import UpdateWeightPrice from "../../Components/AddWeightPrice/UpdateWeightPrice";
 import Available from "../../Components/cards/Available";
 import Receipt from "../../Components/ReceiptCard/Receipt";
-import Assigned_Parcel from "../../Components/Assigned_Parcel/Assigned_Parcel";
 import { useGetParcelsQuery } from "../../redux/Parcel/Parcel";
 
 const Parcel = () => {
@@ -39,8 +37,6 @@ const Parcel = () => {
   } else if (role === "User") {
     Data = getParcelsApi?.data?.parcels;
   }
-
-  console.log(Data)
 
   // pagination
   const endOffset = itemOffset + 6;

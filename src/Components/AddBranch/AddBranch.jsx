@@ -96,7 +96,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="text"
             placeholder="Branch Name"
-            className="form-control mb-3 text-white"
+            className="form-control mb-3 text-black bg-white"
             name="branch_name"
             value={branch_name}
             onChange={handleBranchFields}
@@ -104,7 +104,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="text"
             placeholder="Branch Address"
-            className="form-control mb-3 text-white"
+            className="form-control mb-3 text-black bg-white"
             value={branch_address}
             name="branch_address"
             onChange={handleBranchFields}
@@ -112,7 +112,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="number"
             placeholder="Contact"
-            className="form-control mb-3 text-white"
+            className="form-control mb-3 text-black bg-white"
             value={branch_contact_number}
             name="branch_contact_number"
             onChange={(e) => {

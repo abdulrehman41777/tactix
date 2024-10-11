@@ -27,7 +27,7 @@
 }
 .header_input_wrapper input {
   border: none;
-  background: "transparent";
+  background: var(--light-secondary);
   outline: none;
   width: 80%;
 }

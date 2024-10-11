@@ -20,7 +20,6 @@ const Rider_Parcel_Card = ({ data }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?.trackID}</span>
         </div>
         <button
           className={styles.status_btn_progress}
