@@ -93,13 +93,16 @@ const Rider_Parcel_Card = ({ data }) => {
         <button className={styles.status_btn} style={{ cursor: "default" }}>
           Cost : ${data?.totalPrice}
         </button>
-        <button
-          className={styles.status_btn}
-          onClick={() => handleUpdateStatus(data?._id)}
-          style={{ cursor: "pointer" }}
-        >
-          Update Status
-        </button>
+        {
+          data?.Status?.[0] === "Delivered" || data?.Status?.[0] === "Undelivered" ? "" : <button
+            className={styles.status_btn}
+            onClick={() => handleUpdateStatus(data?._id)}
+            style={{ cursor: "pointer" }}
+          >
+            Update Status
+          </button>
+        }
+
       </div>
       {updateStatus && (
         <Update_Status
