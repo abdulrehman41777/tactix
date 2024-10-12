@@ -9,18 +9,25 @@ import ReactPaginate from "react-paginate";
 import { BiPlus } from "react-icons/bi";
 import AddParcel from "../../Components/AddParcel/AddParcel";
 import { useSelector } from "react-redux";
-import { useGet_User_ParcelQuery } from "../../redux/Parcel/Parcel";
+import { useGet_User_ParcelQuery, useTrackParcelMutation } from "../../redux/Parcel/Parcel";
+import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 
 const YoursOrders = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
 
+  const [trackID, setTrackID] = useState("");
+  const [trackedData, setTrackedData] = useState({});
+
+
   // User Data
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?._id;
 
+  const [trackParcel, { isLoading }] = useTrackParcelMutation();
+
   const getUserParcels = useGet_User_ParcelQuery(id, { skip: !id })
-  const getUserParcelData = getUserParcels?.data?.findUserParcel
+  const getUserParcelData = getUserParcels?.data?.findUserParcel;
 
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(getUserParcelData?.length / 6);
@@ -30,12 +37,56 @@ const YoursOrders = () => {
     setItemOffset(newOffset);
   };
 
+
+  const handleTrackParcel = async () => {
+    try {
+      const res = await trackParcel({ trackID, userID: id });
+      if (!res.error) {
+        console.log(res?.data?.assignment)
+        setTrackedData(res?.data?.assignment)
+      }
+      console.log(res)
+
+    } catch (error) {
+      console.log(error);
+      NotificationAlert("Internal Server Error", "success")
+    }
+  }
+
+
+
+
   return (
     <div>
       <Dlayout pageName="Packages" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.table_div}>
+              <div className="d-flex gap-3">
+
+                <input
+                  className=" p-3 py-1 rounded"
+                  type="number"
+                  placeholder="123456"
+                  name="trackID"
+                  value={trackID}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value.length <= 6) {
+                      setTrackID(value);
+                    }
+                  }}
+                />
+
+                <button
+                  name="Create Product"
+                  className="btn p-3 py-2 rounded"
+                  style={{ background: "#D8788C", color: "#FFFFFF" }}
+                  onClick={handleTrackParcel}
+                >
+                  {"Track Order"}
+                </button>
+              </div>
               <table className={`${style.table_container}`}>
                 <thead className={`${style.table_header}`}>
                   <tr>
@@ -49,8 +100,7 @@ const YoursOrders = () => {
                   {getUserParcelData
                     ?.filter((item) =>
                       item?.parcelName?.toLowerCase()?.includes(search?.toLowerCase())
-                    )
-                    ?.slice(itemOffset, endOffset)
+                    )?.slice(itemOffset, endOffset)
                     ?.map((user, index) => (
                       <tr key={index}>
                         <td className="d-flex align-items-center">

@@ -160,6 +160,17 @@ const percel = createApi({
       },
       invalidatesTags: ["acceptJob"],
     }),
+
+    trackParcel: builder.mutation({
+      query: ({ trackID, userID }) => {
+        return {
+          url: `parcel/${userID}/track-parcel/${trackID}`,
+          method: "POST",
+        };
+      },
+      providesTags: ["transfer_parcel", "update_assign_parcel", "assign_parcel", "acceptJob"],
+    }),
+
   }),
 });
 
@@ -180,6 +191,7 @@ export const {
   useGet_Group_ParcelQuery,
   useGet_Rider_ParcelQuery,
   useAcceptJobMutation,
+  useTrackParcelMutation
 } = percel;
 
 export default percel;
