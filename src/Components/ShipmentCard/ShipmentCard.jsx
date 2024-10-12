@@ -13,6 +13,8 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [apidata, setApiData] = useState({});
   const [parcelData, setParcelData] = useState(null)
 
+  console.log(data)
+
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
@@ -43,6 +45,8 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
     setAssignmentID(assignmentID)
 
   }
+  console.log(data?.assignment?.Status)
+
   return (
     <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
       <div
@@ -117,6 +121,32 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             </span>
           </div>
         </li>
+        {data?.assignment?.deliveryStartTime !== "" &&
+          <li>
+            <div
+              className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+              style={{ flexDirection: "column" }}
+            >
+              <span>Pickup Time:</span>
+              <span>
+                {data?.assignment?.deliveryStartTime}
+              </span>
+            </div>
+          </li>
+        }
+        {data?.assignment?.deliveryEndTime !== "" &&
+          <li>
+            <div
+              className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+              style={{ flexDirection: "column" }}
+            >
+              <span>Delivered Time:</span>
+              <span>
+                {data?.assignment?.deliveryEndTime}
+              </span>
+            </div>
+          </li>
+        }
         {(data?.assignment !== null && data?.assignment) &&
           <li>
             <div
@@ -156,10 +186,13 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             >
               View
             </button>
-            :
-            (
-              <button className={styles.status_btn} onClick={() => handleUpdateStatus(data?.branchID, data?.assignment?._id)}>Update Status</button>
-            ))}
+            : data?.assignment?.Status[0] === "Delivered" ?
+              <button className={styles.status_btn} onClick={() => handleGetData(data)}>View</button>
+              :
+
+              (
+                <button className={styles.status_btn} onClick={() => handleUpdateStatus(data?.branchID, data?.assignment?._id)}>Update Status</button>
+              ))}
         {role === "User" && (
           <button
             className={styles.status_btn}
