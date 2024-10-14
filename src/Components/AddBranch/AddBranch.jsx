@@ -42,43 +42,32 @@ const AddBranch = ({ setAddAdmin }) => {
 
   const handleAddBranch = async (e) => {
     e.preventDefault();
-    if (
-      branch_name &&
-      branch_address &&
-      branch_contact_number
 
-    ) {
-      try {
-        const res = await addBranch({
-          superAdminID: id,
-          data: {
-            branch_name: branch_name,
-            branch_address: branch_address,
-            branch_contact_number: branch_contact_number,
-
-          },
-        });
-        if (!res.error) {
-          NotificationAlert("Branch added successfully", "success");
-          setBranch_fields({
-            branch_name: "",
-            branch_address: "",
-            branch_contact_number: "",
-          });
-          setAddAdmin(false);
-        } else if (
-          res.error.data.errors.find(
-            (err) => err.path === "branch_contact_number"
-          )
-        ) {
-          NotificationAlert("Invalid Contact Number");
-        }
-      } catch (error) {
-        NotificationAlert("Something went wrong");
-        console.log(error)
+    try {
+      if (!branch_name && !branch_address && !branch_contact_number) {
+        return NotificationAlert("All Fields Required");
       }
-    } else {
-      NotificationAlert("All Fields Required");
+      const res = await addBranch({
+        superAdminID: id,
+        data: {
+          branch_name: branch_name,
+          branch_address: branch_address,
+          branch_contact_number: branch_contact_number,
+
+        },
+      });
+      if (!res.error) {
+        NotificationAlert("Branch added successfully", "success");
+        setBranch_fields({
+          branch_name: "",
+          branch_address: "",
+          branch_contact_number: "",
+        });
+        setAddAdmin(false);
+      }
+    } catch (error) {
+      NotificationAlert("Something went wrong");
+      console.log(error)
     }
   };
 

@@ -86,7 +86,6 @@ const Rider_Parcel_Card = ({ data }) => {
             </span>
           </div>
         </li>
-
       </ul>
 
       <div className="d-flex justify-content-between">
