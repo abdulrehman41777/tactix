@@ -60,7 +60,6 @@ const AddTax = () => {
   const GET_TAXES_ISLOADING = Get_All_Taxes_API?.isLoading;
   const Get_All_Taxes = Get_All_Taxes_API?.data?.taxDetails;
 
-  console.log(Get_All_Taxes);
 
   // Pagination
   const endOffset = itemOffset + 6;

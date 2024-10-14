@@ -123,7 +123,6 @@ const CreateCustomer = () => {
       rateList: filteredLocations,
     };
 
-    console.log("filteredLocations", filteredLocations);
 
     try {
       if (data?.type === "update") {
@@ -134,8 +133,6 @@ const CreateCustomer = () => {
 
         if (!res.error) {
           navigate(-1)
-        } else {
-          console.log(res)
         }
 
       } else {
@@ -151,8 +148,6 @@ const CreateCustomer = () => {
           setEmail("");
           setPassword("");
           navigate(-1)
-        } else {
-          console.log(res)
         }
       }
     } catch (error) {
