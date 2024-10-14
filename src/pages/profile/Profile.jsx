@@ -19,9 +19,6 @@ const Profile = () => {
   const User_Data = selector?.data?.user;
   const userID = User_Data?._id;
   const Profile_Img = User_Data?.profileImage;
-  const disPatch = useDispatch();
-
-  console.log(Profile_Img)
 
   const [isPassTwo, setIsPassTwo] = useState(false);
   const [confirmPass, setConfirmPass] = useState(User_Data?.password);
@@ -65,11 +62,9 @@ const Profile = () => {
         userID,
         data: formData,
       });
-      console.log(res?.data?.user)
+
       if (!res.error) {
         NotificationAlert("Profile updated successfully", "success");
-        // dispatch(authUser(res?.data?.user));
-        // disPatch(logout());
       } else {
         NotificationAlert("Error While updating profile");
       }

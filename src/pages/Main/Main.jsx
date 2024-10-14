@@ -63,7 +63,6 @@ const Main = () => {
       }
       const res = await trackParcel({ trackID: trakingId, userID: id });
       if (!res.error) {
-        console.log(res?.data?.assignment)
         setTrackedData(res?.data?.assignment)
         trigger(trakingId);
         setTrackModel(true);
@@ -74,8 +73,6 @@ const Main = () => {
       NotificationAlert("Internal Server Error", "success")
     }
   }
-
-  console.log(trackedData);
 
   return (
     <>

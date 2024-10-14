@@ -23,7 +23,6 @@ const Managers = () => {
     // All Managers for Admin branch
     const branch_Managers = useManagersQuery({ adminID: id }, { skip: !id });
     const isLoading = branch_Managers?.isLoading;
-    // console.log(Manager_Branch_API?.data?.managers, "Manager_Branch_API.data")
 
     const Manager_Branch = branch_Managers?.data?.managers?.filter(
         (item) => item.role[0] === "Manager"

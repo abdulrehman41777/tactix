@@ -42,10 +42,8 @@ const YoursOrders = () => {
     try {
       const res = await trackParcel({ trackID, userID: id });
       if (!res.error) {
-        console.log(res?.data?.assignment)
         setTrackedData(res?.data?.assignment)
       }
-      console.log(res)
 
     } catch (error) {
       console.log(error);

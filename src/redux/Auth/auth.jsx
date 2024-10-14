@@ -47,7 +47,6 @@ const auth = createApi({
     }),
     createUser: builder.mutation({
       query: ({ BranchId, managerID, data }) => {
-        console.log(data)
         return {
           url: `/auth/create_user/${BranchId}/${managerID}`,
           method: "POST",
@@ -67,7 +66,6 @@ const auth = createApi({
     }),
     getSingleUserByID: builder.query({
       query: (userId) => {
-        console.log(userId)
         return {
           url: `/auth/get-single-user/${userId}`,
           method: "GET",

@@ -64,7 +64,6 @@ const CreateManager = () => {
         },
       });
 
-      console.log(res.data)
       if (!res.error) {
         NotificationAlert("Manager Created successfully", "success");
         setCreateAdminFields({
