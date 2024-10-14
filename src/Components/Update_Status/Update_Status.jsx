@@ -8,7 +8,6 @@ const Update_Status = ({ setAddAdmin, getParcelID }) => {
   const [addStatus, setAddStatus] = useState("");
   const [completionPicture, setCompletionPicture] = useState(null);
   const status = ["Out for Delivery", "Delivered", "Undelivered"];
-  console.log(completionPicture)
   const [updateStatus, { isLoading }] = useUpdate_assign_ParcelMutation();
 
   const handleUpdateStatus = async (e) => {
