@@ -44,27 +44,26 @@ const AssignBranch = ({ setAssignBranch, branchDetail, isRefetch }) => {
 
   const handleAddBranch = async (e) => {
     e.preventDefault();
-    if (adminID.length !== 0) {
-      try {
-        const res = await assignBranch({
-          superAdminId: id,
-          branchId: branchID,
-          data: { AdminIds: adminID },
-        });
-
-        if (!res.error) {
-          setAssignBranch(false);
-          NotificationAlert("Branch Updated successfully", "success");
-          isRefetch.refetch()
-        } else {
-          NotificationAlert(res.error.data.message);
-        }
-      } catch (error) {
-        console.log(error);
-        NotificationAlert("Something went wrong");
+    try {
+      if (adminID.length === 0) {
+        return NotificationAlert("Select atleast one admin");
       }
-    } else {
-      NotificationAlert("Select atleast one admin");
+      const res = await assignBranch({
+        superAdminId: id,
+        branchId: branchID,
+        data: { AdminIds: adminID },
+      });
+
+      if (!res.error) {
+        setAssignBranch(false);
+        NotificationAlert("Branch Updated successfully", "success");
+        isRefetch.refetch()
+      } else {
+        NotificationAlert(res.error.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      NotificationAlert("Something went wrong");
     }
   };
 
