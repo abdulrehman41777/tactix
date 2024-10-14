@@ -8,10 +8,6 @@ const AcceptJobs = ({ isClose, data, HandleAcceptJob, AcceptLoading }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [trackID, setTrackID] = useState(null)
 
-    console.log(trackID === data?.assignment?.trackID.toString())
-    console.log(isLoading, "load")
-    console.log(verifyTrachID, "verifyTrachID")
-
     const handleVerify = () => {
         try {
             if (trackID === null) {
