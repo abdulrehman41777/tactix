@@ -17,8 +17,6 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
     const selector = useSelector((state) => state?.userData);
     const userID = selector?.data?.user?._id;
 
-    console.log(userID, "groupData")
-
     const assignArray = ["Transfer", "Shipment Collected", "In Transit to Origin Facility", "Customs/Terminal Clearance in Origin Country", "Departed from Origin Country", "In Transit to Destination Country", "Arrived at Destination Country", "Customs/Terminal Clearance in Destination Country", "Shipment Sorted at Delivery Facility", "Out for Delivery", "Delivered", "Undelivered", "Return to Sender"]
 
     const handlePackageDetail = (e) => {
@@ -37,7 +35,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             setReason("")
         }
     }
-    console.log(groupID)
+
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
         try {
@@ -56,7 +54,6 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             } else {
                 NotificationAlert(res?.error?.data?.message);
             }
-            console.log(res);
         } catch (error) {
             NotificationAlert("Error");
         }
@@ -86,12 +83,11 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             } else {
                 NotificationAlert(res?.error?.data?.message);
             }
-            console.log(res);
         } catch (error) {
             NotificationAlert("Error");
         }
     };
-    console.log(reason)
+
     return (
         <div className="modal_wrapper">
             <div className="modal_box">
