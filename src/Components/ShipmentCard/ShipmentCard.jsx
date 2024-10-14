@@ -13,8 +13,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [apidata, setApiData] = useState({});
   const [parcelData, setParcelData] = useState(null)
 
-  console.log(data)
-
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
@@ -45,8 +43,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
     setAssignmentID(assignmentID)
 
   }
-  console.log(data?.assignment?.Status)
-
   return (
     <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
       <div
