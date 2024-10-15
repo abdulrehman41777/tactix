@@ -6,28 +6,30 @@
   position: absolute;
   right: 1rem;
   font-size: 2rem;
-  top: 3rem;
+  top: 2rem;
   cursor: pointer;
 }
 .receipt_div {
-  padding-top: 3rem;
+  padding-top: 1rem;
 }
 .receipt_logo {
-  width: 8rem;
+  width: 5rem;
 }
 .heading {
   display: flex;
   justify-content: center;
-  height: 4rem;
+  height: 3rem;
   align-items: center;
 }
 .heading div:nth-child(3) {
   width: 30%;
 }
 .heading_color {
-  background-color: #5635a5;
+  background-color: #D8788C;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 .heading_name {
   width: 100%;
@@ -41,16 +43,14 @@
   gap: 0.5rem;
   padding: 2rem 3rem 0rem 3rem;
 }
-.detail h4 {
-  padding-bottom: 1rem;
-}
+
 .detail div {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap:10px
 }
 .detail div p {
-  width: 20rem;
-  text-align: end;
+  text-align: start;
 }
 .line_wrapper {
   display: flex;
@@ -91,6 +91,7 @@
   text-align: center;
   background: #f3fbfd;
   border-right: 20px solid white;
+  width: 50%;
 }
 .table_container {
   padding: 10px !important;
@@ -112,11 +113,22 @@
 .btn {
   padding: 0.5rem;
   border: none;
-  background: #5635a5;
+  background: #D8788C;
   color: white;
   width: 50%;
   border-radius: 6px;
   font-size: 1.5rem;
+}
+@media screen and (max-width: 580px) {
+  .detailBox {
+    flex-direction: column;
+  }
+  .detailBox div {
+    width: 100% !important;
+}
+  .detailBox div div {
+    justify-content: space-between !important;
+}
 }
 @media screen and (max-width: 450px) {
   .detail {

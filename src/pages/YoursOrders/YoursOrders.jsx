@@ -11,11 +11,15 @@ import AddParcel from "../../Components/AddParcel/AddParcel";
 import { useSelector } from "react-redux";
 import { useGet_User_ParcelQuery, useTrackParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
+import ViewParcelData from "../../Components/ViewParcelData/ViewParcelData";
+import Receipt from "../../Components/ReceiptCard/Receipt";
+import Invoice from "../../Components/ReceiptCard/Invoice";
 
 const YoursOrders = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const [search, setSearch] = useState("");
-
+  const [isReciept, setIsReciept] = useState(null);
+  const [isInvoice, setIsInvoice] = useState(null);
   const [trackID, setTrackID] = useState("");
   const [trackedData, setTrackedData] = useState({});
 
@@ -50,9 +54,6 @@ const YoursOrders = () => {
       NotificationAlert("Internal Server Error", "success")
     }
   }
-
-
-
 
   return (
     <div>
@@ -92,6 +93,7 @@ const YoursOrders = () => {
                     <th>#Orderid</th>
                     <th>STATUS</th>
                     <th>DATE</th>
+                    <th>View</th>
                   </tr>
                 </thead>
                 <tbody className={`${style.table_body}`}>
@@ -131,6 +133,12 @@ const YoursOrders = () => {
                           </div>
                         </td>
                         <td>{user?.createdAt?.split("T")[0]}</td>
+                        <td>
+                          <div className="d-flex gap-2">
+                            <button onClick={() => setIsReciept(user)} className="p-2 border-0 rounded-1" style={{ backgroundColor: "var(--btn-bg)" }}>Reciept</button>
+                            <button onClick={() => setIsInvoice(user)} className="p-2 border-0 rounded-1" style={{ backgroundColor: "var(--btn-bg)" }}>Invoice</button>
+                          </div>
+                        </td>
                       </tr>
                     ))}
                 </tbody>
@@ -155,6 +163,12 @@ const YoursOrders = () => {
           }
         </Container>
       </Dlayout>
+      {isReciept &&
+        <Receipt setGetReceipt={setIsReciept} />
+      }
+      {isInvoice &&
+        <Invoice setGetInvoice={setIsInvoice} data={isInvoice} />
+      }
     </div>
   );
 };
