@@ -45,7 +45,7 @@ const Invoice = ({ setGetInvoice, data }) => {
                             }}>
                                 <div>
                                     <h6>Name:</h6>
-                                    <p>John</p>
+                                    <p>{data?.receiverName}</p>
                                 </div>
 
                                 <div>

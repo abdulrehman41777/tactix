@@ -94,7 +94,7 @@ const Assigned_Parcel = ({ data }) => {
             style={{ cursor: "default" }}
             key={index + 1}
           >
-            Cost : ${item?.price * data?.weight}
+            Cost : ${!data?.CodAmount ? item?.price * data?.weight : item?.price * data?.weight + data?.CodCharges}
           </button>
         ))}
         <button

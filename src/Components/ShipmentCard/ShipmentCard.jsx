@@ -164,7 +164,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             style={{ cursor: "default" }}
             key={index + 1}
           >
-            Cost : ${item?.price * data?.weight}
+            Cost : ${!data?.CodAmount ? item?.price * data?.weight : item?.price * data?.weight + data?.CodCharges}
           </button>
         ))}
         {role === "Manager" &&

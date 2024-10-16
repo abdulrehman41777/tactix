@@ -26,8 +26,10 @@ const CreateCustomerOrder = () => {
   const [formData, setFormData] = useState({
     parcelName: "",
     weight: "",
-    Solid_Liquid: "",
+    dangerousGoods: "",
     recieverPhone: "",
+    receiverName: "",
+    description: "",
     recieverEmail: "",
     reciverAddress: "",
     CodCharges: "",
@@ -46,8 +48,10 @@ const CreateCustomerOrder = () => {
   const {
     parcelName,
     weight,
-    Solid_Liquid,
+    dangerousGoods,
     recieverPhone,
+    receiverName,
+    description,
     recieverEmail,
     reciverAddress,
     ReciverPostCode,
@@ -59,6 +63,9 @@ const CreateCustomerOrder = () => {
     Dimension,
     isDamaged,
   } = formData;
+
+  console.log(formData, "Create Parcel");
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -76,10 +83,10 @@ const CreateCustomerOrder = () => {
         ...prevData,
         [name]: checked,
       }));
-    } else if (name === "Solid_Liquid") {
+    } else if (name === "dangerousGoods") {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: [value],
+        [name]: value,
       }));
     } else {
       setFormData((prevData) => ({
@@ -96,8 +103,8 @@ const CreateCustomerOrder = () => {
       if (
         parcelName === "" ||
         weight === "" ||
-        Solid_Liquid === "" ||
         recieverPhone === "" ||
+        receiverName === "" ||
         recieverEmail === "" ||
         reciverAddress === "" ||
         ReciverPostCode === "" ||
@@ -166,16 +173,16 @@ const CreateCustomerOrder = () => {
 
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>
-                        Fragile or Non-Fragile
+                        Dangerous Goods
                       </label>
                       <select
-                        name="Solid_Liquid"
-                        value={Solid_Liquid}
+                        name="dangerousGoods"
+                        value={dangerousGoods}
                         onChange={handleChange}
                       >
                         <option value=""> Select One </option>
-                        <option value="Fargile"> Fargile </option>
-                        <option value="Non-Fragile"> Non-Fragile </option>
+                        <option value={"yes"}> Yes </option>
+                        <option value={"no"}> No </option>
                       </select>
                     </div>
 
@@ -197,6 +204,17 @@ const CreateCustomerOrder = () => {
                         placeholder="Height"
                         name="height"
                         value={Dimension.height}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Reciever Name</label>
+                      <input
+                        type="text"
+                        placeholder="Reciever Name"
+                        name="receiverName"
+                        value={receiverName}
                         onChange={handleChange}
                       />
                     </div>
@@ -283,6 +301,25 @@ const CreateCustomerOrder = () => {
                         onChange={handleChange}
                       />
                     </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Description
+                      </label>
+                      <textarea
+                        placeholder="write a short description about the parcel"
+                        name="description"
+                        className="text-dark bg-light"
+                        style={{ padding: 2, borderRadius: 5 }}
+                        rows={5}
+                        onChange={handleChange}
+                        value={description}
+                      />
+                    </div>
+
+
+
+
                     {CodAmount &&
                       <div className={`col-sm-4 gap-0 ${style.label}`}>
                         <label style={{ color: "#a3b1c2" }}>

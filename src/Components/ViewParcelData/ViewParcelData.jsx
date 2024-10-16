@@ -25,8 +25,8 @@ const ViewParcelData = ({ orderData, setIsView }) => {
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center">
-                        <span>Solid or Liquid:</span>
-                        <span>{orderData.Solid_Liquid}</span>
+                        <span>Dangerous Goods:</span>
+                        <span>{orderData.dangerousGoods ? "Yes" : "No"}</span>
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center">
@@ -37,6 +37,11 @@ const ViewParcelData = ({ orderData, setIsView }) => {
                     <div className="d-flex justify-content-between align-items-center">
                         <span>Height:</span>
                         <span>{orderData.Dimension?.height} cm</span>
+                    </div>
+
+                    <div className="d-flex justify-content-between align-items-center">
+                        <span>Reciever Phone:</span>
+                        <span>{orderData?.receiverName}</span>
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center">

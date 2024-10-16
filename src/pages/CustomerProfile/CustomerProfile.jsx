@@ -46,11 +46,13 @@ const CustomerProfile = () => {
     parcelName: "Parcel 1",
     CodAmount: "yes",
     weight: 2.5,
-    Solid_Liquid: "Solid",
+    dangerousGoods: '',
     status: "pending",
     height: 15,
     width: 10,
+    receiverName: "Test Receiver",
     recieverPhone: "1234567890",
+    description: "Test Description",
     recieverEmail: "receiver1@example.com",
     reciverAddress: "123 Receiver St",
     ReciverPostCode: "12345",
@@ -63,11 +65,12 @@ const CustomerProfile = () => {
     parcelName: "Parcel 2",
     CodAmount: "no",
     weight: 1,
-    Solid_Liquid: "Liquid",
+    dangerousGoods: "",
     status: "pending",
     height: 20,
     width: 12,
     recieverPhone: "9876543210",
+    description: "test description",
     recieverEmail: "receiver2@example.com",
     reciverAddress: "456 Receiver Rd",
     ReciverPostCode: "67890",
@@ -121,7 +124,6 @@ const CustomerProfile = () => {
         branchID: branchId,
         data: formData,
       });
-
       if (!res.error) {
         if (
           res?.data?.invalidData?.length === 0 ||
@@ -137,6 +139,8 @@ const CustomerProfile = () => {
           NotificationAlert("Uplaod Correct Csv");
         }
       }
+      console.log(res)
+
     } catch (error) {
       NotificationAlert("Something Went Wrong!");
     }
@@ -241,7 +245,7 @@ const CustomerProfile = () => {
                 <thead className={`${style_table.table_header}`}>
                   <tr>
                     <th>Parcel Name</th>
-                    <th>Solid/Liquid</th>
+                    <th>Dangerous Goods</th>
                     <th>Cash on Delivery</th>
                     <th>Weight</th>
                     <th>Dimensions(WxH)</th>
@@ -255,7 +259,7 @@ const CustomerProfile = () => {
                       <td className="d-flex align-items-center">
                         {item?.parcelName}
                       </td>
-                      <td>{item?.Solid_Liquid[0]}</td>
+                      <td>{item?.dangerousGoods ? "Yes" : "No"}</td>
                       <td>{item?.CodAmount ? "Yes" : "No"}</td>
                       <td>{item?.weight} kg</td>
                       <td>
@@ -332,7 +336,7 @@ const CustomerProfile = () => {
                 <thead className={`${style_table.table_header}`}>
                   <tr>
                     <th>Parcel Name</th>
-                    <th>Solid/Liquid</th>
+                    <th>Dangerous Goods</th>
                     <th>Cash on Delivery</th>
                     <th>Weight</th>
                     <th>Dimensions(WxH)</th>
@@ -345,7 +349,7 @@ const CustomerProfile = () => {
                       <td className="d-flex align-items-center">
                         {item?.parcelName}
                       </td>
-                      <td>{item?.Solid_Liquid}</td>
+                      <td>{item?.dangerousGoods ? "Yes" : "No"}</td>
                       <td>{item?.CodAmount ? "Yes" : "No"}</td>
                       <td>{item?.weight} kg</td>
                       <td>
@@ -413,7 +417,7 @@ const CustomerProfile = () => {
 
               <div className="d-flex justify-content-between align-items-center">
                 <span>Solid or Liquid:</span>
-                <span>{orderData.Solid_Liquid}</span>
+                <span>{orderData.dangerousGoods ? "Yes" : "No"}</span>
               </div>
 
               <div className="d-flex justify-content-between align-items-center">
@@ -428,10 +432,15 @@ const CustomerProfile = () => {
 
               <div className="d-flex justify-content-between align-items-center">
                 <span>Reciever Phone:</span>
-                <span>{orderData?.recieverPhone}</span>
+                <span>{orderData?.receiverName}</span>
               </div>
 
               <div className="d-flex justify-content-between align-items-center">
+                <span>Reciever Phone:</span>
+                <span>{orderData?.recieverPhone}</span>
+              </div>
+
+              <div className="d-flex flex-column justify-content-between align-items-start">
                 <span>Reciver Address:</span>
                 <span>{orderData?.reciverAddress}</span>
               </div>
@@ -446,7 +455,7 @@ const CustomerProfile = () => {
                 <span>{orderData?.SenderPhone}</span>
               </div>
 
-              <div className="d-flex justify-content-between align-items-center">
+              <div className="d-flex flex-column justify-content-between align-items-start">
                 <span>Sender Address:</span>
                 <span>{orderData?.SenderAddress}</span>
               </div>
@@ -455,6 +464,8 @@ const CustomerProfile = () => {
                 <span>Sender Post Code:</span>
                 <span>{orderData?.SenderPostCode}</span>
               </div>
+
+
 
               <div className="d-flex justify-content-between align-items-center">
                 <span>Cash on Delivery:</span>
@@ -476,6 +487,11 @@ const CustomerProfile = () => {
                   <div className="d-flex justify-content-between align-items-center">
                     <span>Price:</span>
                     <span>{item?.price}</span>
+                  </div>
+
+                  <div className="d-flex flex-column justify-content-center align-items-start">
+                    <span>Description:</span>
+                    <span>{orderData?.description}</span>
                   </div>
                 </div>
               ))}

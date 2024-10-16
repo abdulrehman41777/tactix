@@ -124,7 +124,7 @@ const Group_Parcel_Card = ({ data }) => {
 
 
         <button className={styles.status_btn} style={{ cursor: "default" }}>
-          Cost : ${data?.assignment?.parcelID?.CodAmount ? data?.assignment?.parcelID?.CodCharges : data?.assignment?.totalPrice}
+          Cost : ${data?.assignment?.parcelID?.CodAmount ? data?.assignment?.parcelID?.CodCharges * data?.assignment?.parcelID?.weight : data?.assignment?.totalPrice}
         </button>
 
         <button
