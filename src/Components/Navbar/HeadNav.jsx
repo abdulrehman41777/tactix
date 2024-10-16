@@ -33,6 +33,12 @@ const HeadNav = () => {
                             <Link className="nav-link active">About</Link>
                         </li>
                         <li className="nav-item mx-2">
+                            <Link className="nav-link active">Sandbox Apis</Link>
+                        </li>
+                        <li className="nav-item mx-2">
+                            <Link className="nav-link active">Platform Documenttaion</Link>
+                        </li>
+                        <li className="nav-item mx-2">
                             <Link className="nav-link active">Pricing</Link>
                         </li>
                         <li className="nav-item mx-2">

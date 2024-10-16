@@ -16,7 +16,7 @@ const Footer = () => {
           <div className={style.footer_div}>
             <div className={style.footer_logo}>
               <img src={logo} className={style.footer_main_logo} />
-              <p className={style.footer_creater_name}>Created By Codesol</p>
+              <p className={style.footer_creater_name}>Created By Codebyinnovators</p>
               <div className={style.social_logo}>
                 <p>
                   <BsLinkedin />
@@ -69,7 +69,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={style.copyright}>
-          <p>Copyright © 2023 This Website is Created by Codesol </p>
+          <p>Copyright © 2023 This Website is Created by Codebyinnovators </p>
         </div>
       </Container>
     </div>
