@@ -164,7 +164,7 @@ const YoursOrders = () => {
         </Container>
       </Dlayout>
       {isReciept &&
-        <Receipt setGetReceipt={setIsReciept} />
+        <Receipt setGetReceipt={setIsReciept} data={isReciept} />
       }
       {isInvoice &&
         <Invoice setGetInvoice={setIsInvoice} data={isInvoice} />

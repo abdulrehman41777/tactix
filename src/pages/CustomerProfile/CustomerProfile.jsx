@@ -139,8 +139,6 @@ const CustomerProfile = () => {
           NotificationAlert("Uplaod Correct Csv");
         }
       }
-      console.log(res)
-
     } catch (error) {
       NotificationAlert("Something Went Wrong!");
     }

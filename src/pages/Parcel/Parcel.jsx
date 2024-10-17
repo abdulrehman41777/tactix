@@ -28,6 +28,7 @@ const Parcel = () => {
   const getParcelsApi = useGetParcelsQuery(id);
   const getParcelsLoading = getParcelsApi?.isLoading;
 
+  console.log(getParcelsApi.data, "Helloo World")
 
   let Data = [];
   if (role === "SuperAdmin") {
