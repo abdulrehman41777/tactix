@@ -48,9 +48,8 @@ const ProccedModal = ({
         NotificationAlert("Parcel Assinged", "success");
         setModal(null)
       } else {
-        NotificationAlert("Error");
+        NotificationAlert(res?.error?.data?.message);
       }
-      console.log(res);
     } catch (error) {
       NotificationAlert("Error");
     }

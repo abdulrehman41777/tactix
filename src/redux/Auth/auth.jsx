@@ -47,7 +47,6 @@ const auth = createApi({
     }),
     createUser: builder.mutation({
       query: ({ BranchId, managerID, data }) => {
-        console.log(data)
         return {
           url: `/auth/create_user/${BranchId}/${managerID}`,
           method: "POST",
@@ -67,13 +66,30 @@ const auth = createApi({
     }),
     getSingleUserByID: builder.query({
       query: (userId) => {
-        console.log(userId)
         return {
           url: `/auth/get-single-user/${userId}`,
           method: "GET",
         };
       },
       // providesTags: ["createUser"],
+    }),
+    addBulkRatelist: builder.mutation({
+      query: ({ data }) => {
+        return {
+          url: `Auth/bulk-create-ratelist`,
+          method: "POST",
+          body: data
+        };
+      },
+    }),
+    updateBulkRatelist: builder.mutation({
+      query: ({ userID, data }) => {
+        return {
+          url: `/Auth/bulk-upload-ratelist/${userID}`,
+          method: "PATCH",
+          body: data
+        };
+      },
     }),
   }),
 });
@@ -84,7 +100,9 @@ export const {
   useUpdate_ProfileMutation,
   useCreateUserMutation,
   useGetAllUserByBranchQuery,
-  useGetSingleUserByIDQuery
+  useGetSingleUserByIDQuery,
+  useAddBulkRatelistMutation,
+  useUpdateBulkRatelistMutation
 } = auth;
 
 export default auth;

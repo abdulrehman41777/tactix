@@ -13,8 +13,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [apidata, setApiData] = useState({});
   const [parcelData, setParcelData] = useState(null)
 
-  console.log(data)
-
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
@@ -45,7 +43,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
     setAssignmentID(assignmentID)
 
   }
-
   return (
     <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
       <div
@@ -53,11 +50,15 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?._id.slice(-4).toUpperCase()}</span>
+          <span className="ms-2">{data?.assignment?.trackID}</span>
         </div>
         <button className={styles.status_btn_progress}>
           <span className={`${styles.pending_btn_circle} mx-1`}></span>
-          {(data?.assignment !== null && data?.assignment) ? data?.assignment?.Status[0] : data?.status}
+          {(data?.assignment !== null && data?.assignment) ?
+            data?.assignment?.Status[0] === "Shipment Sorted at Delivery Facility" ?
+              "Shipment Sorted" : data?.assignment?.Status[0]
+            : data?.status
+          }
         </button>
         <small className={styles.order_name}>{data?.parcelName}</small>
       </div>
@@ -116,6 +117,32 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             </span>
           </div>
         </li>
+        {data?.assignment?.deliveryStartTime !== "" &&
+          <li>
+            <div
+              className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+              style={{ flexDirection: "column" }}
+            >
+              <span>Pickup Time:</span>
+              <span>
+                {data?.assignment?.deliveryStartTime}
+              </span>
+            </div>
+          </li>
+        }
+        {data?.assignment?.deliveryEndTime !== "" &&
+          <li>
+            <div
+              className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+              style={{ flexDirection: "column" }}
+            >
+              <span>Delivered Time:</span>
+              <span>
+                {data?.assignment?.deliveryEndTime}
+              </span>
+            </div>
+          </li>
+        }
         {(data?.assignment !== null && data?.assignment) &&
           <li>
             <div
@@ -155,10 +182,13 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             >
               View
             </button>
-            :
-            (
-              <button className={styles.status_btn} onClick={() => handleUpdateStatus(data?.branchID, data?.assignment?._id)}>Update Status</button>
-            ))}
+            : data?.assignment?.Status[0] === "Delivered" ?
+              <button className={styles.status_btn} onClick={() => handleGetData(data)}>View</button>
+              :
+
+              (
+                <button className={styles.status_btn} onClick={() => handleUpdateStatus(data?.branchID, data?.assignment?._id)}>Update Status</button>
+              ))}
         {role === "User" && (
           <button
             className={styles.status_btn}

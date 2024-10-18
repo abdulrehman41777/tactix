@@ -7,12 +7,10 @@ import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import ShipmentCard from "../../Components/ShipmentCard/ShipmentCard";
-import { BiPlus } from "react-icons/bi";
 import AddWeightPrice from "../../Components/AddWeightPrice/AddWeightPrice";
 import UpdateWeightPrice from "../../Components/AddWeightPrice/UpdateWeightPrice";
 import Available from "../../Components/cards/Available";
 import Receipt from "../../Components/ReceiptCard/Receipt";
-import Assigned_Parcel from "../../Components/Assigned_Parcel/Assigned_Parcel";
 import { useGetParcelsQuery } from "../../redux/Parcel/Parcel";
 
 const Parcel = () => {
@@ -32,7 +30,6 @@ const Parcel = () => {
 
 
   let Data = [];
-
   if (role === "SuperAdmin") {
     Data = getParcelsApi?.data?.parcels;
   } else if (role === "Admin" || role === "Manager") {
@@ -40,7 +37,7 @@ const Parcel = () => {
   } else if (role === "User") {
     Data = getParcelsApi?.data?.parcels;
   }
-  console.log(Data)
+
   // pagination
   const endOffset = itemOffset + 6;
   const pageCount = Math.ceil(Data?.length / 6);
@@ -53,20 +50,6 @@ const Parcel = () => {
     <div>
       <Dlayout pageName="Parcels" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
-          {/* {(role === "Admin" || role === "SuperAdmin") ? null :
-            <div className="d-flex justify-content-end gap-5">
-
-              <h4
-                className={`f-bold ${style.add_btn_heading} mt-5 pb-4 justify-content-end`}
-                onClick={() => setAddWeight(true)}
-              >
-                <span className={style.add_btn}>
-                  <BiPlus className={style.plus_sambol} />
-                </span>
-                Add Parcel Price
-              </h4>
-            </div>
-          } */}
           {role === "Manager" ? (
             <div className="d-flex justify-content-end pb-3">
               <select
@@ -79,7 +62,7 @@ const Parcel = () => {
                 <option value="all" className="text-light">
                   All
                 </option>
-                <option value="assigned" className="text-light">
+                <option value="Order Assigned" className="text-light">
                   Assigned
                 </option>
               </select>
@@ -92,44 +75,49 @@ const Parcel = () => {
                 <BsThreeDots className={style.icon} />
               </div>
             </div>
-            {checkAssign === "all" ? (
-              (Data?.length === 0 || Data === undefined) ? (
-                <Available message={"No Parcel Available"} />
-              ) : (
+            {checkAssign === "all" && (
+              (
                 <div className={`row ${style.card_wrapper}`}>
-                  {getParcelsLoading ? (
-                    <ListLoader />
-                  ) : (
-                    Data?.slice(itemOffset, endOffset)?.map((data, index) => (
-                      <ShipmentCard
-                        data={data}
-                        key={index}
-                        setGetReceipt={setGetReceipt}
-                      />
+                  {
+                    getParcelsLoading ? (
+                      <ListLoader />
+                    ) : (Data?.length === 0 || Data === undefined ? (
+                      <Available message={"No Parcel Available"} />
+                    ) : (
+                      Data?.slice(itemOffset, endOffset)?.map((data, index) => (
+                        <ShipmentCard
+                          data={data}
+                          key={index}
+                          setGetReceipt={setGetReceipt}
+                        />
+                      ))
                     ))
-                  )}
+                  }
                 </div>
               )
-            ) : Data?.filter((data) => data?.status[0] === "assigned")
-              ?.length === 0 ? (
-              <Available message={"No Parcel Available"} />
-            ) : (
-              <div className={`row ${style.card_wrapper}`}>
-                {getParcelsLoading ? (
-                  <ListLoader />
-                ) : (
-                  Data?.filter((data) => data?.status[0] === "assigned")
-                    ?.slice(itemOffset, endOffset)
-                    ?.map((data, index) => (
-                      <Assigned_Parcel
-                        data={data}
-                        key={index}
-                        setGetReceipt={setGetReceipt}
-                      />
-                    ))
-                )}
-              </div>
             )}
+
+            {checkAssign === "Order Assigned" &&
+              <div className={`row ${style.card_wrapper}`}>
+                {getParcelsLoading ?
+                  <ListLoader />
+                  : (Data?.filter(item => item?.assignment !== null)?.length === 0) ?
+                    <Available message={"No Parcel Available"} /> :
+                    (
+                      Data?.filter(item => item?.assignment !== null)
+                        ?.slice(itemOffset, endOffset)
+                        ?.map((data, index) => (
+                          <ShipmentCard
+                            data={data}
+                            key={index}
+                            setGetReceipt={setGetReceipt}
+                          />
+                        ))
+                    )}
+              </div>
+            }
+
+
           </div>
           {Data?.length >= 6 && (
             <ReactPaginate

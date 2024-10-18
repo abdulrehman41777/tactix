@@ -24,10 +24,7 @@ const user = [
     path: "/dashboard/your-orders",
     element: <YoursOrders />,
   },
-  {
-    path: "/dashboard/parcel",
-    element: <Parcel />,
-  },
+
   {
     path: "/dashboard/create-orders",
     element: <CreateParcel />,

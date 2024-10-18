@@ -20,13 +20,13 @@ const Rider_Parcel_Card = ({ data }) => {
       >
         <div className={`${styles.id} d-flex pb-3`}>
           <h4>Order ID</h4>
-          <span className="ms-2">{data?._id.slice(16, -1).toUpperCase()}</span>
         </div>
         <button
           className={styles.status_btn_progress}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          {data?.Status[0]}
+          {data?.Status[0] === "Shipment Sorted at Delivery Facility" ?
+            "Shipment Sorted" : data?.Status[0]}
         </button>
         <small className={styles.order_name}>
           {" "}
@@ -38,25 +38,52 @@ const Rider_Parcel_Card = ({ data }) => {
       <ul className="bar pt-3">
         <li>
           <div
-            className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+            className={`${styles.from} w-100 mt-2 d-flex gap-2 dot-content`}
           >
+            <span>From: </span>
             <span>
-              {data?.parcelID?.fromCity?.city} , {data?.parcelID?.toCity?.city}
-            </span>
-            <span>
-              <span>{data?.createdAt.split("T")[0]}</span>
+              {data?.parcelID?.SenderAddress}
             </span>
           </div>
         </li>
         <li>
           <div
-            className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
+            className={`${styles.from} w-100 mt-2 d-flex gap-2 dot-content`}
           >
+            <span>To: </span>
             <span>
-              {data?.parcelID?.fromCountry?.country} ,{" "}
-              {data?.parcelID?.toCountry?.country}
+              {data?.parcelID?.reciverAddress}
             </span>
-            <span>10 Feb, 2023</span>
+          </div>
+        </li>
+        <li>
+          <div
+            className={`${styles.from} w-100 mt-2 d-flex gap-2 dot-content`}
+          >
+            <span>COD Amount: </span>
+            <span>
+              {"$" + data?.parcelID?.CodCharges}
+            </span>
+          </div>
+        </li>
+        <li>
+          <div
+            className={`${styles.from} w-100 mt-2 d-flex gap-2 dot-content`}
+          >
+            <span>Damaged: </span>
+            <span>
+              {data?.parcelID?.isDamaged ? "Yes" : "No"}
+            </span>
+          </div>
+        </li>
+        <li>
+          <div
+            className={`${styles.from} w-100 mt-2 d-flex gap-2 dot-content`}
+          >
+            <span>Weight: </span>
+            <span>
+              {data?.parcelID?.weight + "KG"}
+            </span>
           </div>
         </li>
       </ul>
@@ -65,13 +92,16 @@ const Rider_Parcel_Card = ({ data }) => {
         <button className={styles.status_btn} style={{ cursor: "default" }}>
           Cost : ${data?.totalPrice}
         </button>
-        <button
-          className={styles.status_btn}
-          onClick={() => handleUpdateStatus(data?._id)}
-          style={{ cursor: "pointer" }}
-        >
-          Update Status
-        </button>
+        {
+          data?.Status?.[0] === "Delivered" || data?.Status?.[0] === "Undelivered" ? "" : <button
+            className={styles.status_btn}
+            onClick={() => handleUpdateStatus(data?._id)}
+            style={{ cursor: "pointer" }}
+          >
+            Update Status
+          </button>
+        }
+
       </div>
       {updateStatus && (
         <Update_Status

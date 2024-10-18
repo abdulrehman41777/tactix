@@ -1,22 +1,30 @@
 import React from "react";
 import { useState } from "react";
-import { useParcel_StatusMutation } from "../../redux/Parcel/Parcel";
+import { useParcel_StatusMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
+import { GiStorkDelivery } from "react-icons/gi";
 
 const Update_Status = ({ setAddAdmin, getParcelID }) => {
   const [addStatus, setAddStatus] = useState("");
-  const status = ["Collected", "Shipped", "Delivered", "Cancelled"];
-
-  const [updateStatus, { isLoading }] = useParcel_StatusMutation();
+  const [completionPicture, setCompletionPicture] = useState(null);
+  const status = ["Out for Delivery", "Delivered", "Undelivered"];
+  const [updateStatus, { isLoading }] = useUpdate_assign_ParcelMutation();
 
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
     try {
+
+      if (addStatus === "Delivered" && (completionPicture === null || !completionPicture || completionPicture === undefined)) {
+        return NotificationAlert("Please upload a completion picture");
+      }
+
+      const formData = new FormData()
+      formData.append("status", [addStatus]);
+      formData.append("completionPicture", completionPicture);
+
       const res = await updateStatus({
         assignmentID: getParcelID,
-        data: {
-          Status: addStatus,
-        },
+        data: formData,
       });
       if (!res.error) {
         NotificationAlert("Status updated", "success");
@@ -54,6 +62,26 @@ const Update_Status = ({ setAddAdmin, getParcelID }) => {
               </option>
             ))}
           </select>
+          {addStatus === "Delivered" &&
+            <div className="mt-2 justify-content-center align-items-center d-flex " >
+              <div className="p-2 justify-content-center align-items-center d-flex rounded-2" style={{ backgroundColor: "var(--btn-bg)", cursor: "pointer" }}>
+
+                <label htmlFor="pod" style={{ cursor: "pointer" }}>
+                  <div className="d-flex gap-2 justify-content-center align-items-center">
+                    <GiStorkDelivery size={24} />
+                    <p className="text-white">
+                      {!completionPicture ?
+                        "Proof of Delivery"
+                        :
+                        completionPicture?.name?.split(".")[0]
+                      }
+                    </p>
+                  </div>
+                </label>
+                <input type="file" id="pod" className="d-none" onChange={(e) => setCompletionPicture(e.target.files[0])} />
+              </div>
+            </div>
+          }
           {isLoading ? (
             <button className="modal_sumbit_btn mt-3 " disabled>
               Submiting

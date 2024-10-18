@@ -22,6 +22,8 @@ import { useLazyTrack_ParcelQuery } from "../../redux/Tracking/Tracking";
 import { useState } from "react";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import HeadNav from "../../Components/Navbar/HeadNav";
+import { useSelector } from "react-redux";
+import { useTrackParcelMutation } from "../../redux/Parcel/Parcel";
 
 const clientSlider = {
   320: {
@@ -46,17 +48,31 @@ const Main = () => {
   const [trakingId, setTrackingID] = useState("");
   const [trackModel, setTrackModel] = useState(false);
   const [trigger, { data, isLoading }] = useLazyTrack_ParcelQuery();
+  const [trackedData, setTrackedData] = useState({});
 
-  console.log(data);
-  const handleTracking = () => {
-    if (trakingId) {
-      trigger(trakingId);
-      setTrackModel(true);
-      setTrackingID("");
-    } else {
-      NotificationAlert("Tracking Id Required!");
+  // User Data
+  const selector = useSelector((state) => state?.userData);
+  const id = selector?.data?.user?._id;
+
+  const [trackParcel, { isLoading: trackingLoading }] = useTrackParcelMutation();
+
+  const handleTrackParcel = async () => {
+    try {
+      if (!trakingId) {
+        return NotificationAlert("Tracking id is required")
+      }
+      const res = await trackParcel({ trackID: trakingId, userID: id });
+      if (!res.error) {
+        setTrackedData(res?.data?.assignment)
+        trigger(trakingId);
+        setTrackModel(true);
+        setTrackingID("");
+      }
+    } catch (error) {
+      console.log(error);
+      NotificationAlert("Internal Server Error", "success")
     }
-  };
+  }
 
   return (
     <>
@@ -197,7 +213,7 @@ const Main = () => {
           />
           <button
             className={styles.tracking_btn}
-            onClick={isLoading ? null : handleTracking}
+            onClick={trackingLoading ? null : handleTrackParcel}
           >
             Track
           </button>
@@ -231,7 +247,7 @@ const Main = () => {
                         padding: 10,
                       }}
                     >
-                      Tracking ID # {data?.trackID}
+                      Tracking ID # {trackedData?.trackID}
                     </span>
                     <span
                       className="fw-bold"
@@ -242,7 +258,7 @@ const Main = () => {
                         borderRadius: 10,
                       }}
                     >
-                      Status: {data?.Status?.[0]}
+                      Status: {trackedData?.Status?.[0]}
                     </span>
                   </div>
                   <table>
@@ -260,25 +276,54 @@ const Main = () => {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{data?.branchID?.branch_name}</td>
-                        <td>{data?.branchID?.branch_address}</td>
-                        <td>{data?.parcelID?.parcelName}</td>
-                        <td>${data?.totalPrice}</td>
-                        <td>{data?.parcelID?.weight}kg</td>
+                        <td>{trackedData?.branchID?.branch_name}</td>
+                        <td>{trackedData?.branchID?.branch_address}</td>
+                        <td>{trackedData?.parcelID?.parcelName}</td>
+                        <td>${trackedData?.totalPrice}</td>
+                        <td>{trackedData?.parcelID?.weight}kg</td>
                         <td>
-                          {data?.parcelID?.fromAddress},{" "}
-                          {data?.parcelID?.fromCity.city},{" "}
-                          {data?.parcelID?.fromCountry.country}{" "}
+                          {trackedData?.parcelID?.SenderAddress}
                         </td>
                         <td>
-                          {data?.parcelID?.toAddress},{" "}
-                          {data?.parcelID?.toCity.city},{" "}
-                          {data?.parcelID?.toCountry.country}{" "}
+                          {trackedData?.parcelID?.reciverAddress}
+
                         </td>
-                        <td>{data?.riderID?.name}</td>
+                        <td>{trackedData?.riderID?.name}</td>
                       </tr>
                     </tbody>
                   </table>
+
+                  <div className="py-3 d-flex flex-column">
+                    <span
+                      className="fw-bold"
+
+                    >
+                      Description:
+                    </span>
+                    <div style={{ width: "24rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      <div style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+                        {trackedData?.Status?.[0] === "Order Received" ?
+                          "We've got your Shipment details, but not your package"
+                          : trackedData?.Status?.[0] === "Shipment Collected" ? "Your package has been successfully collected. Thank you for choosing us!"
+                            : trackedData?.Status?.[0] === "In Transit to Origin Facility" ?
+                              "Your package is on its way to the local shipping center."
+                              : trackedData?.Status?.[0] === "Customs/Terminal Clearance in Origin Country" ?
+                                "Your package is going through customs and security screening in the sending country."
+                                : trackedData?.Status?.[0] === "Departed from Origin Country" ?
+                                  "Your package has left the sending country and is on its way."
+                                  : trackedData?.Status?.[0] === "In Transit to Destination Country" ? "Your package is traveling to the destination country."
+                                    : trackedData?.Status?.[0] === "Arrived at Destination Country" ? "Your package has arrived in the destination country."
+                                      : trackedData?.Status?.[0] === "Customs/Terminal Clearance in Destination Country" ? "Your package is going through customs in the receiving country."
+                                        : trackedData?.Status?.[0] === "Shipment Sorted at Delivery Facility" ? "Your package has been sorted at the delivery facility and is being prepared for final delivery"
+                                          : trackedData?.Status?.[0] === "Out for Delivery" ? "Your package is out for delivery and will be with you soon!"
+                                            : trackedData?.Status?.[0] === "Delivered" ? "Your package has been delivered. Enjoy!"
+                                              : trackedData?.Status?.[0] === "Undelivered" ? "Your package has been delivered to your selected [retail point/locker box] and is ready for pickup"
+                                                : trackedData?.Status?.[0] === "Return to Sender" ? "The package is being returned to the sender due to a failed delivery attempt or delay"
+                                                  : "Order Hasn't Been Processed Yet"
+                        }
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

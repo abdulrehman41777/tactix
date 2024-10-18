@@ -8,7 +8,6 @@ const Tracking = createApi({
     Track_Parcel: builder.query({
 
       query: (trakingId) => {
-        console.log(trakingId, 'redux re');
         return {
           url: `track-your-tracking/${trakingId}`,
           method: "GET",

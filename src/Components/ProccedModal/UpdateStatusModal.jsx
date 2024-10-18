@@ -17,9 +17,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
     const selector = useSelector((state) => state?.userData);
     const userID = selector?.data?.user?._id;
 
-    console.log(userID, "groupData")
-
-    const assignArray = ["Delivered", "Transfer", "Collected", "Shipped", "Cancelled", "Return to Depot"]
+    const assignArray = ["Transfer", "Shipment Collected", "In Transit to Origin Facility", "Customs/Terminal Clearance in Origin Country", "Departed from Origin Country", "In Transit to Destination Country", "Arrived at Destination Country", "Customs/Terminal Clearance in Destination Country", "Shipment Sorted at Delivery Facility", "Out for Delivery", "Delivered", "Undelivered", "Return to Sender"]
 
     const handlePackageDetail = (e) => {
         setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
@@ -37,7 +35,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             setReason("")
         }
     }
-    console.log(status)
+
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
         try {
@@ -48,7 +46,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
 
             const res = await update_assign_parcel({
                 assignmentID: assignmentID,
-                data: { status: [status], reason: reason },
+                data: { status: [status === "Transfer" ? "Order Assigned" : status], reason: reason, groupID: groupID },
             });
             if (!res.error) {
                 NotificationAlert("Parcel Status Updated", "success");
@@ -56,7 +54,6 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             } else {
                 NotificationAlert(res?.error?.data?.message);
             }
-            console.log(res);
         } catch (error) {
             NotificationAlert("Error");
         }
@@ -86,7 +83,6 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
             } else {
                 NotificationAlert(res?.error?.data?.message);
             }
-            console.log(res);
         } catch (error) {
             NotificationAlert("Error");
         }
@@ -103,14 +99,14 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                 </div>
                 <form
                     className="mt-1 modal_form d-flex flex-column gap-2"
-                    onSubmit={status !== "Transfer" ? handlePArcelAssign : handleTransferParcel} >
+                    onSubmit={handlePArcelAssign} >
                     <select
                         name="status"
                         className="text-dark bg-light"
                         onChange={(e) => handleGetStatus(e.target.value)}
                     >
                         <option value={status} defaultValue className="text-dark">
-                            Select Group
+                            Select Status
                         </option>
                         {assignArray?.map((item, i) => (
                             <option value={item} key={i} className="text-dark">
@@ -147,23 +143,9 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                                     </option>
                                 ))}
                             </select>
-                            {All_Rider && (
-                                <select
-                                    name="riderID"
-                                    className="text-dark bg-light"
-                                    onChange={(e) => handlePackageDetail(e)}
-                                    value={riderID}
-                                >
-                                    <option value="" disabled defaultValue className="text-dark">
-                                        Select Rider
-                                    </option>
-                                    {All_Rider?.map((item) => (
-                                        <option value={item?._id} key={item?._id} className="text-dark">
-                                            {item?.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            )}
+
+                            <textarea className="bg-white text-black p-1 rounded-2" rows={5} style={{ outline: "none" }} placeholder="Reason" onChange={(e) => setReason(e.target.value)}
+                                value={reason} />
                         </>
                     }
                     {(isLoading || transferLoading) ? (

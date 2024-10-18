@@ -13,8 +13,6 @@ function App() {
   const selector = useSelector((state) => state?.userData);
   const role = selector?.data?.user?.role[0];
 
-  console.log(selector)
-
   const mainAdminRole = useRoutes(superAdmin);
   const AdminRole = useRoutes(admin);
   const ManagerRole = useRoutes(manager);

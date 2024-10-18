@@ -3,23 +3,15 @@ import { Container } from "react-bootstrap";
 import style from "./signup.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router";
-import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import * as EmailValidator from "email-validator";
-import { useCreate_ManagerMutation } from "../../redux/Manager/manager";
-import {
-  useAll_branchesQuery,
-  useBranchesByAdminQuery,
-} from "../../redux/Branch/Branch";
-import { useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
-import { MdCancel } from "react-icons/md";
+import { useAddBulkRatelistMutation, useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
+import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
+import CreateBulkRate from "../../Components/CreateBulkRate/CreateBulkRate";
 
 const CreateCustomer = () => {
   const selector = useSelector((state) => state?.userData);
   const id = selector?.data?.user?.branchID;
   const manager_id = selector?.data?.user?._id;
-  // console.log(selector);
 
   const navigate = useNavigate();
 
@@ -34,13 +26,14 @@ const CreateCustomer = () => {
   const [password, setPassword] = useState(data?.userData?.password || "");
   const [phone, setPhone] = useState(data?.userData?.phone || "");
   const [errors, setErrors] = useState({});
-  console.log(locations)
+  const [bulkRateList, setBulkRateList] = useState(null);
+  const [uploadBulk, setUploadBulk] = useState(false);
+
   useEffect(() => {
     if (data?.type === "update") {
       setLocations(data?.userData?.rateList?.rateList?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
     }
   }, []);
-
 
   // Handle input change for locations
   const handleLocationChange = (index, e) => {
@@ -111,7 +104,6 @@ const CreateCustomer = () => {
 
   const [updateRateList, { isLoading: updateRateListLoading }] = useUpdate_ProfileMutation();
 
-
   // Handle form submission
   const handleSubmit = async () => {
     if (!validateForm()) {
@@ -122,7 +114,6 @@ const CreateCustomer = () => {
       (location) =>
         location.from.trim() || location.to.trim() || location.price.trim()
     );
-    console.log(filteredLocations)
     // Prepare data to send
     const formData = {
       name,
@@ -132,10 +123,9 @@ const CreateCustomer = () => {
       rateList: filteredLocations,
     };
 
-    console.log("filteredLocations", filteredLocations);
 
     try {
-      if (data.type === "update") {
+      if (data?.type === "update") {
         const res = await updateRateList({
           userID: data?.userData?._id,
           data: { rateList: filteredLocations },
@@ -143,8 +133,6 @@ const CreateCustomer = () => {
 
         if (!res.error) {
           navigate(-1)
-        } else {
-          console.log(res)
         }
 
       } else {
@@ -160,8 +148,6 @@ const CreateCustomer = () => {
           setEmail("");
           setPassword("");
           navigate(-1)
-        } else {
-          console.log(res)
         }
       }
     } catch (error) {
@@ -169,13 +155,34 @@ const CreateCustomer = () => {
     }
   };
 
+  const [addBulkRatelist, { isLoading: bulkLoading }] = useAddBulkRatelistMutation()
 
+  const handleBulkUpload = async () => {
+    try {
+      if (!bulkRateList) {
+        NotificationAlert("Please select a file to upload")
+        return
+      }
+      const formData = new FormData();
+      formData.append("file", bulkRateList);
 
+      const res = await addBulkRatelist({
+        data: formData
+      })
 
+      if (!res.error) {
+        setLocations(res?.data?.validData?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
+        setBulkRateList(null)
+        setUploadBulk(false)
+        NotificationAlert("file uploaded successfully", "success")
+      }
+
+    } catch (error) {
+      NotificationAlert("Something went wrong")
+    }
+  }
 
   const rateList = ["Premium", "Express", "Economy", "Others"]
-
-
 
   return (
     <div className={style.create_wrapper}>
@@ -188,12 +195,12 @@ const CreateCustomer = () => {
           // className={style.login_box_inner_wrapper}
           >
             <div className={style.login_box_head}>
-              {data.type === "update" ?
+              {data?.type === "update" ?
                 <h1>Update Customer</h1>
                 :
                 <h1>Create Customer</h1>
               }
-              {data.type === "update" ?
+              {data?.type === "update" ?
                 null
                 :
                 <p>Create A New Customer</p>
@@ -332,28 +339,59 @@ const CreateCustomer = () => {
 
                 <div className="d-flex justify-content-center">
                   {data?.type === "update" ?
-                    <button
-                      name="Create Product"
-                      className="btn p-3 rounded text-white"
-                      onClick={handleSubmit}
-                      style={{ background: '#D8788C' }}
-                    >
-                      Update Customer
-                    </button>
+                    <div className="d-flex gap-3">
+
+                      <button
+                        name="Create Product"
+                        className="btn p-3 rounded text-white"
+                        onClick={handleSubmit}
+                        style={{ background: '#D8788C' }}
+                      >
+                        {updateRateListLoading ? "Updating" :
+                          "Update Customer"
+                        }
+                      </button>
+                      <button
+                        name="Create Product"
+                        className="btn p-3 rounded text-white"
+                        onClick={() => setUploadBulk(true)}
+
+                        style={{ background: '#D8788C' }}
+                      >
+
+                        Update Bulk RateList
+                      </button>
+                    </div>
                     :
-                    <button
-                      name="Create Product"
-                      className="btn p-3 rounded text-white"
-                      onClick={handleSubmit}
-                      style={{ background: '#D8788C' }}
-                    >
-                      Create Customer
-                    </button>}
+                    <div className="d-flex gap-3">
+                      <button
+                        name="Create Product"
+                        className="btn p-3 rounded text-white"
+                        onClick={handleSubmit}
+                        style={{ background: '#D8788C' }}
+                      >
+                        {isLoading ? "Creating" :
+                          "Create Customer"
+                        }
+                      </button>
+                      <button
+                        name="Bulk Ratelist"
+                        className="btn p-3 rounded text-white"
+                        onClick={() => setUploadBulk(true)}
+                        style={{ background: '#D8788C' }}
+                      >
+                        Bulk Ratelist
+                      </button>
+
+                    </div>
+                  }
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {uploadBulk &&
+          <CreateBulkRate setFile={setBulkRateList} isClose={setUploadBulk} isLoading={bulkLoading} bulkRateList={bulkRateList} handleBulkUpload={handleBulkUpload} />}
       </Container>
     </div>
   );

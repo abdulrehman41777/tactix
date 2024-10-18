@@ -76,6 +76,7 @@ const CustomerProfile = () => {
     SenderPostCode: "98765",
     isDamaged: "no"
   }]);
+
   const [bulkFile, setBulkFile] = useState("");
   const [isUpload, setIsUpload] = useState(0);
   const [bulkData, setBulkData] = useState([]);

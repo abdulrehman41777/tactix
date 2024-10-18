@@ -60,7 +60,6 @@ const manager = createApi({
 
     getRiderGroup: builder.query({
       query: (BranchID) => {
-        console.log(BranchID, "BranchID");
         return {
           url: `/riders_group/get_riders_group_by_branch/${BranchID}`,
           method: "GET",

@@ -3,21 +3,17 @@ import logo from "../../assets/main/logo.png";
 import style from "./Dsidebar.module.css";
 import { AiFillHome } from "react-icons/ai";
 import { RiAdminFill } from "react-icons/ri";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { IoIosAddCircle, IoIosPeople, IoMdClose } from "react-icons/io";
-import { GrStatusGoodSmall, GrUserManager } from "react-icons/gr";
+import { NavLink } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { BiGitBranch, BiSolidLogOut, BiWorld } from "react-icons/bi";
+import { BiGitBranch, BiSolidLogOut } from "react-icons/bi";
 import { logout } from "../../redux/features/authState";
-import { BsBox2Fill, BsPeopleFill, BsPersonAdd } from "react-icons/bs";
+import { BsBox2Fill, BsPeopleFill } from "react-icons/bs";
 import {
-  MdAttachMoney,
-  MdDirectionsBike,
   MdOutlineAddCircle,
 } from "react-icons/md";
 import { ImTruck } from "react-icons/im";
-import { useState } from "react";
 import { GrUserAdmin } from "react-icons/gr";
 import { IoMdPersonAdd } from "react-icons/io";
 
@@ -26,6 +22,8 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   const selector = useSelector((state) => state?.userData);
   const dispatch = useDispatch();
   const role = selector?.data?.user?.role[0];
+
+  const branchID = selector?.data?.user.branchID
 
 
   const superAdmin = [
@@ -63,6 +61,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
 
   ];
+
   const admin = [
     {
       path: "/dashboard/main",
@@ -103,6 +102,20 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <CgProfile />,
     },
   ];
+
+  const unAssignedAdmin = [
+    {
+      path: "/dashboard/main",
+      name: "Main Dashboard",
+      icon: <AiFillHome />,
+    },
+    {
+      path: "/dashboard/profile",
+      name: "Profile",
+      icon: <CgProfile />,
+    },
+  ]
+
   const manager = [
     {
       path: "/dashboard",
@@ -135,7 +148,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   ];
   const user = [
     {
-      path: "/dashboard/",
+      path: "/dashboard/main",
       name: "Main Dashboard",
       icon: <AiFillHome />,
     },
@@ -151,11 +164,6 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <MdOutlineAddCircle />,
     },
     {
-      path: "/dashboard/parcel",
-      name: "Your Parcel",
-      icon: <BsBox2Fill />,
-    },
-    {
       path: "/dashboard/profile",
       name: "Profile",
       icon: <CgProfile />,
@@ -168,8 +176,13 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       icon: <AiFillHome />,
     },
     {
+      path: "/dashboard/rider-group-parcel",
+      name: "Group Parcels",
+      icon: <BsBox2Fill />,
+    },
+    {
       path: "/dashboard/rider-parcel",
-      name: "Parcels",
+      name: "Your Parcels",
       icon: <BsBox2Fill />,
     },
     {
@@ -184,7 +197,11 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
   if (role === "SuperAdmin") {
     sideLinks = superAdmin;
   } else if (role === "Admin") {
-    sideLinks = admin;
+    if (branchID && branchID !== null) {
+      sideLinks = admin;
+    } else {
+      sideLinks = unAssignedAdmin
+    }
   } else if (role === "Manager") {
     sideLinks = manager;
   } else if (role === "User") {
@@ -210,21 +227,23 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
       </div>
       <div>
         <ul className={style.sidebar_ul}>
-          {sideLinks?.map((item, index) => (
-            <li key={index}>
-              <NavLink
-                to={item?.path}
-                className={({ isActive }) =>
-                  isActive ? `${style.li_active}` : `${style.li}`
-                }
-              >
-                <div className={style.inner_link}>
-                  {item?.icon}
-                  <p>{item?.name}</p>
-                </div>
-              </NavLink>
-            </li>
-          ))}
+
+          {
+            sideLinks?.map((item, index) => (
+              <li key={index}>
+                <NavLink
+                  to={item?.path}
+                  className={({ isActive }) =>
+                    isActive ? `${style.li_active}` : `${style.li}`
+                  }
+                >
+                  <div className={style.inner_link}>
+                    {item?.icon}
+                    <p>{item?.name}</p>
+                  </div>
+                </NavLink>
+              </li>
+            ))}
 
           <li onClick={() => dispatch(logout())}>
             <NavLink

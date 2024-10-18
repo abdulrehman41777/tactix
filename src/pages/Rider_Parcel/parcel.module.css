@@ -16,6 +16,21 @@
 .admin_head h4 {
   color: var(--light-heading);
 }
+.header_input_wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--light-secondary);
+  padding: 0.5rem;
+  border-radius: 10px;
+  gap: 0.5rem;
+  color: var(--light-heading);
+}
+.header_input_wrapper input {
+  border: none;
+  background: var(--light-secondary);
+  outline: none;
+  width: 80%;
+}
 .icon {
   color: var(--light-heading);
 }

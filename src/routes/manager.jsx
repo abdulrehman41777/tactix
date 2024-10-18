@@ -43,17 +43,9 @@ const manager = [
   },
 
   {
-    path: "/dashboard/create-orders",
-    element: <CreateParcel />, //working
-  },
-  {
     path: "/dashboard/create-rider/:id",
     element: <CreateRider />, //working
   },
-  // {
-  //   path: "/dashboard/create-group",
-  //   element: <CreateGroups />,
-  // },
   {
     path: "/dashboard/all-user",
     element: <AllUsers />, //working

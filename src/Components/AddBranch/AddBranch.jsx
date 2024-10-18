@@ -42,43 +42,32 @@ const AddBranch = ({ setAddAdmin }) => {
 
   const handleAddBranch = async (e) => {
     e.preventDefault();
-    if (
-      branch_name &&
-      branch_address &&
-      branch_contact_number
 
-    ) {
-      try {
-        const res = await addBranch({
-          superAdminID: id,
-          data: {
-            branch_name: branch_name,
-            branch_address: branch_address,
-            branch_contact_number: branch_contact_number,
-
-          },
-        });
-        if (!res.error) {
-          NotificationAlert("Branch added successfully", "success");
-          setBranch_fields({
-            branch_name: "",
-            branch_address: "",
-            branch_contact_number: "",
-          });
-          setAddAdmin(false);
-        } else if (
-          res.error.data.errors.find(
-            (err) => err.path === "branch_contact_number"
-          )
-        ) {
-          NotificationAlert("Invalid Contact Number");
-        }
-      } catch (error) {
-        NotificationAlert("Something went wrong");
-        console.log(error)
+    try {
+      if (!branch_name && !branch_address && !branch_contact_number) {
+        return NotificationAlert("All Fields Required");
       }
-    } else {
-      NotificationAlert("All Fields Required");
+      const res = await addBranch({
+        superAdminID: id,
+        data: {
+          branch_name: branch_name,
+          branch_address: branch_address,
+          branch_contact_number: branch_contact_number,
+
+        },
+      });
+      if (!res.error) {
+        NotificationAlert("Branch added successfully", "success");
+        setBranch_fields({
+          branch_name: "",
+          branch_address: "",
+          branch_contact_number: "",
+        });
+        setAddAdmin(false);
+      }
+    } catch (error) {
+      NotificationAlert("Something went wrong");
+      console.log(error)
     }
   };
 
@@ -96,7 +85,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="text"
             placeholder="Branch Name"
-            className="form-control mb-3 text-white"
+            className="form-control mb-3 text-black bg-white"
             name="branch_name"
             value={branch_name}
             onChange={handleBranchFields}
@@ -104,7 +93,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="text"
             placeholder="Branch Address"
-            className="form-control mb-3 text-white"
+            className="form-control mb-3 text-black bg-white"
             value={branch_address}
             name="branch_address"
             onChange={handleBranchFields}
@@ -112,7 +101,7 @@ const AddBranch = ({ setAddAdmin }) => {
           <input
             type="number"
             placeholder="Contact"
-            className="form-control mb-3 text-white"
+            className="form-control mb-3 text-black bg-white"
             value={branch_contact_number}
             name="branch_contact_number"
             onChange={(e) => {
