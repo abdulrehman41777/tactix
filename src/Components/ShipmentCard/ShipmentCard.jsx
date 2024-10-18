@@ -43,6 +43,13 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
     setAssignmentID(assignmentID)
 
   }
+
+  const date = new Date(data?.assignment?.deliveryStartTime ? data?.assignment?.deliveryStartTime?.toString() : null);
+  const formattedStartDate = date.toISOString().slice(0, 10);
+
+  const Enddate = new Date(data?.assignment?.deliveryEndTime ? data?.assignment?.deliveryEndTime?.toString() : null);
+  const formattedEndDate = Enddate.toISOString().slice(0, 10);
+
   return (
     <div className={`${styles.shipment_card} d-flex flex-column justify-content-between`} style={{ height: "100%" }}>
       <div
@@ -115,28 +122,26 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
             </span>
           </div>
         </li>
-        {data?.assignment?.deliveryStartTime !== "" &&
+        {((data?.assignment?.deliveryStartTime !== "" || data?.assignment?.deliveryStartTime !== undefined) && data?.assignment?.deliveryStartTime) &&
           <li>
             <div
               className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
-              style={{ flexDirection: "column" }}
             >
               <span>Pickup Time:</span>
               <span>
-                {data?.assignment?.deliveryStartTime}
+                {formattedStartDate}
               </span>
             </div>
           </li>
         }
-        {data?.assignment?.deliveryEndTime !== "" &&
+        {((data?.assignment?.deliveryEndTime !== "" || data?.assignment?.deliveryEndTime !== undefined) && data?.assignment?.deliveryEndTime) &&
           <li>
             <div
               className={` ${styles.to} w-100 mt-2 d-flex justify-content-between`}
-              style={{ flexDirection: "column" }}
             >
               <span>Delivered Time:</span>
               <span>
-                {data?.assignment?.deliveryEndTime}
+                {formattedEndDate}
               </span>
             </div>
           </li>

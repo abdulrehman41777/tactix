@@ -4,7 +4,8 @@ import { Container } from "react-bootstrap";
 import { IoSendSharp } from "react-icons/io5";
 import { FaFacebookF } from "react-icons/fa";
 import { BsLinkedin, BsTwitter } from "react-icons/bs";
-import logo from "../../assets/main/logolight.png";
+import logo from "../../assets/main/logo.png";
+
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,6 @@ const Footer = () => {
           <div className={style.footer_div}>
             <div className={style.footer_logo}>
               <img src={logo} className={style.footer_main_logo} />
-              <p className={style.footer_creater_name}>Created By Codesol</p>
               <div className={style.social_logo}>
                 <p>
                   <BsLinkedin />
@@ -69,7 +69,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={style.copyright}>
-          <p>Copyright © 2023 This Website is Created by Codesol </p>
+          <p>© 2023 Tactix. All Rights Reserved.</p>
         </div>
       </Container>
     </div>

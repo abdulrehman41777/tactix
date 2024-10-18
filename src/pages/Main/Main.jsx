@@ -91,9 +91,7 @@ const Main = () => {
                 vere un drato le duro largo del bravo, senseturo brio verace ca
                 doro, lorem ipsum dolor sit amet.
               </p>
-              <div className="w-100 d-flex justify-content-xl-start justify-content-center">
-                <PrimaryButton text="Signup" type="primary_btn" />
-              </div>
+
             </article>
           </div>
           <div className="col-xl-8 order-xl-2 order-1 d-flex align-items-center">

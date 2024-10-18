@@ -67,66 +67,48 @@ const Login = () => {
               <h1>Sign in</h1>
               <p>Enter your email and password to sign in!</p>
             </div>
-            <div className={style.google_signin}>
-              <FcGoogle /> Sign In With Google
-            </div>
-            <div className={style.login_options}>
-              <p></p>
-              <p>or</p>
-              <p></p>
-            </div>
             <div className={style.form_wrapper}>
               <form className={style.form} onSubmit={handleLogin} method="POST">
-                <label className={style.label}>
-                  <h6>Email*</h6>
-                  <div className={style.password_fields}>
-                    <input
-                      type="text"
-                      placeholder="Email"
-                      name="email"
-                      value={email}
-                      onChange={handleLoginFields}
-                      className={style.password_input}
-                    />
-                    <BiLogoGmail />
-                  </div>
-                </label>
+                <div className="d-flex flex-column gap-3">
+                  <label className={style.label}>
+                    <h6>Email*</h6>
+                    <div className={style.password_fields}>
+                      <input
+                        type="text"
+                        placeholder="Email"
+                        name="email"
+                        value={email}
+                        onChange={handleLoginFields}
+                        className={style.password_input}
+                      />
+                      <BiLogoGmail />
+                    </div>
+                  </label>
 
-                <label className={style.label}>
-                  <h6>Password*</h6>
-                  <div className={style.password_fields}>
-                    <input
-                      type={showPass ? "password" : "text"}
-                      placeholder="Min. 8 Characters"
-                      name="password"
-                      value={password}
-                      onChange={handleLoginFields}
-                      className={style.password_input}
-                    />
-                    {showPass ? (
-                      <AiFillEyeInvisible
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setShowPass(false)}
+                  <label className={style.label}>
+                    <h6>Password*</h6>
+                    <div className={style.password_fields}>
+                      <input
+                        type={showPass ? "password" : "text"}
+                        placeholder="Min. 8 Characters"
+                        name="password"
+                        value={password}
+                        onChange={handleLoginFields}
+                        className={style.password_input}
                       />
-                    ) : (
-                      <AiFillEye
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setShowPass(true)}
-                      />
-                    )}
-                  </div>
-                </label>
-                <div className={style.logged_forget_wrapper}>
-                  <div className={style.logged_in}>
-                    <input type="checkbox" /> <p>Keep me logged in</p>
-                  </div>
-                  <p
-                    className={style.forget_pass}
-                    onClick={() => navigate("/dashboard/forgot-password")}
-                    role="button"
-                  >
-                    Forget password?
-                  </p>
+                      {showPass ? (
+                        <AiFillEyeInvisible
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setShowPass(false)}
+                        />
+                      ) : (
+                        <AiFillEye
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setShowPass(true)}
+                        />
+                      )}
+                    </div>
+                  </label>
                 </div>
                 {isLoading ? (
                   <button className={style.signin_btn} disabled>
@@ -137,12 +119,7 @@ const Login = () => {
                 )}
               </form>
 
-              <div className={style.not_sign_in}>
-                <p>Not registered yet?</p>
-                <p onClick={() => navigate("/dashboard/sign-up")}>
-                  Create an Account
-                </p>
-              </div>
+
             </div>
           </div>
         </div>

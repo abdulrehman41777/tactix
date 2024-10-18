@@ -36,13 +36,15 @@ const HeadNav = () => {
                             <Link className="nav-link active">About</Link>
                         </li>
                         <li className="nav-item mx-2">
-                            <Link className="nav-link active">Pricing</Link>
+                            <Link className="nav-link active" >Pricing</Link>
                         </li>
-                        <li className="nav-item mx-2">
-                            <Link className="nav-link active" to="/dashboard/">
-                                Dashboard
-                            </Link>
-                        </li>
+                        {selector.isLoggin &&
+                            <li className="nav-item mx-2">
+                                <Link className="nav-link active" to="/dashboard/main">
+                                    Dashboard
+                                </Link>
+                            </li>
+                        }
                         <li className="nav-item mx-2">
                             <Link className="nav-link active">Contact</Link>
                         </li>
@@ -52,15 +54,7 @@ const HeadNav = () => {
                         style={{ borderLeft: "1px solid #000" }}
                         role="search"
                     >
-                        {selector.isLoggin ? <button
-                            className="btn fw-bold"
-                            style={{ fontSize: 14 }}
-                            type="submit"
-                            onClick={() => navigate("/dashboard/main")}
-                        >
-
-                            Dashboard
-                        </button> :
+                        {selector.isLoggin ? null :
                             <>
                                 <button
                                     className="btn fw-bold"
@@ -71,7 +65,7 @@ const HeadNav = () => {
 
                                     LOGIN
                                 </button>
-                                <PrimaryButton text="Signup" type="navbar_btn" />
+                                {/* <PrimaryButton text="Signup" type="navbar_btn" /> */}
                             </>
                         }
                     </form>
