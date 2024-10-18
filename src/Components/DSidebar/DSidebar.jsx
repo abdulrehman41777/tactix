@@ -147,11 +147,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
   ];
   const user = [
-    {
-      path: "/dashboard/main",
-      name: "Main Dashboard",
-      icon: <AiFillHome />,
-    },
+
 
     {
       path: "/dashboard/your-orders",

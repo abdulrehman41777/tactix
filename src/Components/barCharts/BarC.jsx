@@ -52,7 +52,7 @@ const BarC = () => {
   return (
     <div className={style.barChart_wrapper}>
       <div>
-        <h3>Weekly Revenue</h3>
+        <h3>Weekly Completed Parcels</h3>
         <div className={style.bar_icon}>
           <HiMiniChartBarSquare />
         </div>
