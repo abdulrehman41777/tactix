@@ -59,7 +59,7 @@ const LineC = () => {
         </p>
         <span className={style.lineC_details_span}>
           <h2>$37.5K</h2>
-          <p>Total Spent</p>
+          <p>Total Parcels Completed</p>
         </span>
         <p>
           <AiFillCheckCircle /> On track
