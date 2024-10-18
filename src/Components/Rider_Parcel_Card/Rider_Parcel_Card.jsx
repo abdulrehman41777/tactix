@@ -25,8 +25,11 @@ const Rider_Parcel_Card = ({ data }) => {
           className={styles.status_btn_progress}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          {data?.Status[0] === "Shipment Sorted at Delivery Facility" ?
-            "Shipment Sorted" : data?.Status[0]}
+          {(data?.assignment !== null && data?.assignment) ?
+            data?.assignment?.Status[0] === "Shipment Sorted at Delivery Facility" ?
+              "Shipment Sorted" : data?.assignment?.Status[0]
+            : data?.status
+          }
         </button>
         <small className={styles.order_name}>
           {" "}
