@@ -12,10 +12,10 @@ const user = [
     path: "/",
     element: <Main />,
   },
-  {
-    path: "/dashboard/main",
-    element: <Home />,
-  },
+  // {
+  //   path: "/dashboard/main",
+  //   element: <Home />,
+  // },
   {
     path: "/dashboard/profile",
     element: <Profile />,
@@ -31,7 +31,7 @@ const user = [
   },
   {
     path: "*",
-    element: <Navigate to="/dashboard/main" />,
+    element: <Navigate to="/dashboard/your-orders" />,
   },
 ];
 

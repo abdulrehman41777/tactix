@@ -25,7 +25,9 @@ const CreateParcel = () => {
   const [formData, setFormData] = useState({
     parcelName: "",
     weight: "",
-    Solid_Liquid: "",
+    dangerousGoods: "",
+    receiverName: "",
+    description: "",
     recieverPhone: "",
     recieverEmail: "",
     reciverAddress: "",
@@ -45,7 +47,9 @@ const CreateParcel = () => {
   const {
     parcelName,
     weight,
-    Solid_Liquid,
+    dangerousGoods,
+    receiverName,
+    description,
     recieverPhone,
     recieverEmail,
     reciverAddress,
@@ -58,6 +62,7 @@ const CreateParcel = () => {
     Dimension,
     isDamaged,
   } = formData;
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -75,10 +80,10 @@ const CreateParcel = () => {
         ...prevData,
         [name]: checked,
       }));
-    } else if (name === "Solid_Liquid") {
+    } else if (name === "dangerousGoods") {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: [value],
+        [name]: value,
       }));
     } else {
       setFormData((prevData) => ({
@@ -95,7 +100,7 @@ const CreateParcel = () => {
       if (
         parcelName === "" ||
         weight === "" ||
-        Solid_Liquid === "" ||
+        receiverName === "" ||
         recieverPhone === "" ||
         recieverEmail === "" ||
         reciverAddress === "" ||
@@ -168,13 +173,13 @@ const CreateParcel = () => {
                         Fragile or Non-Fragile
                       </label>
                       <select
-                        name="Solid_Liquid"
-                        value={Solid_Liquid}
+                        name="dangerousGoods"
+                        value={dangerousGoods}
                         onChange={handleChange}
                       >
                         <option value=""> Select One </option>
-                        <option value="Fargile"> Fargile </option>
-                        <option value="Non-Fragile"> Non-Fragile </option>
+                        <option value="yes"> Yes </option>
+                        <option value="no"> No </option>
                       </select>
                     </div>
 
@@ -196,6 +201,17 @@ const CreateParcel = () => {
                         placeholder="Height"
                         name="height"
                         value={Dimension.height}
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Reciever Name</label>
+                      <input
+                        type="text"
+                        placeholder="Reciever Phone"
+                        name="receiverName"
+                        value={receiverName}
                         onChange={handleChange}
                       />
                     </div>
@@ -282,6 +298,22 @@ const CreateParcel = () => {
                         onChange={handleChange}
                       />
                     </div>
+
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Description
+                      </label>
+                      <textarea
+                        placeholder="write a short description about the parcel"
+                        name="description"
+                        className="text-dark bg-light"
+                        style={{ padding: 2, borderRadius: 5 }}
+                        rows={5}
+                        onChange={handleChange}
+                        value={description}
+                      />
+                    </div>
+
                     {CodAmount &&
                       <div className={`col-sm-4 gap-0 ${style.label}`}>
                         <label style={{ color: "#a3b1c2" }}>

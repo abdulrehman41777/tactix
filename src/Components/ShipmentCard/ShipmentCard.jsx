@@ -4,7 +4,7 @@ import ProccedModal from "../ProccedModal/ProccedModal";
 import { useState } from "react";
 import { useGetRiderGroupQuery } from "../../redux/Manager/manager";
 import UpdateStatusModal from "../ProccedModal/UpdateStatusModal";
-import ViewParcelData from "../ViewParcelData/ViewParcelData";
+import Receipt from "../ReceiptCard/Receipt";
 
 const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const [procced, setProcced] = useState(null);
@@ -65,30 +65,28 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
 
       {/* lines */}
       <ul className="bar pt-3">
-        {data?.rateList?.map((item, index) => (
-          <div key={index + 1}>
-            <li>
-              <div
-                className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
-              >
-                <span>From:</span>
-                <span>
-                  <span>{item?.from}</span>
-                </span>
-              </div>
-            </li>
-            <li>
-              <div
-                className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
-              >
-                <span>To:</span>
-                <span>
-                  <span>{item?.to}</span>
-                </span>
-              </div>
-            </li>
-          </div>
-        ))}
+        <div >
+          <li>
+            <div
+              className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+            >
+              <span>From:</span>
+              <span>
+                <span>{data?.rateList?.from}</span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div
+              className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
+            >
+              <span>To:</span>
+              <span>
+                <span>{data?.rateList?.to}</span>
+              </span>
+            </div>
+          </li>
+        </div>
         <li>
           <div
             className={`${styles.from} w-100 mt-2 d-flex justify-content-between dot-content`}
@@ -158,15 +156,23 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
       </ul>
 
       <div className="d-flex justify-content-between">
-        {data?.rateList?.map((item, index) => (
+        {/* {data?.rateList?.map((item, index) => (
           <button
             className={styles.status_btn}
             style={{ cursor: "default" }}
             key={index + 1}
           >
-            Cost : ${item?.price * data?.weight}
+            Cost : ${!data?.CodAmount ? item?.price * data?.weight : item?.price * data?.weight + data?.CodCharges}
           </button>
-        ))}
+        ))} */}
+
+        <button
+          className={styles.status_btn}
+          style={{ cursor: "default" }}
+        >
+          Cost : ${!data?.CodAmount ? data?.rateList?.price * data?.weight : data?.rateList?.price * data?.weight + data?.CodCharges}
+        </button>
+
         {role === "Manager" &&
           (data?.status[0] === "pending" ? (
             <button
@@ -223,8 +229,11 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
         />
       )}
       {parcelData && (
-        <ViewParcelData setIsView={setParcelData} orderData={parcelData} />
+        <Receipt setGetReceipt={setParcelData} data={parcelData} />
       )}
+      {/* {parcelData && (
+        <ViewParcelData setIsView={setParcelData} orderData={parcelData} />
+      )} */}
     </div>
   );
 };

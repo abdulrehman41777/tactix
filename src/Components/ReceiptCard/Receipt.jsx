@@ -5,7 +5,7 @@ import { MdCancel } from "react-icons/md";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
-const Receipt = ({ setGetReceipt }) => {
+const Receipt = ({ setGetReceipt, data }) => {
   const printReceipt = useRef();
   const printResume = useReactToPrint({
     content: () => printReceipt.current,
@@ -26,7 +26,16 @@ const Receipt = ({ setGetReceipt }) => {
             <div className={style.heading_name}>Payment Receipt</div>
             <div className={style.heading_color}></div>
           </div>
+
           <div className={style.detail}>
+
+            <div className="d-flex justify-content-end">
+              <h6>Order Number: #{data.orderNumber}</h6>
+            </div>
+            <div className="d-flex justify-content-end">
+              <h6>Track ID: #{data.assignment?.trackID}</h6>
+            </div>
+
             <h4>To:</h4>
             <div style={{ display: "flex", gap: 10 }} className={style.detailBox}>
               <div style={{
@@ -34,19 +43,17 @@ const Receipt = ({ setGetReceipt }) => {
                 flexDirection: "column",
                 gap: "0.5rem",
               }}>
+                {console.log(data)}
                 <div>
                   <h6>Name:</h6>
-                  <p>John</p>
+                  <p>{data?.receiverName}</p>
                 </div>
 
                 <div>
                   <h6>Email:</h6>
-                  <p>johnsmith@gmail.com</p>
+                  <p>{data?.recieverEmail}</p>
                 </div>
-                <div>
-                  <h6>Contact:</h6>
-                  <p>+92 9638527410</p>
-                </div>
+
               </div>
               <div style={{
                 width: "50%", display: "flex",
@@ -54,20 +61,33 @@ const Receipt = ({ setGetReceipt }) => {
                 gap: "0.5rem",
               }}>
                 <div>
-                  <h6>Description:</h6>
-                  <p>Special Handling</p>
+                  <h6>Contact:</h6>
+                  <p>{data?.recieverPhone}</p>
                 </div>
-                <div>
-                  <h6>COD:</h6>
-                  <p>
-                    USD 40
-                  </p>
+                {/* <div>
+                  <h6>Shipment Type:</h6>
+                  <p>{data?.rateList?.shipmentType?.[0]}</p>
                 </div>
+                {
+                  data?.CodAmount ?
+                    <div>
+                      <h6>COD:</h6>
+                      <p>
+                        {data?.CodCharges} USD
+                      </p>
+                    </div> : ''
+                } */}
+
                 <div>
                   <h6>Address:</h6>
                   <p>
-                    34th Street, Happy Village Malabon, Metro Manila, 1110 United
-                    State
+                    {data?.reciverAddress}
+                  </p>
+                </div>
+                <div>
+                  <h6>Postal Code:</h6>
+                  <p>
+                    {data?.ReciverPostCode}
                   </p>
                 </div>
               </div>
@@ -86,12 +106,12 @@ const Receipt = ({ setGetReceipt }) => {
               }}>
                 <div>
                   <h6>Name:</h6>
-                  <p>John</p>
+                  <p>{data?.assignment?.customerID?.name}</p>
                 </div>
 
                 <div>
                   <h6>Email:</h6>
-                  <p>johnsmith@gmail.com</p>
+                  <p>{data?.assignment?.customerID?.email}</p>
                 </div>
 
               </div>
@@ -102,14 +122,20 @@ const Receipt = ({ setGetReceipt }) => {
               }}>
                 <div>
                   <h6>Contact:</h6>
-                  <p>+92 9638527410</p>
+                  <p>{data.SenderPhone}</p>
+                </div>
+
+                <div>
+                  <h6>Postal Code:</h6>
+                  <p>
+                    {data?.SenderPostCode}
+                  </p>
                 </div>
 
                 <div>
                   <h6>Address:</h6>
                   <p>
-                    34th Street, Happy Village Malabon, Metro Manila, 1110 United
-                    State
+                    {data?.SenderAddress}
                   </p>
                 </div>
               </div>
@@ -127,21 +153,25 @@ const Receipt = ({ setGetReceipt }) => {
                 gap: "0.5rem",
               }}>
                 <div>
-                  <h6>Description:</h6>
-                  <p>T-shirt</p>
+                  <h6>Parcel Name:</h6>
+                  <p>{data.parcelName}</p>
                 </div>
-
+                <div>
+                  <h6>Dangerous Goods:</h6>
+                  <p>{data?.dangerousGoods ? "Yes" : "No"}</p>
+                </div>
                 <div>
                   <h6>Weight:</h6>
-                  <p>1Kg</p>
-                </div>
-                <div>
-                  <h6>TrackID:</h6>
-                  <p>123456</p>
+                  <p>{data?.weight + "kg"}</p>
                 </div>
                 <div>
                   <h6>Dimension:</h6>
-                  <p>15x25x5cm</p>
+                  <p>{data?.Dimension?.width}x{data?.Dimension?.height}cm</p>
+                </div>
+
+                <div>
+                  <h6>Shipment Type:</h6>
+                  <p>{data?.rateList?.shipmentType?.[0]}</p>
                 </div>
 
               </div>
@@ -150,25 +180,65 @@ const Receipt = ({ setGetReceipt }) => {
                 flexDirection: "column",
                 gap: "0.5rem",
               }}>
-                <div>
-                  <h6>Price:</h6>
-                  <p>
-                    25 USD
-                  </p>
-                </div>
+
                 <div>
                   <h6>Date:</h6>
                   <p>
-                    10/5/2024
+                    {data?.assignment?.createdAt?.split("T")[0]}
                   </p>
                 </div>
                 <div>
-                  <h6>Quantity:</h6>
+                  <h6>is Damaged:</h6>
                   <p>
-                    1/1
+                    {data.isDamaged ? "Yes" : "No"}
                   </p>
                 </div>
+                <div>
+                  <h6>COD:</h6>
+                  <p>
+                    {data?.CodAmount ? "Yes" : "No"}
+                  </p>
+                </div>
+
+                <div>
+                  <h6>Delivery Charges:</h6>
+                  <p>
+                    {data?.rateList?.price * data.weight} USD
+                  </p>
+                </div>
+
+                {
+                  data?.CodAmount ?
+                    <>
+                      <div>
+                        <h6>COD Charges:</h6>
+                        <p>
+                          {data?.CodCharges}
+                        </p>
+                      </div>
+                      <div>
+                        <h6>Total Charges:</h6>
+                        <p>
+                          {data?.rateList?.price * data.weight + data?.CodCharges} USD
+                        </p>
+                      </div>
+                    </>
+                    : <div>
+                      <h6>Total Charges:</h6>
+                      <p>
+                        {data?.rateList?.price * data.weight} USD
+                      </p>
+                    </div>
+                }
+
+
               </div>
+            </div>
+            <div className="d-flex flex-column">
+              <h6>Parcel Description:</h6>
+              <p>
+                {data.description}
+              </p>
             </div>
           </div>
           <div className={style.line_wrapper}>
@@ -184,13 +254,10 @@ const Receipt = ({ setGetReceipt }) => {
               </thead>
               <tbody className={`${style.table_body}`}>
                 <tr>
-                  <td>SG</td>
-                  <td>SIN</td>
+                  <td>{data?.rateList?.from}</td>
+                  <td>{data?.rateList?.to}</td>
                 </tr>
-                <tr>
-                  <td>US</td>
-                  <td>JFK</td>
-                </tr>
+
               </tbody>
             </table>
           </div>

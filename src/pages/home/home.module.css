@@ -12,13 +12,13 @@
 .home_slider_wrapper {
   padding: 0rem 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: 1rem;
   place-items: center;
   padding-bottom: 2rem;
 }
 .home_slider_box {
-  width: 15rem;
+  width: 100%;
   padding: 1rem 1rem 1rem 1rem;
   background: var(--light-primary-background);
   border-radius: 20px;

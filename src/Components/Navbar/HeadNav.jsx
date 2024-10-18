@@ -3,10 +3,13 @@ import styles from "./navbar.module.css";
 import logo from "../../assets/main/logo.png";
 import PrimaryButton from "../Button/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HeadNav = () => {
     const navigate = useNavigate()
-
+    const selector = useSelector((state) => state?.userData);
+    const role = selector?.data?.user?.role[0];
+    console.log(selector)
     return (
         <nav className="navbar navbar-expand-lg py-3 fixed-top">
             <div className="container">
@@ -55,15 +58,28 @@ const HeadNav = () => {
                         style={{ borderLeft: "1px solid #000" }}
                         role="search"
                     >
-                        <button
+                        {selector.isLoggin ? <button
                             className="btn fw-bold"
                             style={{ fontSize: 14 }}
                             type="submit"
-                            onClick={() => navigate("/dashboard/login")}
+                            onClick={() => navigate("/dashboard/main")}
                         >
-                            LOGIN
-                        </button>
-                        <PrimaryButton text="Signup" type="navbar_btn" />
+
+                            Dashboard
+                        </button> :
+                            <>
+                                <button
+                                    className="btn fw-bold"
+                                    style={{ fontSize: 14 }}
+                                    type="submit"
+                                    onClick={() => navigate("/dashboard/login")}
+                                >
+
+                                    LOGIN
+                                </button>
+                                <PrimaryButton text="Signup" type="navbar_btn" />
+                            </>
+                        }
                     </form>
                 </div>
             </div>

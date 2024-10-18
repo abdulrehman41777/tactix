@@ -45,7 +45,7 @@ const Invoice = ({ setGetInvoice, data }) => {
                             }}>
                                 <div>
                                     <h6>Name:</h6>
-                                    <p>John</p>
+                                    <p>{data?.receiverName}</p>
                                 </div>
 
                                 <div>
@@ -63,12 +63,12 @@ const Invoice = ({ setGetInvoice, data }) => {
                                     <h6>Contact:</h6>
                                     <p>{data?.recieverPhone}</p>
                                 </div>
-                                <div>
+                                {/* <div>
                                     <h6>Country:</h6>
                                     <p>
                                         United States (US)
                                     </p>
-                                </div>
+                                </div> */}
                                 <div>
                                     <h6>Address:</h6>
                                     <p>
@@ -91,7 +91,7 @@ const Invoice = ({ setGetInvoice, data }) => {
                             }}>
                                 <div>
                                     <h6>Name:</h6>
-                                    <p>Cathy Ong</p>
+                                    <p>{data?.receiverName}</p>
                                 </div>
 
                                 <div>
@@ -110,12 +110,12 @@ const Invoice = ({ setGetInvoice, data }) => {
                                     <p>{data?.SenderPhone}</p>
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <h6>Country:</h6>
                                     <p>
                                         Singapore (SG)
                                     </p>
-                                </div>
+                                </div> */}
                                 <div>
                                     <h6>Address:</h6>
                                     <p>
@@ -151,10 +151,10 @@ const Invoice = ({ setGetInvoice, data }) => {
                             </tbody>
                         </table>
                     </div>
-                    <div className={style.line_wrapper}>
+                    {/* <div className={style.line_wrapper}>
                         <div className={style.line}></div>
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                         <table className={`${style.table_container}`}>
                             <thead className={`${style.table_header}`}>
                                 <tr>
@@ -173,7 +173,7 @@ const Invoice = ({ setGetInvoice, data }) => {
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={style.btn_wrapper}>
                     <button className={style.btn} onClick={printResume}>

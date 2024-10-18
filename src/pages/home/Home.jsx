@@ -25,63 +25,163 @@ const Home = () => {
   return (
     <Dlayout pageName={role !== "SuperAdmin" ? branchName : "Main Dashboard"}>
       <div className={style.home_header_wrapper}>
-        <div className={style.home_slider_wrapper}>
-          <div className={style.home_slider_box}>
-            <span className={style.home_slider_span}>
-              <ImStatsBars2 />
-            </span>
-            <div>
-              <p>Earning</p>
-              <h2>$308.4</h2>
+
+        {
+          role === "User" ? '' : <div className={style.home_slider_wrapper}>
+            <div className={style.home_slider_box}>
+
+              {
+                role === "SuperAdmin" && (
+                  <div>
+                    <p>Total Branches</p>
+                    <h2>18</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Admin" && (
+                  <div>
+                    <p>Total Rider Groups</p>
+                    <h2>18</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Manager" && (
+                  <div>
+                    <p>Total Rider Groups</p>
+                    <h2>7</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Rider" && (
+                  <div>
+                    <p>Total Completed Parcels</p>
+                    <h2>18</h2>
+                  </div>
+                )
+              }
+            </div>
+            <div className={style.home_slider_box}>
+
+              {
+                role === "SuperAdmin" && (
+                  <div>
+                    <p>Completed Parcels</p>
+                    <h2>20K+</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Admin" && (
+                  <div>
+                    <p>Completed Parcels</p>
+                    <h2>5K+</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Manager" && (
+                  <div>
+                    <p>Completed Parcels</p>
+                    <h2>5K+</h2>
+                  </div>
+                )
+              }
+              {
+                role === "Rider" && (
+                  <div>
+                    <p>Un Assigned Group Parcels</p>
+                    <h2>18</h2>
+                  </div>
+                )
+              }
+            </div>
+            <div className={style.home_slider_box}>
+              {
+                role === "SuperAdmin" && (
+                  <div>
+                    <p>Total Rider Groups</p>
+                    <h2>40</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Admin" && (
+                  <div>
+                    <p>Total Managers</p>
+                    <h2>5</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Manager" && (
+                  <div>
+                    <p>Pending Parcels</p>
+                    <h2>5</h2>
+                  </div>
+                )
+              }
+              {
+                role === "Rider" && (
+                  <div>
+                    <p>Up-Coming Parcels For Delivery</p>
+                    <h2>24</h2>
+                  </div>
+                )
+              }
+            </div>
+            <div
+              className={style.home_slider_box}
+              style={{ justifyContent: "space-between" }}
+            >
+              {
+                role === "SuperAdmin" && (
+                  <div>
+                    <p>Total Customers</p>
+                    <h2>40</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Admin" && (
+                  <div>
+                    <p>Total Branch Customers</p>
+                    <h2>5</h2>
+                  </div>
+                )
+              }
+
+              {
+                role === "Manager" && (
+                  <div>
+                    <p>Total Branch Customers</p>
+                    <h2>5</h2>
+                  </div>
+                )
+              }
+              {
+                role === "Rider" && (
+                  <div>
+                    <p>Total Riders In Your Group</p>
+                    <h2>11</h2>
+                  </div>
+                )
+              }
             </div>
           </div>
-          <div className={style.home_slider_box}>
-            <span className={style.home_slider_span}>
-              <BiDollar />
-            </span>
-            <div>
-              <p>Spend This Month</p>
-              <h2>$613.4</h2>
-            </div>
-          </div>
-          <div className={style.home_slider_box}>
-            <div>
-              <p>Sales</p>
-              <h2>$613.4</h2>
-              <span className={style.Month_growth}>
-                <p>+23%</p> Since Last Month
-              </span>
-            </div>
-          </div>
-          <div
-            className={style.home_slider_box}
-            style={{ justifyContent: "space-between" }}
-          >
-            <div>
-              <p>Spend This Month</p>
-              <h2>$613.4</h2>
-            </div>
-            <img src={flag} alt="no img found" />
-          </div>
-          <div className={style.home_slider_box}>
-            <span className={style.home_slider_span}>
-              <GiCheckMark />
-            </span>
-            <div>
-              <p>New Task</p>
-              <h2>154</h2>
-            </div>
-          </div>
-          <div className={style.home_slider_box}>
-            <span className={style.home_slider_span}>
-              <BsFileTextFill />
-            </span>
-            <div>
-              <p>Total Projects</p>
-              <h2>1545</h2>
-            </div>
-          </div>
-        </div>
+        }
+
+
         <div className={style.first_bars_row}>
           <LineC />
           <BarC />
