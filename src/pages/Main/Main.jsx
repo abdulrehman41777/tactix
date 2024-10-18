@@ -74,6 +74,7 @@ const Main = () => {
     }
   }
 
+
   return (
     <>
       <HeadNav />
