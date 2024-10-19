@@ -76,9 +76,12 @@ const manager = createApi({
       providesTags: ["groups"],
     }),
     addBulkRatelist: builder.mutation({
-      query: ({ data }) => {
+      query: ({ data, branchID }) => {
+
+        console.log(branchID)
+
         return {
-          url: `Auth/bulk-create-ratelist`,
+          url: `Auth/bulk-create-ratelist/${branchID}`,
           method: "POST",
           body: data
         };

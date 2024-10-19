@@ -14,6 +14,8 @@ const CreateCustomer = () => {
   const id = selector?.data?.user?.branchID;
   const manager_id = selector?.data?.user?._id;
 
+  console.log(id)
+
   const navigate = useNavigate();
 
   // Get Data From Branch
@@ -168,6 +170,7 @@ const CreateCustomer = () => {
       formData.append("file", bulkRateList);
 
       const res = await addBulkRatelist({
+        branchID: id,
         data: formData
       })
 
