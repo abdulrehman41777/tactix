@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import { IoSendSharp } from "react-icons/io5";
 import { FaFacebookF } from "react-icons/fa";
 import { BsLinkedin, BsTwitter } from "react-icons/bs";
-import logo from "../../assets/main/logo.png";
+import logo from "../../assets/main/logo=.png";
 
 
 const Footer = () => {

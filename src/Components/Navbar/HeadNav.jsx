@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./navbar.module.css";
-import logo from "../../assets/main/logo.png";
+import logo from "../../assets/main/logo=.png";
 import PrimaryButton from "../Button/PrimaryButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -9,7 +9,7 @@ const HeadNav = () => {
     const navigate = useNavigate()
     const selector = useSelector((state) => state?.userData);
     const role = selector?.data?.user?.role[0];
-    console.log(selector)
+
     return (
         <nav className="navbar navbar-expand-lg py-3 fixed-top">
             <div className="container">

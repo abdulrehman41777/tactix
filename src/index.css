@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-/* :root {
+:root {
   --light-heading: #000;
   --light-secondary: #f4f7fe;
   --light-primary-background: #fff;
@@ -34,9 +34,9 @@
   --placeholder: #7c7c7c;
   --modal-bg: #000;
   --modal-box: #0b1437;
-} */
+}
 
-:root {
+/* :root {
   --light-heading: #000;
   --light-secondary: #f4f7fe;
   --light-primary-background: #fff;
@@ -64,7 +64,7 @@
   --placeholder: #7c7c7c;
   --modal-bg: #0000008a;
   --modal-box: #0b1437;
-}
+} */
 
 p {
   color: #8f9bba;
