@@ -10,6 +10,11 @@ const Receipt = ({ setGetReceipt, data }) => {
   const printResume = useReactToPrint({
     content: () => printReceipt.current,
   });
+
+
+  console.log(data?.assignment)
+
+
   return (
     <div className="receipt_wrapper">
       <div className="receipt_box">

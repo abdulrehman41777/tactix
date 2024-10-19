@@ -65,10 +65,10 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
         e.preventDefault();
         try {
             if (groupID === "") {
-                return NotificationAlert("Select Group First");
+                return NotificationAlert("Select Driver Crew First");
             }
             if (riderID === "") {
-                return NotificationAlert("Select Rider");
+                return NotificationAlert("Select Driver");
             }
 
             const res = await tranferParcel({
@@ -88,6 +88,19 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
         }
     };
 
+
+    const [selectedStatus, setSelectedStatus] = useState('');
+    const [availableOptions, setAvailableOptions] = useState([assignArray[0]]); // Start with the first option
+
+    const handleGetStatuses = (value) => {
+        setSelectedStatus(value);
+
+        // Determine the next option(s) to show based on the current selection
+        const currentIndex = assignArray.indexOf(value);
+        if (currentIndex < assignArray.length - 1) {
+            setAvailableOptions(assignArray.slice(0, currentIndex + 2)); // Show the next option
+        }
+    };
     return (
         <div className="modal_wrapper">
             <div className="modal_box">
@@ -100,7 +113,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                 <form
                     className="mt-1 modal_form d-flex flex-column gap-2"
                     onSubmit={handlePArcelAssign} >
-                    <select
+                    {/* <select
                         name="status"
                         className="text-dark bg-light"
                         onChange={(e) => handleGetStatus(e.target.value)}
@@ -114,7 +127,26 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                             </option>
                         ))}
 
+                    </select> */}
+
+
+                    <select
+                        name="status"
+                        className="text-dark bg-light"
+                        value={selectedStatus}
+                        onChange={(e) => handleGetStatuses(e.target.value)}
+                    >
+                        <option value="" defaultValue className="text-dark">
+                            Select Status
+                        </option>
+                        {availableOptions.map((item, i) => (
+                            <option value={item} key={i} className="text-dark">
+                                {item}
+                            </option>
+                        ))}
                     </select>
+
+
                     {(status === "Cancelled" || status === "Return to Depot") &&
                         <textarea
                             placeholder="reason"
@@ -135,7 +167,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                                 value={groupID}
                             >
                                 <option value="" disabled defaultValue className="text-dark">
-                                    Select Group
+                                    Select Driver Crew
                                 </option>
                                 {groupData?.map((item) => (
                                     <option value={item?._id} key={item?._id} className="text-dark">

@@ -9,8 +9,8 @@ import ReactPaginate from "react-paginate";
 import { useSelector } from "react-redux";
 import ListLoader from "../../Components/Loader/ListLoader";
 import { useNavigate } from "react-router-dom";
-import { useGetAllUserByBranchQuery } from "../../redux/Auth/auth";
 import Available from "../../Components/cards/Available";
+import { useGetAllUserByBranchQuery } from "../../redux/Manager/manager";
 const AllUsers = () => {
   const [filter, setFilter] = useState("all");
   const [itemOffset, setItemOffset] = useState(0);

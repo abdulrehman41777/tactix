@@ -86,7 +86,7 @@ const AllGroups = () => {
 
       if (!res.error) {
         setCreateGroup((prev) => ({ ...prev, isOpen: false, groupname: "" }));
-        NotificationAlert("Group created successfully", "success")
+        NotificationAlert("Driver Crew created successfully", "success")
       }
     } catch (error) {
       console.log(error);
@@ -107,14 +107,14 @@ const AllGroups = () => {
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
-              <h4>Group's</h4>
+              <h4>Driver Crews</h4>
               <div className="d-flex gap-4 align-items-center">
                 {createGroup.isOpen && (
                   <input
                     type="text"
                     className="border-0 rounded-3 px-3 py-2"
                     style={{ background: "var(--light-secondary)" }}
-                    placeholder="Group Name"
+                    placeholder="Driver Crew"
                     onChange={(e) =>
                       setCreateGroup((prev) => ({
                         ...prev,
@@ -131,7 +131,7 @@ const AllGroups = () => {
                         setCreateGroup((prev) => ({ ...prev, isOpen: true }))
                       }
                     >
-                      Create Group
+                      Create Driver Crew
                     </button>
                   ) : (
                     <div className="d-flex gap-3">
@@ -155,7 +155,7 @@ const AllGroups = () => {
               </div>
             </div>
             {groupData?.length === 0 ? (
-              <Available message={"No Group Available"} />
+              <Available message={"No Driver Crew Available"} />
             ) : (
               <div className={style.table_div}>
                 {isLoading || AdminLoading ? (
@@ -164,7 +164,7 @@ const AllGroups = () => {
                   <table className={`${style.table_container}`}>
                     <thead className={`${style.table_header}`}>
                       <tr>
-                        <th>Group Name</th>
+                        <th>Driver Crew Name</th>
                         <th>Created By</th>
                         <th>created time</th>
                         <th>ACTION</th>
@@ -206,7 +206,7 @@ const AllGroups = () => {
                                       )
                                     }
                                   >
-                                    Add Rider
+                                    Add Driver
                                   </button>
                                 </span>
                               </td>

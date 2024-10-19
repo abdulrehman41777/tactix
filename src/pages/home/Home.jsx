@@ -42,7 +42,7 @@ const Home = () => {
               {
                 role === "Admin" && (
                   <div>
-                    <p>Total Rider Groups</p>
+                    <p>Total Driver Crew</p>
                     <h2>18</h2>
                   </div>
                 )
@@ -51,7 +51,7 @@ const Home = () => {
               {
                 role === "Manager" && (
                   <div>
-                    <p>Total Rider Groups</p>
+                    <p>Total Driver Crew</p>
                     <h2>7</h2>
                   </div>
                 )
@@ -97,7 +97,7 @@ const Home = () => {
               {
                 role === "Rider" && (
                   <div>
-                    <p>Un Assigned Group Parcels</p>
+                    <p>Un Assigned Driver Crew Parcels</p>
                     <h2>18</h2>
                   </div>
                 )
@@ -107,7 +107,7 @@ const Home = () => {
               {
                 role === "SuperAdmin" && (
                   <div>
-                    <p>Total Rider Groups</p>
+                    <p>Total Driver Crew</p>
                     <h2>40</h2>
                   </div>
                 )
@@ -172,7 +172,7 @@ const Home = () => {
               {
                 role === "Rider" && (
                   <div>
-                    <p>Total Riders In Your Group</p>
+                    <p>Total Riders In Your Driver Crew</p>
                     <h2>11</h2>
                   </div>
                 )
@@ -187,8 +187,6 @@ const Home = () => {
           <BarC />
         </div>
         <div className={style.second_bars_row}>
-          <Task />
-          <Calender />
           <Visitors />
           <PieChart />
         </div>

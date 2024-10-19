@@ -135,8 +135,12 @@ const YoursOrders = () => {
                         <td>{user?.createdAt?.split("T")[0]}</td>
                         <td>
                           <div className="d-flex gap-2">
-                            <button onClick={() => setIsReciept(user)} className="p-2 border-0 rounded-1" style={{ backgroundColor: "var(--btn-bg)" }}>Reciept</button>
-                            <button onClick={() => setIsInvoice(user)} className="p-2 border-0 rounded-1" style={{ backgroundColor: "var(--btn-bg)" }}>Invoice</button>
+                            {
+                              user?.assignment === null ?
+                                <button className="p-2 border-0 rounded-1" style={{ backgroundColor: "var(--btn-bg)" }}>Not Processed</button> : <button onClick={() => setIsReciept(user)} className="p-2 border-0 rounded-1" style={{ backgroundColor: "var(--btn-bg)" }}>Reciept</button>
+                            }
+
+
                           </div>
                         </td>
                       </tr>

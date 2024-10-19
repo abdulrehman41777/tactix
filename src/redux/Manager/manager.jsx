@@ -66,6 +66,26 @@ const manager = createApi({
         };
       },
     }),
+    getAllUserByBranch: builder.query({
+      query: (branchId) => {
+        return {
+          url: `/auth/get_branch_user/${branchId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["groups"],
+    }),
+    addBulkRatelist: builder.mutation({
+      query: ({ data }) => {
+        return {
+          url: `Auth/bulk-create-ratelist`,
+          method: "POST",
+          body: data
+        };
+      },
+      invalidatesTags: ["groups"],
+
+    }),
   }),
 });
 export const {
@@ -75,6 +95,8 @@ export const {
   useGetGroupQuery,
   useGetGroupByAdminQuery,
   useGetRiderGroupQuery,
+  useGetAllUserByBranchQuery,
+  useAddBulkRatelistMutation
 } = manager;
 
 export default manager;

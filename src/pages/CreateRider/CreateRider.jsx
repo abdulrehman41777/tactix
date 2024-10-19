@@ -66,7 +66,7 @@ const CreateUser = () => {
         data: createRiderFields,
       });
       if (!res.error) {
-        NotificationAlert("Rider Created successfully", "success");
+        NotificationAlert("Driver Created successfully", "success");
         setCreateRiderFields({
           email: "",
           name: "",
@@ -75,7 +75,7 @@ const CreateUser = () => {
         navigate(-1);
       }
     } catch (error) {
-      NotificationAlert("Rider Already Exists With This Email");
+      NotificationAlert("Driver Already Exists With This Email");
     }
   };
 
@@ -88,8 +88,8 @@ const CreateUser = () => {
         <div className={style.login_box_wrapper}>
           <div className={style.login_box_inner_wrapper}>
             <div className={style.login_box_head}>
-              <h1>Create Rider</h1>
-              <p>Create A New Rider</p>
+              <h1>Create Driver</h1>
+              <p>Create A New Driver</p>
             </div>
             <div className={style.form_wrapper}>
               <form className={style.form} onSubmit={handleCreateRider}>
@@ -155,7 +155,7 @@ const CreateUser = () => {
                     Creating
                   </button>
                 ) : (
-                  <button className={style.signin_btn}>Create Rider</button>
+                  <button className={style.signin_btn}>Create Driver</button>
                 )}
               </form>
             </div>

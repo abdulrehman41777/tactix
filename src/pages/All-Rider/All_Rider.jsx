@@ -31,23 +31,23 @@ const AllRiders = () => {
 
   return (
     <div>
-      <Dlayout pageName="All Riders" search={search} setSearch={setSearch}>
+      <Dlayout pageName="All Drivers" search={search} setSearch={setSearch}>
         <Container className={style.admin_wrapper}>
           <div className={`${style.table_wrapper}`}>
             <div className={style.admin_head}>
               <h4>All Riders</h4>
-              <div className={style.task_head_dots} title="All Rider's">
+              <div className={style.task_head_dots} title="All Drivers">
                 <BsThreeDots className={style.icon} />
               </div>
             </div>
             {all_riders?.length === 0 ? (
               role === "Manager" ? (
                 <Available
-                  message={"No Rider Available"}
-                  buttonName={"Create Rider"}
+                  message={"No Drivers Available"}
+                  buttonName={"Create Drivers"}
                 />
               ) : (
-                <Available message={"No Rider Available"} />
+                <Available message={"No Drivers Available"} />
               )
             ) : (
               <div className={style.table_div}>
