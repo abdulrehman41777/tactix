@@ -84,7 +84,7 @@ const CreateBulkRate = ({ isClose, setFile, isLoading, handleBulkUpload, bulkRat
                             style={{ background: '#D8788C' }}
                             onClick={exportFile}
                         >
-                            Sample File
+                            Sample Bulk Order File
                         </button>
                     </div>
                 </div>

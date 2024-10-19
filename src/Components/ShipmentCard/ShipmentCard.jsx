@@ -17,7 +17,6 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
   const role = selector?.data?.user?.role[0];
   const parcelID = data?._id;
 
-
   const { data: group, isLoading: groupLoading } = useGetRiderGroupQuery(
     (procced || getBranchID),
     {
@@ -231,6 +230,7 @@ const ShipmentCard = ({ data, setModal, setGetReceipt }) => {
           setModal={setAssignmentID}
           assignmentID={assignmentID}
           groupData={groupData}
+          selectedStatus={data?.assignment?.Status}
         />
       )}
       {parcelData && (

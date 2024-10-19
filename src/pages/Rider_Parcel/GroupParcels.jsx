@@ -40,11 +40,11 @@ const GroupParcels = () => {
 
     return (
         <div>
-            <Dlayout pageName="Group Parcels" search={search} setSearch={setSearch}>
+            <Dlayout pageName="Driver Crew Parcels" search={search} setSearch={setSearch}>
                 <Container className={style.admin_wrapper}>
                     <div className={`${style.table_wrapper}`}>
                         <div className={style.admin_head}>
-                            <h4>Group Parcels</h4>
+                            <h4>Driver Crew Parcels</h4>
 
                             <div className={style.header_input_wrapper}>
                                 <BiSearchAlt2 />

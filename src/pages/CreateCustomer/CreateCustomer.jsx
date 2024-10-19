@@ -4,9 +4,10 @@ import style from "./signup.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { useAddBulkRatelistMutation, useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
+import { useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Auth/auth";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import CreateBulkRate from "../../Components/CreateBulkRate/CreateBulkRate";
+import { useAddBulkRatelistMutation } from "../../redux/Manager/manager";
 
 const CreateCustomer = () => {
   const selector = useSelector((state) => state?.userData);
@@ -171,7 +172,16 @@ const CreateCustomer = () => {
       })
 
       if (!res.error) {
-        setLocations(res?.data?.validData?.map(item => ({ from: item?.from, to: item?.to, price: item?.price, shipmentType: item?.shipmentType })));
+        setLocations((prev) => [
+          ...prev,
+          ...res?.data?.validData?.map(item => ({
+            from: item?.from,
+            to: item?.to,
+            price: item?.price,
+            shipmentType: item?.shipmentType
+          }))
+        ]);
+
         setBulkRateList(null)
         setUploadBulk(false)
         NotificationAlert("file uploaded successfully", "success")

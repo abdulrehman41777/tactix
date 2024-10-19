@@ -207,7 +207,84 @@ const CreateCustomerOrder = () => {
                         onChange={handleChange}
                       />
                     </div>
+                    <div className={`col-sm-4 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>Rate List</label>
+                      <select
+                        name="rateListID"
+                        value={rateListID}
+                        onChange={(e) => setRateListID(e.target.value)}
+                      >
+                        <option value=""> Select One </option>
+                        {rateList?.map((item) => (
+                          <option value={item._id} key={item._id}>
+                            {" "}
+                            {item.from},{item.to},{item.price}{" "}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
+
+
+
+                    <div className={`col-sm-4 gap-4 d-flex flex-column align-items-start`}>
+                      <div className="d-flex justify-content-between w-100">
+                        <label className={style.cyberpunk_checkbox_label}>
+                          <input
+                            type="checkbox"
+                            name="isDamaged"
+                            checked={isDamaged}
+                            onChange={handleChange}
+                            className={style.cyberpunk_checkbox}
+                          />
+                          is Damaged?
+                        </label>
+                        <label className={style.cyberpunk_checkbox_label}>
+                          <input
+                            type="checkbox"
+                            name="CodAmount"
+                            checked={CodAmount}
+                            onChange={handleChange}
+                            className={style.cyberpunk_checkbox}
+                          />
+                          Cash on Delivery
+                        </label>
+                      </div>
+                      {CodAmount &&
+                        <div className={` gap-0 ${style.label} w-100`}>
+                          <label style={{ color: "#a3b1c2" }}>
+                            COD Charges
+                          </label>
+                          <input
+                            type="number"
+                            placeholder="Sender Post Code"
+                            name="CodCharges"
+                            value={CodCharges}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      }
+                    </div>
+
+
+                    <div className={`col-sm-8 gap-0 ${style.label}`}>
+                      <label style={{ color: "#a3b1c2" }}>
+                        Description
+                      </label>
+                      <textarea
+                        placeholder="write a short description about the parcel"
+                        name="description"
+                        className="text-light bg-dark p-2"
+                        style={{ padding: 2, borderRadius: 5 }}
+                        rows={5}
+                        onChange={handleChange}
+                        value={description}
+                      />
+                    </div>
+
+                    <div className={style.login_box_head}>
+                      <h3 className="text-white">Reciever Detail:</h3>
+                    </div>
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Reciever Name</label>
                       <input
@@ -266,7 +343,9 @@ const CreateCustomerOrder = () => {
                         onChange={handleChange}
                       />
                     </div>
-
+                    <div className={style.login_box_head}>
+                      <h3 className="text-white">Sender Detail:</h3>
+                    </div>
                     <div className={`col-sm-4 gap-0 ${style.label}`}>
                       <label style={{ color: "#a3b1c2" }}>Sender Phone</label>
                       <input
@@ -302,81 +381,7 @@ const CreateCustomerOrder = () => {
                       />
                     </div>
 
-                    <div className={`col-sm-4 gap-0 ${style.label}`}>
-                      <label style={{ color: "#a3b1c2" }}>
-                        Description
-                      </label>
-                      <textarea
-                        placeholder="write a short description about the parcel"
-                        name="description"
-                        className="text-dark bg-light"
-                        style={{ padding: 2, borderRadius: 5 }}
-                        rows={5}
-                        onChange={handleChange}
-                        value={description}
-                      />
-                    </div>
 
-
-
-
-                    {CodAmount &&
-                      <div className={`col-sm-4 gap-0 ${style.label}`}>
-                        <label style={{ color: "#a3b1c2" }}>
-                          COD Charges
-                        </label>
-                        <input
-                          type="number"
-                          placeholder="Sender Post Code"
-                          name="CodCharges"
-                          value={CodCharges}
-                          onChange={handleChange}
-                        />
-                      </div>
-                    }
-
-                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
-                      <label className={style.cyberpunk_checkbox_label}>
-                        <input
-                          type="checkbox"
-                          name="isDamaged"
-                          checked={isDamaged}
-                          onChange={handleChange}
-                          className={style.cyberpunk_checkbox}
-                        />
-                        is Damaged?
-                      </label>
-                    </div>
-
-                    <div className={`col-sm-4 gap-2 d-flex align-items-center`}>
-                      <label className={style.cyberpunk_checkbox_label}>
-                        <input
-                          type="checkbox"
-                          name="CodAmount"
-                          checked={CodAmount}
-                          onChange={handleChange}
-                          className={style.cyberpunk_checkbox}
-                        />
-                        Cash on Delivery
-                      </label>
-                    </div>
-
-                    <div className={`col-sm-4 gap-0 ${style.label}`}>
-                      <label style={{ color: "#a3b1c2" }}>Rate List</label>
-                      <select
-                        name="rateListID"
-                        value={rateListID}
-                        onChange={(e) => setRateListID(e.target.value)}
-                      >
-                        <option value=""> Select One </option>
-                        {rateList?.map((item) => (
-                          <option value={item._id} key={item._id}>
-                            {" "}
-                            {item.from},{item.to},{item.price}{" "}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
                   </div>
                 </div>
 

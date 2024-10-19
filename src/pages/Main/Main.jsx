@@ -270,7 +270,7 @@ const Main = () => {
                         <th>Weight</th>
                         <th>FromAddress</th>
                         <th>To Address</th>
-                        <th>Rider</th>
+                        <th>Driver</th>
                       </tr>
                     </thead>
                     <tbody>

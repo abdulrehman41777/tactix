@@ -2,22 +2,53 @@ import React, { useState } from "react";
 import { useTransfer_ParcelMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
-import rider, { useAll_RidersQuery } from "../../redux/Rider/rider";
+import { useAll_RidersQuery } from "../../redux/Rider/rider";
+import { useEffect } from "react";
 
-const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
+const UpdateStatusModal = ({ setModal, assignmentID, groupData, selectedStatus }) => {
     const [packageDetail, setPackageDetail] = useState({
         groupID: "",
         riderID: "",
     });
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState(selectedStatus[0]);
     const [reason, setReason] = useState("")
-
     const { groupID, riderID } = packageDetail;
-
+    console.log(status)
     const selector = useSelector((state) => state?.userData);
     const userID = selector?.data?.user?._id;
 
-    const assignArray = ["Transfer", "Shipment Collected", "In Transit to Origin Facility", "Customs/Terminal Clearance in Origin Country", "Departed from Origin Country", "In Transit to Destination Country", "Arrived at Destination Country", "Customs/Terminal Clearance in Destination Country", "Shipment Sorted at Delivery Facility", "Out for Delivery", "Delivered", "Undelivered", "Return to Sender"]
+    const assignArray = ["Transfer", "Out for Delivery", "Delivered", "Undelivered", "Return to Sender", "Shipment Collected", "In Transit to Origin Facility", "Customs/Terminal Clearance in Origin Country", "Departed from Origin Country", "In Transit to Destination Country", "Arrived at Destination Country", "Customs/Terminal Clearance in Destination Country", "Shipment Sorted at Delivery Facility"]
+
+    const [availableOptions, setAvailableOptions] = useState([
+        "Out for Delivery",
+        "Delivered",
+        "Undelivered",
+        "Return to Sender",
+        "Transfer",
+        "Shipment Collected",
+    ]);
+
+    const handleGetStatus = (value) => {
+        setStatus(value);
+
+        if (value === "Cancelled" || value === "Return to Depot") {
+            setReason("");
+        }
+
+        const currentIndex = assignArray.indexOf(value);
+        const Index = assignArray.indexOf(status);
+
+        if ((Index ? Index : currentIndex) < assignArray.length - 1) {
+
+            const newOptions = assignArray.slice(0, (Index ? Index : currentIndex) + 2);
+
+            const updatedOptions = [...new Set([...availableOptions, ...newOptions])];
+
+            setAvailableOptions(updatedOptions);
+        }
+    };
+
+    useEffect(() => { handleGetStatus() }, [selectedStatus])
 
     const handlePackageDetail = (e) => {
         setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
@@ -29,12 +60,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
 
     const [update_assign_parcel, { isLoading }] = useUpdate_assign_ParcelMutation();
 
-    const handleGetStatus = (value) => {
-        setStatus(value)
-        if (status === "Cancelled" || status === "Return to Depot") {
-            setReason("")
-        }
-    }
+
 
     const handlePArcelAssign = async (e) => {
         e.preventDefault();
@@ -65,10 +91,10 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
         e.preventDefault();
         try {
             if (groupID === "") {
-                return NotificationAlert("Select Group First");
+                return NotificationAlert("Select Driver Crew First");
             }
             if (riderID === "") {
-                return NotificationAlert("Select Rider");
+                return NotificationAlert("Select Driver");
             }
 
             const res = await tranferParcel({
@@ -88,6 +114,9 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
         }
     };
 
+
+
+
     return (
         <div className="modal_wrapper">
             <div className="modal_box">
@@ -100,7 +129,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                 <form
                     className="mt-1 modal_form d-flex flex-column gap-2"
                     onSubmit={handlePArcelAssign} >
-                    <select
+                    {/* <select
                         name="status"
                         className="text-dark bg-light"
                         onChange={(e) => handleGetStatus(e.target.value)}
@@ -114,7 +143,26 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                             </option>
                         ))}
 
+                    </select> */}
+
+
+                    <select
+                        name="status"
+                        className="text-dark bg-light"
+                        value={status}
+                        onChange={(e) => handleGetStatus(e.target.value)}
+                    >
+                        <option value="" defaultValue className="text-dark">
+                            Select Status
+                        </option>
+                        {availableOptions.map((item, i) => (
+                            <option value={item} key={i} className="text-dark">
+                                {item}
+                            </option>
+                        ))}
                     </select>
+
+
                     {(status === "Cancelled" || status === "Return to Depot") &&
                         <textarea
                             placeholder="reason"
@@ -135,7 +183,7 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData }) => {
                                 value={groupID}
                             >
                                 <option value="" disabled defaultValue className="text-dark">
-                                    Select Group
+                                    Select Driver Crew
                                 </option>
                                 {groupData?.map((item) => (
                                     <option value={item?._id} key={item?._id} className="text-dark">

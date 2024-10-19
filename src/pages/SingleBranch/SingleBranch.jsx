@@ -73,7 +73,7 @@ const SingleBranch = () => {
                     </div>
                     <div className={style.home_slider_box}>
                         <div>
-                            <p>Total Rider Groups</p>
+                            <p>Total Driver Crew</p>
                             <h2>{getBranch?.riders_group?.length || "0"}</h2>
                         </div>
                         <span>

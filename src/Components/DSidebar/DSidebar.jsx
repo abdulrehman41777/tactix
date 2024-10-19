@@ -130,7 +130,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
     {
       path: "/dashboard/groups",
-      name: "Rider Group",
+      name: "Driver Crew",
       icon: <BsPeopleFill />,
     },
 
@@ -173,7 +173,7 @@ const DSidebar = ({ sidebarIsActive, setSidebarIsActive }) => {
     },
     {
       path: "/dashboard/rider-group-parcel",
-      name: "Group Parcels",
+      name: "Crew Parcels",
       icon: <BsBox2Fill />,
     },
     {

@@ -64,6 +64,7 @@ const Profile = () => {
       });
 
       if (!res.error) {
+        dispatch(authUser(res.data.user));
         NotificationAlert("Profile updated successfully", "success");
       } else {
         NotificationAlert("Error While updating profile");
@@ -91,20 +92,6 @@ const Profile = () => {
               <div className={style.profile_name}>
                 <h6>{User_Data?.name}</h6>
                 <p>{User_Data?.role[0]}</p>
-              </div>
-              <div className={style.profile_detail}>
-                <div>
-                  <h5>17</h5>
-                  <p>Posts</p>
-                </div>
-                <div>
-                  <h5>9.7k</h5>
-                  <p>Followers</p>
-                </div>
-                <div>
-                  <h5>274</h5>
-                  <p>Following</p>
-                </div>
               </div>
             </div>
           </div>

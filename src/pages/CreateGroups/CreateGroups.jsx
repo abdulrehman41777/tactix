@@ -56,7 +56,7 @@ const CreateGroups = () => {
                             },
                         });
                         if (!res.error) {
-                            NotificationAlert("Rider Created successfully", "success");
+                            NotificationAlert("Driver Created successfully", "success");
                             setCreateAdminFields({
                                 email: "",
                                 name: "",
@@ -74,7 +74,7 @@ const CreateGroups = () => {
                             NotificationAlert("Password Must Contain Atleast 8 Chars");
                         }
                     } catch (error) {
-                        NotificationAlert("Rider Already Exists With This Email");
+                        NotificationAlert("Driver Already Exists With This Email");
                     }
                 } else {
                     NotificationAlert("Invalid Email");
@@ -96,8 +96,8 @@ const CreateGroups = () => {
                 <div className={style.login_box_wrapper}>
                     <div className={style.login_box_inner_wrapper}>
                         <div className={style.login_box_head}>
-                            <h1>Create Rider</h1>
-                            <p>Create A New Rider</p>
+                            <h1>Create Driver</h1>
+                            <p>Create A New Driver</p>
                         </div>
                         <div className={style.form_wrapper}>
                             <form className={style.form} onSubmit={handleCreateRider}>
@@ -112,12 +112,12 @@ const CreateGroups = () => {
                                     />
                                 </label>
                                 <label className={style.label}>
-                                    <h6>Group*</h6>
+                                    <h6>Driver Crew*</h6>
                                     <select>
-                                        <option disabled>Select Group</option>
-                                        <option>Group 1</option>
-                                        <option>Group 2</option>
-                                        <option>Group 3</option>
+                                        <option disabled>Select Driver Crew</option>
+                                        <option>Driver Crew 1</option>
+                                        <option>Driver Crew 2</option>
+                                        <option>Driver Crew 3</option>
                                     </select>
                                 </label>
                                 <label className={style.label}>
@@ -187,7 +187,7 @@ const CreateGroups = () => {
                                         Creating
                                     </button>
                                 ) : (
-                                    <button className={style.signin_btn}>Create Rider</button>
+                                    <button className={style.signin_btn}>Create Driver</button>
                                 )}
                             </form>
                         </div>

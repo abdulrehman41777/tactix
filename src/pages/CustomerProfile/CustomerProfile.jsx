@@ -11,7 +11,6 @@ import { BsCardChecklist, BsFillPersonVcardFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import {
-  useGetAllUserByBranchQuery,
   useGetSingleUserByIDQuery,
   useUpdate_ProfileMutation,
 } from "../../redux/Auth/auth";
@@ -45,8 +44,9 @@ const CustomerProfile = () => {
   const [filterItems, setFilterItems] = useState([{
     parcelName: "Parcel 1",
     CodAmount: "yes",
+    CodCharges: null,
     weight: 2.5,
-    dangerousGoods: '',
+    dangerousGoods: 'yes',
     status: "pending",
     height: 15,
     width: 10,
@@ -59,26 +59,28 @@ const CustomerProfile = () => {
     SenderPhone: "1231231234",
     SenderAddress: "123 Sender St",
     SenderPostCode: "54321",
-    isDamaged: "no"
+    isDamaged: "no",
   },
   {
     parcelName: "Parcel 2",
-    CodAmount: "no",
-    weight: 1,
-    dangerousGoods: "",
+    CodAmount: "yes",
+    CodCharges: null,
+    weight: 2.5,
+    dangerousGoods: 'yes',
     status: "pending",
-    height: 20,
-    width: 12,
-    recieverPhone: "9876543210",
-    description: "test description",
-    recieverEmail: "receiver2@example.com",
-    reciverAddress: "456 Receiver Rd",
-    ReciverPostCode: "67890",
-    SenderPhone: "9879879876",
-    SenderAddress: "456 Sender Rd",
-    SenderPostCode: "98765",
-    isDamaged: "no"
-  }]);
+    height: 15,
+    width: 10,
+    receiverName: "Test Receiver",
+    recieverPhone: "1234567890",
+    description: "Test Description",
+    recieverEmail: "receiver1@example.com",
+    reciverAddress: "123 Receiver St",
+    ReciverPostCode: "12345",
+    SenderPhone: "1231231234",
+    SenderAddress: "123 Sender St",
+    SenderPostCode: "54321",
+    isDamaged: "no",
+  },]);
 
   const [bulkFile, setBulkFile] = useState("");
   const [isUpload, setIsUpload] = useState(0);
@@ -228,7 +230,7 @@ const CustomerProfile = () => {
                       style={{ padding: "0.4rem 0.5rem" }}
                       onClick={exportFile}
                     >
-                      Sample File
+                      Sample Bulk Order File
                     </button>
                   </div>
                 </div>
@@ -438,7 +440,7 @@ const CustomerProfile = () => {
                 <span>{orderData?.recieverPhone}</span>
               </div>
 
-              <div className="d-flex flex-column justify-content-between align-items-start">
+              <div className="d-flex  justify-content-between align-items-start">
                 <span>Reciver Address:</span>
                 <span>{orderData?.reciverAddress}</span>
               </div>
@@ -453,7 +455,7 @@ const CustomerProfile = () => {
                 <span>{orderData?.SenderPhone}</span>
               </div>
 
-              <div className="d-flex flex-column justify-content-between align-items-start">
+              <div className="d-flex  justify-content-between align-items-start">
                 <span>Sender Address:</span>
                 <span>{orderData?.SenderAddress}</span>
               </div>
