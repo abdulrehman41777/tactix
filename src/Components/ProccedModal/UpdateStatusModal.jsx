@@ -17,34 +17,44 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData, selectedStatus }
     const selector = useSelector((state) => state?.userData);
     const userID = selector?.data?.user?._id;
 
-    const assignArray = ["Transfer", "Out for Delivery", "Delivered", "Undelivered", "Return to Sender", "Shipment Collected", "In Transit to Origin Facility", "Customs/Terminal Clearance in Origin Country", "Departed from Origin Country", "In Transit to Destination Country", "Arrived at Destination Country", "Customs/Terminal Clearance in Destination Country", "Shipment Sorted at Delivery Facility"]
-
-    const [availableOptions, setAvailableOptions] = useState([
+    const assignArray = [
+        "Shipment Collected",
+        "In Transit to Origin Facility",
+        "Customs/Terminal Clearance in Origin Country",
+        "Departed from Origin Country",
+        "In Transit to Destination Country",
+        "Arrived at Destination Country",
+        "Customs/Terminal Clearance in Destination Country",
+        "Shipment Sorted at Delivery Facility",
+        "Transfer",
         "Out for Delivery",
         "Delivered",
         "Undelivered",
-        "Return to Sender",
-        "Transfer",
-        "Shipment Collected",
-    ]);
+        "Return to Sender"
+    ];
+
+    const [availableOptions, setAvailableOptions] = useState([]);
+    const [arrIndex, setArrayIndex] = useState();
 
     const handleGetStatus = (value) => {
         setStatus(value);
+
+
 
         if (value === "Cancelled" || value === "Return to Depot") {
             setReason("");
         }
 
+        // Find the index of the selected status
         const currentIndex = assignArray.indexOf(value);
-        const Index = assignArray.indexOf(status);
 
-        if ((Index ? Index : currentIndex) < assignArray.length - 1) {
+        // If a valid status is selected
+        if (currentIndex !== -1) {
+            // Get only the statuses that are before or up to the selected status
+            const newOptions = assignArray.slice(0, currentIndex + 1);
 
-            const newOptions = assignArray.slice(0, (Index ? Index : currentIndex) + 2);
-
-            const updatedOptions = [...new Set([...availableOptions, ...newOptions])];
-
-            setAvailableOptions(updatedOptions);
+            // Update the available options with only the current and previous statuses
+            setAvailableOptions(newOptions);
         }
     };
 
@@ -53,6 +63,16 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData, selectedStatus }
     const handlePackageDetail = (e) => {
         setPackageDetail({ ...packageDetail, [e.target.name]: e.target.value });
     };
+
+    useEffect(() => {
+        for (let i = 0; i < assignArray.length; i++) {
+            if (selectedStatus[0] === assignArray[i]) {
+                setArrayIndex(i);
+                break;
+            }
+        }
+    }, [])
+    console.log(arrIndex, "array index")
 
     // All Rider
     const All_Rider_API = useAll_RidersQuery(groupID, { skip: !groupID });
@@ -155,8 +175,8 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData, selectedStatus }
                         <option value="" defaultValue className="text-dark">
                             Select Status
                         </option>
-                        {availableOptions.map((item, i) => (
-                            <option value={item} key={i} className="text-dark">
+                        {assignArray.map((item, i) => (
+                            <option value={item} key={i} className="text-dark" style={arrIndex >= i ? { display: "none" } : {}} >
                                 {item}
                             </option>
                         ))}
