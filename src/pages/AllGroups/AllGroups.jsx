@@ -14,7 +14,7 @@ import {
 } from "../../redux/Manager/manager";
 import { FaCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
-import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
+import ResponseToast from "../../Components/toast/Toast";
 
 const AllGroups = () => {
   const [itemOffset, setItemOffset] = useState(0);
@@ -84,12 +84,14 @@ const AllGroups = () => {
         },
       });
 
+      ResponseToast({ res });
+
       if (!res.error) {
         setCreateGroup((prev) => ({ ...prev, isOpen: false, groupname: "" }));
-        NotificationAlert("Driver Crew created successfully", "success")
       }
     } catch (error) {
       console.log(error);
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

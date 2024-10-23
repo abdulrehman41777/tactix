@@ -4,8 +4,8 @@ import ProccedModal from "../ProccedModal/ProccedModal";
 import { useState } from "react";
 import Update_Status from "../Update_Status/Update_Status";
 import { useAcceptJobMutation } from "../../redux/Parcel/Parcel";
-import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import AcceptJobs from "../Update_Status/AcceptJobs";
+import ResponseToast from "../toast/Toast";
 
 const Group_Parcel_Card = ({ data }) => {
   const [getParcelID, setGetParcelID] = useState("");
@@ -30,14 +30,15 @@ const Group_Parcel_Card = ({ data }) => {
         riderID: riderID
       });
 
+      ResponseToast({ res })
+
       if (!res.error) {
-        NotificationAlert(res?.data?.message, "success")
         setAccept(null)
       }
 
     } catch (error) {
       console.log(error)
-      NotificationAlert("Something went wrong")
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   }
 

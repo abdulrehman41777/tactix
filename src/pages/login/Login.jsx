@@ -11,6 +11,7 @@ import { authUser } from "../../redux/features/authState";
 import * as EmailValidator from "email-validator";
 import { BiLogoGmail } from "react-icons/bi";
 import { IoIosArrowBack } from "react-icons/io";
+import ResponseToast from "../../Components/toast/Toast";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(true);
@@ -34,20 +35,20 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await login(loginFields);
+
+      ResponseToast({ res })
+
       if (!res.error) {
-        NotificationAlert("Login successfully", "success");
         dispatch(authUser(res?.data));
         navigate("/dashboard/main");
         setLoginFields({
           email: "",
           password: "",
         });
-      } else {
-        NotificationAlert("Invalid Credentials");
       }
     } catch (error) {
       console.log(error);
-      NotificationAlert("Internal Server Error");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

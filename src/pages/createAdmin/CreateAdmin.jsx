@@ -9,6 +9,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import * as EmailValidator from "email-validator";
 import { useCreate_AdminMutation } from "../../redux/Admin/admin";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateAdmin = () => {
   const [showPass, setShowPass] = useState(true);
@@ -62,8 +63,8 @@ const CreateAdmin = () => {
           password: password,
         },
       });
+      ResponseToast({ res })
       if (!res.error) {
-        NotificationAlert("Admin Created successfully", "success");
         setCreateAdminFields({
           email: "",
           name: "",
@@ -73,12 +74,8 @@ const CreateAdmin = () => {
         });
         navigate('/dashboard/admin');
       }
-      if (res.error) {
-        NotificationAlert(res.error.data.message);
-
-      }
     } catch (error) {
-      NotificationAlert("User Already Exists With This Email");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
   return (

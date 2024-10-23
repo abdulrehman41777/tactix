@@ -3,6 +3,7 @@ import { useAssign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
+import ResponseToast from "../toast/Toast";
 
 const ProccedModal = ({
   setModal,
@@ -44,14 +45,12 @@ const ProccedModal = ({
           parcelID: parcelID,
         },
       });
+      ResponseToast({ res });
       if (!res.error) {
-        NotificationAlert("Parcel Assinged", "success");
         setModal(null)
-      } else {
-        NotificationAlert(res?.error?.data?.message);
       }
     } catch (error) {
-      NotificationAlert("Error");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

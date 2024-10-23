@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useGetSingleUserByIDQuery } from "../../redux/Auth/auth";
 import { useParams } from "react-router-dom";
 import { useCreate_User_ParcelMutation } from "../../redux/Parcel/Parcel";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateParcel = () => {
   const selector = useSelector((state) => state?.userData);
@@ -119,12 +120,12 @@ const CreateParcel = () => {
         rateListID: rateListID,
         data: formData,
       });
+      ResponseToast({ res })
       if (!res.error) {
         navigate(-1);
-        NotificationAlert("Parcel Created Successfully", "success");
       }
     } catch (error) {
-      NotificationAlert("Something Went Wrong!");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

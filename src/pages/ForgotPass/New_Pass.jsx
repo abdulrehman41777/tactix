@@ -3,8 +3,8 @@ import { Container } from "react-bootstrap";
 import style from "./forgotpass.module.css";
 import { FcLock } from "react-icons/fc";
 import { useNavigate } from "react-router";
-import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import ResponseToast from "../../Components/toast/Toast";
 
 const New_Pass = () => {
   const [showPass, setShowPass] = useState(true);
@@ -25,7 +25,7 @@ const New_Pass = () => {
     try {
       navigate("/dashboard/login");
     } catch (error) {
-      NotificationAlert("Error");
+      ResponseToast({ message: "Internal Server Error", success: false });
     }
   };
 

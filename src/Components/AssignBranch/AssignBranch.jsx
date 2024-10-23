@@ -7,6 +7,7 @@ import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
 import { useAll_AdminsQuery } from "../../redux/Admin/admin";
 import { MdCancel } from "react-icons/md";
+import ResponseToast from "../toast/Toast";
 
 const AssignBranch = ({ setAssignBranch, branchDetail, isRefetch }) => {
   const [branch_fields, setBranch_fields] = useState({
@@ -53,17 +54,14 @@ const AssignBranch = ({ setAssignBranch, branchDetail, isRefetch }) => {
         branchId: branchID,
         data: { AdminIds: adminID },
       });
-
+      ResponseToast({ res })
       if (!res.error) {
         setAssignBranch(false);
-        NotificationAlert("Branch Updated successfully", "success");
         isRefetch.refetch()
-      } else {
-        NotificationAlert(res.error.data.message);
       }
     } catch (error) {
       console.log(error);
-      NotificationAlert("Something went wrong");
+      ResponseToast({ message: "Internal Server Error", success: false });
     }
   };
 

@@ -25,6 +25,7 @@ import {
 } from "../../redux/Parcel/Parcel";
 import { useNavigate, useParams } from "react-router-dom";
 import exportFromJSON from "export-from-json";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CustomerProfile = () => {
   const selector = useSelector((state) => state?.userData);
@@ -126,23 +127,22 @@ const CustomerProfile = () => {
         branchID: branchId,
         data: formData,
       });
+      ResponseToast({ res });
       if (!res.error) {
         if (
           res?.data?.invalidData?.length === 0 ||
           res?.data?.invalidData === null
         ) {
           setBulkFile("");
-          NotificationAlert("Bulk Order Create Successfully", "success");
           setIsUpload(2);
           setRateList(res?.data?.rateList?.rateList);
           setBulkData(res?.data?.validData);
         } else {
           setBulkFile("");
-          NotificationAlert("Uplaod Correct Csv");
         }
       }
     } catch (error) {
-      NotificationAlert("Something Went Wrong!");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 
@@ -155,11 +155,12 @@ const CustomerProfile = () => {
         branchID: branchId,
         data: { data: bulkData },
       });
+      ResponseToast({ res });
       if (!res.error) {
         setIsUpload(0);
       }
     } catch (error) {
-      NotificationAlert("Something Went Wrong!");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

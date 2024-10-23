@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParcel_StatusMutation, useUpdate_assign_ParcelMutation } from "../../redux/Parcel/Parcel";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { GiStorkDelivery } from "react-icons/gi";
+import ResponseToast from "../toast/Toast";
 
 const Update_Status = ({ setAddAdmin, getParcelID }) => {
   const [addStatus, setAddStatus] = useState("");
@@ -26,14 +27,12 @@ const Update_Status = ({ setAddAdmin, getParcelID }) => {
         assignmentID: getParcelID,
         data: formData,
       });
+      ResponseToast({ res })
       if (!res.error) {
-        NotificationAlert("Status updated", "success");
         setAddAdmin(false);
-      } else {
-        NotificationAlert("Error updating status");
       }
     } catch (error) {
-      NotificationAlert("Error");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

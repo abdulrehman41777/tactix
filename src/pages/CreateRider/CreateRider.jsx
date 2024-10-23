@@ -8,6 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import * as EmailValidator from "email-validator";
 import { useCreate_RiderMutation } from "../../redux/Rider/rider";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateUser = () => {
   const [showPass, setShowPass] = useState(true);
@@ -65,8 +66,8 @@ const CreateUser = () => {
         managerID: id,
         data: createRiderFields,
       });
+      ResponseToast({ res })
       if (!res.error) {
-        NotificationAlert("Driver Created successfully", "success");
         setCreateRiderFields({
           email: "",
           name: "",
@@ -75,7 +76,7 @@ const CreateUser = () => {
         navigate(-1);
       }
     } catch (error) {
-      NotificationAlert("Driver Already Exists With This Email");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

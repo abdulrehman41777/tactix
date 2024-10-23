@@ -7,6 +7,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import * as EmailValidator from "email-validator";
 import { useSignupMutation } from "../../redux/Auth/auth";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
+import ResponseToast from "../../Components/toast/Toast";
 
 const SignUp = () => {
   const [showPass, setShowPass] = useState(true);
@@ -40,8 +41,8 @@ const SignUp = () => {
               name,
               password,
             });
+            ResponseToast({ res })
             if (!res.error) {
-              NotificationAlert("Account Created successfully", "success");
               setSignupFields({
                 name: "",
                 email: "",
@@ -59,7 +60,7 @@ const SignUp = () => {
               NotificationAlert("Password Must Contain Atleast 8 Chars");
             }
           } catch (error) {
-            NotificationAlert("User Already Exists With This Email");
+            ResponseToast({ message: "Internal Server Error", success: false });
           }
         } else {
           NotificationAlert("Invalid Email");

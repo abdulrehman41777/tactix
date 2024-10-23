@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import * as EmailValidator from "email-validator";
 import { useCreate_ManagerMutation } from "../../redux/Manager/manager";
 import { useAll_branchesQuery, useBranchesByAdminQuery } from "../../redux/Branch/Branch";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateManager = () => {
   const [showPass, setShowPass] = useState(true);
@@ -64,8 +65,9 @@ const CreateManager = () => {
         },
       });
 
+      ResponseToast({ res })
+
       if (!res.error) {
-        NotificationAlert("Manager Created successfully", "success");
         setCreateAdminFields({
           email: "",
           name: "",
@@ -75,7 +77,7 @@ const CreateManager = () => {
         navigate("/dashboard/manager")
       }
     } catch (error) {
-      NotificationAlert("User Already Exists With This Email");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 

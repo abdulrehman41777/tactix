@@ -8,6 +8,7 @@ import {
   useAll_countryQuery,
 } from "../../redux/Country/country";
 import { useAll_AdminsQuery } from "../../redux/Admin/admin";
+import ResponseToast from "../toast/Toast";
 
 const AddBranch = ({ setAddAdmin }) => {
   const [branch_fields, setBranch_fields] = useState({
@@ -56,8 +57,8 @@ const AddBranch = ({ setAddAdmin }) => {
 
         },
       });
+      ResponseToast({ res })
       if (!res.error) {
-        NotificationAlert("Branch added successfully", "success");
         setBranch_fields({
           branch_name: "",
           branch_address: "",
@@ -66,7 +67,7 @@ const AddBranch = ({ setAddAdmin }) => {
         setAddAdmin(false);
       }
     } catch (error) {
-      NotificationAlert("Something went wrong");
+      ResponseToast({ message: "Internal Server Error", success: false })
       console.log(error)
     }
   };

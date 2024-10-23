@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useGetSingleUserByIDQuery } from "../../redux/Auth/auth";
 import { useParams } from "react-router-dom";
 import { useCreate_User_ParcelMutation } from "../../redux/Parcel/Parcel";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateCustomerOrder = () => {
   const selector = useSelector((state) => state?.userData);
@@ -43,6 +44,7 @@ const CreateCustomerOrder = () => {
       height: "",
     },
     isDamaged: false,
+    hsCode: ""
   });
 
   const {
@@ -62,6 +64,7 @@ const CreateCustomerOrder = () => {
     CodAmount,
     Dimension,
     isDamaged,
+    hsCode
   } = formData;
 
   console.log(formData, "Create Parcel");
@@ -122,12 +125,12 @@ const CreateCustomerOrder = () => {
         rateListID: rateListID,
         data: formData,
       });
+      ResponseToast({ res });
       if (!res.error) {
         navigate(-1);
-        NotificationAlert("Parcel Created Successfully", "success");
       }
     } catch (error) {
-      NotificationAlert("Something Went Wrong!");
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   };
 
@@ -228,6 +231,19 @@ const CreateCustomerOrder = () => {
 
 
                     <div className={`col-sm-4 gap-4 d-flex flex-column align-items-start`}>
+
+                      <div className={`${style.label}`}>
+
+                        <label style={{ color: "#a3b1c2" }}>Hs Code</label>
+                        <input
+                          type="text"
+                          placeholder="Hs Code"
+                          name="hsCode"
+                          value={hsCode}
+                          onChange={handleChange}
+                        />
+                      </div>
+
                       <div className="d-flex justify-content-between w-100">
                         <label className={style.cyberpunk_checkbox_label}>
                           <input
@@ -398,8 +414,8 @@ const CreateCustomerOrder = () => {
             </div>
           </div>
         </div>
-      </Container>
-    </div>
+      </Container >
+    </div >
   );
 };
 

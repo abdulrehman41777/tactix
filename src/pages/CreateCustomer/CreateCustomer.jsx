@@ -8,6 +8,7 @@ import { useCreateUserMutation, useUpdate_ProfileMutation } from "../../redux/Au
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import CreateBulkRate from "../../Components/CreateBulkRate/CreateBulkRate";
 import { useAddBulkRatelistMutation } from "../../redux/Manager/manager";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateCustomer = () => {
   const selector = useSelector((state) => state?.userData);
@@ -174,6 +175,8 @@ const CreateCustomer = () => {
         data: formData
       })
 
+      ResponseToast({ res })
+
       if (!res.error) {
         setLocations((prev) => [
           ...prev,
@@ -184,14 +187,12 @@ const CreateCustomer = () => {
             shipmentType: item?.shipmentType
           }))
         ]);
-
         setBulkRateList(null)
         setUploadBulk(false)
-        NotificationAlert("file uploaded successfully", "success")
       }
 
     } catch (error) {
-      NotificationAlert("Something went wrong")
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   }
 

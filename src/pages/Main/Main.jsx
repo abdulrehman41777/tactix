@@ -24,6 +24,7 @@ import { NotificationAlert } from "../../Components/NotificationAlert/Notificati
 import HeadNav from "../../Components/Navbar/HeadNav";
 import { useSelector } from "react-redux";
 import { useTrackParcelMutation } from "../../redux/Parcel/Parcel";
+import ResponseToast from "../../Components/toast/Toast";
 
 const clientSlider = {
   320: {
@@ -62,6 +63,7 @@ const Main = () => {
         return NotificationAlert("Tracking id is required")
       }
       const res = await trackParcel({ trackID: trakingId, userID: id });
+      ResponseToast({ res })
       if (!res.error) {
         setTrackedData(res?.data?.assignment)
         trigger(trakingId);
@@ -70,7 +72,7 @@ const Main = () => {
       }
     } catch (error) {
       console.log(error);
-      NotificationAlert("Internal Server Error", "success")
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   }
 

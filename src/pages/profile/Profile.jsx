@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useUpdate_ProfileMutation } from "../../redux/Auth/auth";
 import { NotificationAlert } from "../../Components/NotificationAlert/NotificationAlert";
 import { authUser, logout } from "../../redux/features/authState";
+import ResponseToast from "../../Components/toast/Toast";
 
 const Profile = () => {
   const selector = useSelector((state) => state?.userData);
@@ -63,15 +64,14 @@ const Profile = () => {
         data: formData,
       });
 
+      ResponseToast({ res })
+
       if (!res.error) {
         dispatch(authUser(res.data.user));
-        NotificationAlert("Profile updated successfully", "success");
-      } else {
-        NotificationAlert("Error While updating profile");
       }
     } catch (error) {
       console.log(error)
-      NotificationAlert("Error");
+      ResponseToast({ message: "Internal Server Error", success: false });
     }
   }
 

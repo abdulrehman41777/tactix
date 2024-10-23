@@ -8,6 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import * as EmailValidator from "email-validator";
 import { useCreate_RiderMutation } from "../../redux/Rider/rider";
+import ResponseToast from "../../Components/toast/Toast";
 
 const CreateGroups = () => {
     const [showPass, setShowPass] = useState(true);
@@ -55,8 +56,8 @@ const CreateGroups = () => {
                                 password: password,
                             },
                         });
+                        ResponseToast({ res })
                         if (!res.error) {
-                            NotificationAlert("Driver Created successfully", "success");
                             setCreateAdminFields({
                                 email: "",
                                 name: "",
@@ -64,17 +65,9 @@ const CreateGroups = () => {
                                 confirmpass: "",
                             });
                             navigate(-1);
-                        } else if (
-                            res.error.data.errors.find((err) => err.path === "name")
-                        ) {
-                            NotificationAlert("Name must be at least 5 characters");
-                        } else if (
-                            res.error.data.errors.find((err) => err.path === "password")
-                        ) {
-                            NotificationAlert("Password Must Contain Atleast 8 Chars");
                         }
                     } catch (error) {
-                        NotificationAlert("Driver Already Exists With This Email");
+                        ResponseToast({ message: "Internal Server Error", success: false })
                     }
                 } else {
                     NotificationAlert("Invalid Email");

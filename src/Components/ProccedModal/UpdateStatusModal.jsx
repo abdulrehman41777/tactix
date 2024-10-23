@@ -4,6 +4,7 @@ import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
 import { useAll_RidersQuery } from "../../redux/Rider/rider";
 import { useEffect } from "react";
+import ResponseToast from "../toast/Toast";
 
 const UpdateStatusModal = ({ setModal, assignmentID, groupData, selectedStatus }) => {
     const [packageDetail, setPackageDetail] = useState({
@@ -94,45 +95,43 @@ const UpdateStatusModal = ({ setModal, assignmentID, groupData, selectedStatus }
                 assignmentID: assignmentID,
                 data: { status: [status === "Transfer" ? "Order Assigned" : status], reason: reason, groupID: groupID },
             });
+            ResponseToast({ res });
             if (!res.error) {
-                NotificationAlert("Parcel Status Updated", "success");
                 setModal(null)
-            } else {
-                NotificationAlert(res?.error?.data?.message);
             }
         } catch (error) {
-            NotificationAlert("Error");
+            ResponseToast({ message: "Internal Server Error", success: false })
         }
     };
 
     const [tranferParcel, { isLoading: transferLoading }] = useTransfer_ParcelMutation()
 
-    const handleTransferParcel = async (e) => {
-        e.preventDefault();
-        try {
-            if (groupID === "") {
-                return NotificationAlert("Select Driver Crew First");
-            }
-            if (riderID === "") {
-                return NotificationAlert("Select Driver");
-            }
+    // const handleTransferParcel = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         if (groupID === "") {
+    //             return NotificationAlert("Select Driver Crew First");
+    //         }
+    //         if (riderID === "") {
+    //             return NotificationAlert("Select Driver");
+    //         }
 
-            const res = await tranferParcel({
-                assignmentID: assignmentID,
-                newRiderID: riderID,
-                newriderGroupID: groupID,
-                assignedFromManager: userID,
-            });
-            if (!res.error) {
-                NotificationAlert(res.data.message, "success");
-                setModal(null)
-            } else {
-                NotificationAlert(res?.error?.data?.message);
-            }
-        } catch (error) {
-            NotificationAlert("Error");
-        }
-    };
+    //         const res = await tranferParcel({
+    //             assignmentID: assignmentID,
+    //             newRiderID: riderID,
+    //             newriderGroupID: groupID,
+    //             assignedFromManager: userID,
+    //         });
+    //         if (!res.error) {
+    //             NotificationAlert(res.data.message, "success");
+    //             setModal(null)
+    //         } else {
+    //             NotificationAlert(res?.error?.data?.message);
+    //         }
+    //     } catch (error) {
+    //         NotificationAlert("Error");
+    //     }
+    // };
 
 
 

@@ -14,6 +14,7 @@ import { NotificationAlert } from "../../Components/NotificationAlert/Notificati
 import ViewParcelData from "../../Components/ViewParcelData/ViewParcelData";
 import Receipt from "../../Components/ReceiptCard/Receipt";
 import Invoice from "../../Components/ReceiptCard/Invoice";
+import ResponseToast from "../../Components/toast/Toast";
 
 const YoursOrders = () => {
   const [itemOffset, setItemOffset] = useState(0);
@@ -44,14 +45,19 @@ const YoursOrders = () => {
 
   const handleTrackParcel = async () => {
     try {
+      if (!trackID) {
+        ResponseToast({ message: "Please enter a track ID", success: false })
+        return;
+      }
       const res = await trackParcel({ trackID, userID: id });
+      ResponseToast({ res });
       if (!res.error) {
         setTrackedData(res?.data?.assignment)
       }
 
     } catch (error) {
       console.log(error);
-      NotificationAlert("Internal Server Error", "success")
+      ResponseToast({ message: "Internal Server Error", success: false })
     }
   }
 

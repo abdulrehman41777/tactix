@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useUpdate_BranchMutation } from "../../redux/Branch/Branch";
 import { NotificationAlert } from "../NotificationAlert/NotificationAlert";
 import { useSelector } from "react-redux";
+import ResponseToast from "../toast/Toast";
 
 const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
   const [branch_fields, setBranch_fields] = useState({
@@ -33,18 +34,12 @@ const UpdateBranch = ({ setIsUpdateBranch, branchDetail }) => {
             branch_contact_number: branch_contact_number,
           },
         });
+        ResponseToast({ res });
         if (!res.error) {
-          NotificationAlert("Branch Updated successfully", "success");
           setIsUpdateBranch(false);
-        } else if (
-          res.error.data.errors.find(
-            (err) => err.path === "branch_contact_number"
-          )
-        ) {
-          NotificationAlert("Invalid Contact Number");
         }
       } catch (error) {
-        NotificationAlert("Something went wrong");
+        ResponseToast({ message: "Internal Server Error", success: false })
       }
     } else {
       NotificationAlert("All Fields Required");
