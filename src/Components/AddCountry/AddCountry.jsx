@@ -23,6 +23,7 @@ const AddCountry = ({ setAddAdmin }) => {
         });
         if (!res.error) {
           NotificationAlert("Country Added Successfully", "success");
+          
           setCountryName("");
           setAddAdmin(false);
         } else {

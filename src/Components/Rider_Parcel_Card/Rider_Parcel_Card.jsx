@@ -141,7 +141,7 @@ const Rider_Parcel_Card = ({ data }) => {
           Cost : ${!data?.CodAmount ? data?.rateList?.price * data?.weight : data?.rateList?.price * data?.weight + data?.CodCharges}
         </button>
         {
-          data?.Status?.[0] === "Shipment Sorted at Delivery Facility" || data?.Status?.[0] === "Out for Delivery" && <button
+          (data?.assignment?.Status?.[0] === "Shipment Sorted at Delivery Facility" || data?.assignment?.Status?.[0] === "Out for Delivery") && <button
             className={styles.status_btn}
             onClick={() => handleUpdateStatus(data?.assignment?._id)}
             style={{ cursor: "pointer" }}
